@@ -137,6 +137,8 @@ footer p{margin:0;max-width:620px}
 .heat th.grp{border-bottom:2px solid var(--line)}
 td.gain{color:var(--accent);font-weight:500}
 .ex .op{color:var(--muted)}
+.switchbar .what{flex-basis:100%}
+@media (max-width:640px){#lvl button,#seg button{flex:1 1 auto;border-bottom:0!important;border-right:1px solid var(--line)!important;padding:10px 6px}#lvl button:last-child,#seg button:last-child{border-right:0!important}}
 </style>
 </head>
 <body>
@@ -156,7 +158,9 @@ td.gain{color:var(--accent);font-weight:500}
 </div></div></header>
 
 <div class="switchbar"><div class="wrap">
-  <span class="lbl" id="setlbl">Setting</span>
+  <span class="lbl" id="lvllbl">Level</span>
+  <div class="seg" role="group" aria-labelledby="lvllbl" id="lvl"></div>
+  <span class="lbl" id="setlbl">Probes</span>
   <div class="seg" role="group" aria-labelledby="setlbl" id="seg"></div>
   <span class="what" id="what"></span>
 </div></div>
@@ -174,12 +178,12 @@ td.gain{color:var(--accent);font-weight:500}
   <div class="band" style="margin-top:0"><div class="wrap"><h2>Leaderboard</h2><span class="note" id="lbnote"></span></div></div>
   <div class="wrap pad">
     <div class="scroll"><table id="lb"><thead></thead><tbody></tbody></table></div>
-    <p class="foot">Accuracy is exact-match on the questions the student gets wrong, averaged over 20 tasks; ± is one standard error across tasks. The level columns break the same score down: Level 1 easy (8 tasks, one bug, one operation), Level 1 hard (4, two interacting bugs), Level 2 (4, a different bug in each operation) and Level 3 (4, one shared misreading in every operation, with no examples of the target operation). Brier measures calibration of the stated confidence on the same questions (lower is better). Cost was not recorded for these runs.</p>
+    <p class="foot">Accuracy is exact-match on the questions the student gets wrong, averaged over the tasks at the selected level; ± is one standard error across those tasks. With All selected, the level columns break the same score down: Level 1 easy (8 tasks, one bug, one operation), Level 1 hard (4, two interacting bugs), Level 2 (4, a different bug in each operation) and Level 3 (4, one shared misreading in every operation, with no examples of the target operation). Brier measures calibration of the stated confidence on the same questions (lower is better). Cost was not recorded for these runs.</p>
   </div>
 </section>
 
 <section id="settings">
-  <div class="band"><div class="wrap"><h2>Both settings</h2><span class="note">Accuracy on student-error questions, one run per cell</span></div></div>
+  <div class="band"><div class="wrap"><h2>Both settings</h2><span class="note" id="allnote"></span></div></div>
   <div class="wrap pad"><div class="scroll"><table id="all"><thead></thead><tbody></tbody></table></div>
   <p class="foot" id="allfoot"></p></div>
 </section>
@@ -240,8 +244,15 @@ td.gain{color:var(--accent);font-weight:500}
 <script>
 const D = window.BP, $ = s => document.querySelector(s);
 const SET = {
-  "v3-noprobe": {label: "No probes", probes: false, what: "Only the given examples: 4 to 8 student answers per task."},
-  "v3-probe10": {label: "Optional probes", probes: true, what: "The same examples, plus up to 10 optional probes of the model's choosing."},
+  "v3-noprobe": {label: "No probes", probes: false, what: "only the given examples"},
+  "v3-probe10": {label: "Optional probes", probes: true, what: "the given examples plus up to 10 optional probes"},
+};
+const LVL = {
+  all: {label: "All", name: "All levels", what: "All 20 students"},
+  easy: {label: "L1 easy", name: "Level 1 easy", what: "8 students, one bug in one operation, 6 examples"},
+  hard: {label: "L1 hard", name: "Level 1 hard", what: "4 students, two interacting bugs in one operation, 4 ambiguous examples"},
+  l2: {label: "L2", name: "Level 2", what: "4 students, a different bug in each operation, 2 examples per operation"},
+  l3: {label: "L3", name: "Level 3", what: "4 students, one misreading shared by all operations, no examples of the target operation"},
 };
 const GROUPS = [["easy", "L1 easy"], ["hard", "L1 hard"], ["l2", "Level 2"], ["l3", "Level 3"]];
 const SYM = {add: "+", sub: "−", mul: "×", div: "÷"};
@@ -249,31 +260,50 @@ const pct = (v, d = 1) => v == null ? "–" : (v * 100).toFixed(d) + "%";
 const LABC = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
 const runs = s => D.runs.filter(r => r.setting === s);
 const name = m => D.models[m].name, lab = m => D.models[m].lab;
+const avg = xs => { xs = xs.filter(x => x != null); return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null; };
+const ids = l => D.cases.filter(c => l === "all" || c.group === l).map(c => c.id);
 const pair = (s, a, b) => { const p = D.pairs.find(p => p.condition === s && ((p.a === a && p.b === b) || (p.a === b && p.b === a))); return p && {...p, diff: p.a === a ? p.diff : -p.diff}; };
-let cur = "v3-noprobe", sortKey = "acc", sortDir = -1;
+let cur = "v3-noprobe", lvl = "all", sortKey = "acc", sortDir = -1;
+
+/* every number for a run at the selected level, recomputed from per-task results */
+function stats(r, l = lvl) {
+  const ts = ids(l).map(c => r.tasks[c]), acc = avg(ts.map(t => t[0])), n = ts.length;
+  const sd = Math.sqrt(avg(ts.map(t => (t[0] - acc) ** 2)));
+  const s = {model: r.model, acc, se: n > 1 ? sd / Math.sqrt(n - 1) : 0, n, valid: ts.filter(t => !t[2]).length,
+    overall: avg(ts.filter(t => !t[2]).map(t => t[3])), brier: avg(ts.filter(t => !t[2]).map(t => t[4])),
+    probes: avg(ts.map(t => t[1])), probed: ts.filter(t => t[1] > 0).length, k100: ts.filter(t => t[6]).length,
+    secs: avg(ts.map(t => t[5])), harness: r.harness};
+  if (l === "all") GROUPS.forEach(([g]) => s[g] = avg(ids(g).map(c => r.tasks[c][0])));
+  return s;
+}
+const cell = (s, l = lvl) => runs(s).map(r => stats(r, l));
+const oracle = (l = lvl) => avg(ids(l).map(c => D.oracle.tasks[c]));
+const gainOf = (m, l = lvl) => stats(runs("v3-probe10").find(r => r.model === m), l).acc - stats(runs("v3-noprobe").find(r => r.model === m), l).acc;
 
 /* header */
 $("#meta").innerHTML = [`Updated ${D.updated}`, `${Object.keys(D.models).length} models`, `${D.cases.length} students`, `${D.runs.reduce((a, r) => a + r.n, 0)} graded runs`].map(x => `<span>${x}</span>`).join("");
-{ const r = runs("v3-noprobe").sort((a, b) => b.acc - a.acc), p = runs("v3-probe10").sort((a, b) => b.acc - a.acc);
-  $("#asof").innerHTML = `As of ${D.updated}, no model scores above <b>${pct(r[0].acc)}</b> from the examples alone, below the oracle reference's ${pct(D.oracle.all)}. With optional probes, <b>${name(p[0].model)}</b> ranks first at <b>${pct(p[0].acc)}</b>, followed by ${name(p[1].model)} (${pct(p[1].acc)}). On Level 3, where the student's rule must transfer to an operation with no examples, every model scores at most ${pct(Math.max(...r.map(x => x.l3)))} without probes.`; }
+{ const r = cell("v3-noprobe", "all").sort((a, b) => b.acc - a.acc), p = cell("v3-probe10", "all").sort((a, b) => b.acc - a.acc);
+  $("#asof").innerHTML = `As of ${D.updated}, no model scores above <b>${pct(r[0].acc)}</b> from the examples alone, below the oracle reference's ${pct(D.oracle.all)}. With optional probes, <b>${name(p[0].model)}</b> ranks first at <b>${pct(p[0].acc)}</b>, followed by ${name(p[1].model)} (${pct(p[1].acc)}). On Level 3, where the student's rule must transfer to an operation with no examples, every model scores at most ${pct(Math.max(...cell("v3-noprobe", "l3").map(x => x.acc)))} without probes.`; }
 $("#footmeta").textContent = `Results from ${D.updated}. One run per model and setting.`;
 
-/* setting switch */
+/* switches */
+$("#lvl").innerHTML = Object.entries(LVL).map(([k, s]) => `<button type="button" data-l="${k}">${s.label}</button>`).join("");
+$("#lvl").onclick = e => { const b = e.target.closest("button"); if (b) { lvl = b.dataset.l; all(); draw(); } };
 $("#seg").innerHTML = Object.entries(SET).map(([k, s]) => `<button type="button" data-s="${k}">${s.label}</button>`).join("");
 $("#seg").onclick = e => { const b = e.target.closest("button"); if (b) { cur = b.dataset.s; draw(); } };
 
 /* chart: accuracy vs seconds per task */
 function chart() {
   const svg = $("#chart"), W = Math.max(320, svg.parentNode.clientWidth), H = Math.round(Math.min(420, Math.max(300, W * .56)));
-  const G = W < 520 ? 122 : 150, P = {l: 46, r: G + 8, t: 16, b: 40}, rs = runs(cur), s = SET[cur];
-  const step = W < 520 ? 100 : 50, xmax = Math.ceil(Math.max(...D.runs.map(r => r.secs)) / step) * step;
+  const G = W < 520 ? 122 : 150, P = {l: 46, r: G + 8, t: 16, b: 40}, rs = cell(cur), s = SET[cur];
+  const step = W < 520 ? 100 : 50, xmax = Math.ceil(Math.max(...Object.keys(SET).flatMap(k => cell(k)).map(r => r.secs)) / step) * step;
   const x = v => P.l + v / xmax * (W - P.l - P.r), y = v => P.t + (1 - v) * (H - P.t - P.b);
   let g = "";
   for (let v = 0; v <= 1.001; v += .25) g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${P.l - 8}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`;
   for (let v = 0; v <= xmax; v += step) g += `<text x="${x(v)}" y="${H - P.b + 18}" text-anchor="middle">${v}s</text>`;
   g += `<text x="${W - P.r}" y="${H - 4}" text-anchor="end">Average agent time per task</text>`;
-  if (!s.probes) { const iv = D.oracle.all;
-    g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(iv)}" y2="${y(iv)}" stroke="var(--ideal)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - P.r}" y="${y(iv) - 7}" text-anchor="end" style="fill:var(--ideal)">Oracle reference ${pct(iv)}</text>`; }
+  if (!s.probes) { const iv = oracle();
+    g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(iv)}" y2="${y(iv)}" stroke="var(--ideal)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - P.r}" y="${y(iv) + (iv > .9 ? 15 : -7)}" text-anchor="end" style="fill:var(--ideal)">Oracle reference ${pct(iv)}</text>`; }
   const pts = rs.map(r => ({r, px: x(r.secs), py: y(r.acc)})).sort((a, b) => a.py - b.py), lx = W - G;
   let last = -99; pts.forEach(p => { p.ly = Math.max(p.py, last + 18); last = p.ly; });
   const over = last - (H - P.b); if (over > 0) pts.forEach(p => p.ly -= over);
@@ -286,64 +316,80 @@ function chart() {
   $("#ideallegend").style.display = s.probes ? "none" : "";
 }
 
-/* reading of the current setting, computed from the data */
+/* reading of the current view, computed from the data */
 function read() {
-  const rs = runs(cur).sort((a, b) => b.acc - a.acc), s = SET[cur], top = rs[0], bot = rs[rs.length - 1], sec = rs[1];
-  const p = pair(cur, top.model, sec.model);
-  let h = `<h3>${s.label}</h3><p>${name(top.model)} leads at ${pct(top.acc)}; ${name(bot.model)} is last at ${pct(bot.acc)}. ${p && !p.significant ? `The lead over ${name(sec.model)} (${pct(sec.acc)}) is within noise: the 95% interval of the paired difference spans zero.` : p ? `It is significantly ahead of ${name(sec.model)} (${pct(sec.acc)}).` : ""}</p>`;
-  if (!s.probes) h += `<p>On easy Level 1 the examples identify the bug, and scores reach ${pct(Math.max(...rs.map(r => r.easy)), 0)}. On Level 1 hard every model sits near the oracle reference (${pct(D.oracle.hard, 0)}): the evidence fits many rule pairs. On Level 3 the oracle reference gets ${pct(D.oracle.l3, 0)}, but no model scores above ${pct(Math.max(...rs.map(r => r.l3)), 1)}. The models answered almost entirely like a correct calculator and missed the one clue in the examples.</p>`;
-  else { const g = rs.slice().sort((a, b) => b.gain - a.gain), low = rs.slice().sort((a, b) => a.probes - b.probes)[0];
-    h += `<p>Probing is what moves scores: ${name(g[0].model)} gains ${(g[0].gain * 100).toFixed(0)} points over its no-probe run using ${g[0].probes.toFixed(1)} probes per task.</p>`;
-    if (low.probes < 4) h += `<p>${name(low.model)} probed in ${low.probed} of ${low.n} tasks (${low.probes.toFixed(1)} per task) and gained ${(low.gain * 100).toFixed(0)} points. The tool was available; it mostly chose not to use it.</p>`;
-    h += `<p>Level 3 recovers from near zero to ${pct(Math.min(...rs.filter(r => r.probed === r.n).map(r => r.l3)), 0)}–${pct(Math.max(...rs.map(r => r.l3)), 0)} for the models that probe, once they test the operation they had no examples for.</p>`; }
+  const rs = cell(cur).sort((a, b) => b.acc - a.acc), s = SET[cur], top = rs[0], bot = rs[rs.length - 1], sec = rs[1], o = oracle(), n = ids(lvl).length;
+  const ties = rs.filter(r => Math.abs(r.acc - top.acc) < 1e-9).length;
+  let h = `<h3>${LVL[lvl].name} · ${s.label}</h3><p>${top.acc < .05 ? `No model scores above ${pct(top.acc)}` : ties > 1 ? `${ties} models tie for first at ${pct(top.acc)}` : `${name(top.model)} leads at ${pct(top.acc)}`}${top.acc < .05 ? "" : `; ${name(bot.model)} is last at ${pct(bot.acc)}`}.`;
+  if (lvl === "all") { const p = pair(cur, top.model, sec.model); h += p && !p.significant ? ` The lead over ${name(sec.model)} (${pct(sec.acc)}) is within noise: the 95% interval of the paired difference spans zero.` : p ? ` It is significantly ahead of ${name(sec.model)} (${pct(sec.acc)}).` : ""; }
+  else h += ` With only ${n} students at this level, treat gaps under about ${Math.round(100 / n)} points as noise.`;
+  h += `</p>`;
+  if (!s.probes) {
+    const NOTE = {
+      all: `On easy Level 1 the examples identify the bug, and scores reach ${pct(Math.max(...cell(cur, "easy").map(r => r.acc)), 0)}. On Level 1 hard every model sits near the oracle reference (${pct(oracle("hard"), 0)}). On Level 3 the oracle reference gets ${pct(oracle("l3"), 0)}, but no model scores above ${pct(Math.max(...cell(cur, "l3").map(r => r.acc)), 1)}.`,
+      easy: `Six examples usually pin down a single bug, and the oracle reference gets ${pct(o, 0)}. Misses here mean the model fitted the wrong rule from clear evidence.`,
+      hard: `Four examples fit many pairs of bugs, so the oracle reference gets only ${pct(o, 0)}. Every model lands near it: without probing, the evidence runs out.`,
+      l2: `Two examples per operation leave several bugs open in each one. The oracle reference gets ${pct(o, 0)}.`,
+      l3: `The oracle reference gets ${pct(o, 0)} from the same four examples, but the models answered almost entirely like a correct calculator and missed the one clue: a single wrong answer in another operation.`};
+    h += `<p>${NOTE[lvl]}</p>`;
+  } else {
+    const g = rs.map(r => ({r, d: gainOf(r.model)})).sort((a, b) => b.d - a.d), low = rs.slice().sort((a, b) => a.probes - b.probes)[0];
+    h += `<p>Probing is what moves scores: ${name(g[0].r.model)} gains ${(g[0].d * 100).toFixed(0)} points over its no-probe run here, using ${g[0].r.probes.toFixed(1)} probes per task.</p>`;
+    if (low.probes < 4) h += `<p>${name(low.model)} probed in ${low.probed} of ${low.n} tasks (${low.probes.toFixed(1)} per task) and ${Math.abs(gainOf(low.model)) < .02 ? "did not improve" : `changed by ${(gainOf(low.model) * 100).toFixed(0)} points`}. The tool was available; it mostly chose not to use it.</p>`;
+    if (lvl === "l3") h += `<p>Once a model probes the operation it had no examples for, v3 no longer counts the task as a clean transfer test.</p>`;
+  }
   $("#read").innerHTML = h;
 }
 
 /* leaderboard */
-const COLS = [["acc", "Accuracy", "l"], ...GROUPS, ["brier", "Brier ↓"], ["probes", "Probes / task"], ["secs", "Time / task"]];
 const LOWER = k => k === "brier" || k === "secs";
 function board() {
-  const s = SET[cur], rs = runs(cur).sort((a, b) => ((a[sortKey] ?? -1) - (b[sortKey] ?? -1)) * sortDir || b.acc - a.acc);
-  const rank = new Map(runs(cur).sort((a, b) => b.acc - a.acc).map((r, i) => [r.model, i + 1]));
+  const s = SET[cur], COLS = [["acc", "Accuracy", "l"], ...(lvl === "all" ? GROUPS : [["overall", "All questions"]]), ["brier", "Brier ↓"], ["probes", "Probes / task"], ["secs", "Time / task"]];
+  if (!COLS.some(([k]) => k === sortKey)) { sortKey = "acc"; sortDir = -1; }
+  const all = cell(cur), rs = all.slice().sort((a, b) => ((a[sortKey] ?? -1) - (b[sortKey] ?? -1)) * sortDir || b.acc - a.acc);
+  const rank = new Map(all.slice().sort((a, b) => b.acc - a.acc).map((r, i) => [r.model, i + 1]));
   $("#lb thead").innerHTML = `<tr><th class="l">#</th><th class="l">Model</th>${COLS.map(([k, t, c]) => `<th class="${c || ""}" ${k === sortKey ? `aria-sort="${sortDir < 0 ? "descending" : "ascending"}"` : ""}><button type="button" data-k="${k}">${t}</button></th>`).join("")}</tr>`;
   const best = k => (LOWER(k) ? Math.min : Math.max)(...rs.map(r => r[k]).filter(v => v != null));
-  const cell = (r, k, f) => `<td class="${r[k] != null && r[k] === best(k) ? "best" : ""}">${r[k] == null ? "–" : f(r[k])}</td>`;
+  const td = (r, k, f) => `<td class="${r[k] != null && Math.abs(r[k] - best(k)) < 1e-9 ? "best" : ""}">${r[k] == null ? "–" : f(r[k])}</td>`;
+  const mid = r => lvl === "all" ? GROUPS.map(([k]) => td(r, k, v => pct(v))).join("") : td(r, "overall", v => pct(v));
   let rows = rs.map(r => `<tr><td class="rank l">${rank.get(r.model)}</td><td class="model l">${name(r.model)}<small><i class="dot" style="background:${LABC[lab(r.model)]}"></i>${lab(r.model)} · ${r.harness}</small></td>
     <td class="acc"><div class="bar"><i><b style="transform:scaleX(${r.acc});background:${LABC[lab(r.model)]}"></b></i><span>${pct(r.acc)}</span><em>± ${(r.se * 100).toFixed(1)}</em></div></td>
-    ${GROUPS.map(([k]) => cell(r, k, v => pct(v))).join("")}${cell(r, "brier", v => v.toFixed(2))}<td>${s.probes ? r.probes.toFixed(1) : "–"}</td>${cell(r, "secs", v => v.toFixed(0) + " s")}</tr>`).join("");
-  if (!s.probes) { const o = D.oracle;
-    rows += `<tr class="ideal"><td class="rank l"></td><td class="model l">Oracle reference<small>majority vote over every rule that fits the examples</small></td><td class="acc"><div class="bar"><i><b style="transform:scaleX(${o.all});background:var(--ideal);opacity:.55"></b></i><span style="color:var(--ideal)">${pct(o.all)}</span><em></em></div></td>${GROUPS.map(([k]) => `<td>${pct(o[k])}</td>`).join("")}<td>–</td><td>–</td><td>–</td></tr>`; }
+    ${mid(r)}${td(r, "brier", v => v.toFixed(2))}<td>${s.probes ? r.probes.toFixed(1) : "–"}</td>${td(r, "secs", v => v.toFixed(0) + " s")}</tr>`).join("");
+  if (!s.probes) { const o = oracle();
+    rows += `<tr class="ideal"><td class="rank l"></td><td class="model l">Oracle reference<small>majority vote over every rule that fits the examples</small></td><td class="acc"><div class="bar"><i><b style="transform:scaleX(${o});background:var(--ideal);opacity:.55"></b></i><span style="color:var(--ideal)">${pct(o)}</span><em></em></div></td>${lvl === "all" ? GROUPS.map(([k]) => `<td>${pct(oracle(k))}</td>`).join("") : "<td>–</td>"}<td>–</td><td>–</td><td>–</td></tr>`; }
   $("#lb tbody").innerHTML = rows;
-  const inv = runs(cur).filter(r => r.valid < r.n);
-  $("#lbnote").textContent = `${s.label} · ${runs(cur)[0].n} students` + (inv.length ? ` · ${inv.map(r => `${name(r.model)}: ${r.n - r.valid} rejected`).join(", ")}` : "");
+  const inv = all.filter(r => r.valid < r.n);
+  $("#lbnote").textContent = `${LVL[lvl].name} · ${s.label} · ${ids(lvl).length} students` + (inv.length ? ` · ${inv.map(r => `${name(r.model)}: ${r.n - r.valid} rejected`).join(", ")}` : "");
 }
 $("#lb thead").onclick = e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.k;
   if (k === sortKey) sortDir = -sortDir; else { sortKey = k; sortDir = LOWER(k) ? 1 : -1; } board(); };
 
-/* both settings */
+/* both settings, at the selected level */
 function all() {
-  const ms = Object.keys(D.models).sort((a, b) => runs("v3-probe10").find(r => r.model === b).acc - runs("v3-probe10").find(r => r.model === a).acc);
+  const get = (k, m) => stats(runs(k).find(x => x.model === m));
+  const ms = Object.keys(D.models).sort((a, b) => get("v3-probe10", b).acc - get("v3-probe10", a).acc);
+  const best = k => Math.max(...Object.keys(D.models).map(m => get(k, m).acc));
   $("#all thead").innerHTML = `<tr><th class="l">Model</th><th>No probes</th><th>Optional probes</th><th>Gain</th><th>Tasks probed</th><th>K100 reached</th></tr>`;
-  const best = k => Math.max(...runs(k).map(r => r.acc)), get = (k, m) => runs(k).find(x => x.model === m);
-  $("#all tbody").innerHTML = ms.map(m => { const a = get("v3-noprobe", m), b = get("v3-probe10", m);
-    return `<tr><td class="model l">${name(m)}</td><td class="${a.acc === best("v3-noprobe") ? "best" : ""}">${pct(a.acc)}</td><td class="${b.acc === best("v3-probe10") ? "best" : ""}">${pct(b.acc)} <span style="color:var(--muted)">· ${b.probes.toFixed(1)} probes</span></td><td class="gain">+${(b.gain * 100).toFixed(1)}</td><td>${b.probed} / ${b.n}</td><td>${b.k100} / ${b.n}</td></tr>`; }).join("") +
-    `<tr class="ideal"><td class="model l">Oracle reference</td><td>${pct(D.oracle.all)}</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>`;
+  $("#all tbody").innerHTML = ms.map(m => { const a = get("v3-noprobe", m), b = get("v3-probe10", m), d = b.acc - a.acc;
+    return `<tr><td class="model l">${name(m)}</td><td class="${a.acc === best("v3-noprobe") ? "best" : ""}">${pct(a.acc)}</td><td class="${b.acc === best("v3-probe10") ? "best" : ""}">${pct(b.acc)} <span style="color:var(--muted)">· ${b.probes.toFixed(1)} probes</span></td><td class="gain">${d >= 0 ? "+" : ""}${(d * 100).toFixed(1)}</td><td>${b.probed} / ${b.n}</td><td>${b.k100} / ${b.n}</td></tr>`; }).join("") +
+    `<tr class="ideal"><td class="model l">Oracle reference</td><td>${pct(oracle())}</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>`;
+  $("#allnote").textContent = `${LVL[lvl].name} · accuracy on student-error questions, one run per cell`;
   $("#allfoot").textContent = "Bold marks the best model in each column. Gain is the change in accuracy over the same model's no-probe run, in points. K100 reached counts tasks where a saved snapshot got every error question right. The oracle reference is computed from the examples alone.";
 }
 
-/* per-task heat grid, grouped by level */
+/* per-task heat grid */
 function heat() {
-  const s = SET[cur], rs = runs(cur).sort((a, b) => b.acc - a.acc);
-  const ids = GROUPS.flatMap(([g]) => D.cases.filter(c => c.group === g));
+  const s = SET[cur], rs = cell(cur).sort((a, b) => b.acc - a.acc), R = m => runs(cur).find(r => r.model === m);
+  const gs = lvl === "all" ? GROUPS : GROUPS.filter(([g]) => g === lvl), cs = gs.flatMap(([g]) => D.cases.filter(c => c.group === g));
   const bg = v => `color-mix(in oklab, var(--accent) ${Math.round(v * 100)}%, var(--wash))`, fg = v => v > .55 ? "#fff" : "var(--ink)";
   const tag = c => c.op ? SYM[c.op] : c.target ? `no ${SYM[c.target]}` : "mixed";
-  let h = `<thead><tr><th class="l"></th>${GROUPS.map(([g, t]) => `<th class="grp" colspan="${D.cases.filter(c => c.group === g).length}">${t}</th>`).join("")}<th></th></tr>
-    <tr><th class="l">Model</th>${ids.map(c => `<th>${c.id}<small>${tag(c)}</small></th>`).join("")}<th></th></tr></thead><tbody>`;
-  h += rs.map(r => `<tr><td class="l">${name(r.model)}</td>${ids.map(c => { const [v, p, rej] = r.tasks[c.id];
+  let h = `<thead><tr><th class="l"></th>${gs.map(([g, t]) => `<th class="grp" colspan="${D.cases.filter(c => c.group === g).length}">${t}</th>`).join("")}<th></th></tr>
+    <tr><th class="l">Model</th>${cs.map(c => `<th>${c.id}<small>${tag(c)}</small></th>`).join("")}<th></th></tr></thead><tbody>`;
+  h += rs.map(r => `<tr><td class="l">${name(r.model)}</td>${cs.map(c => { const [v, p, rej] = R(r.model).tasks[c.id];
     return `<td class="c" style="background:${rej ? "#fbe9e7" : bg(v)};color:${rej ? "#b42318" : fg(v)}" title="${name(r.model)} · ${c.id}: ${rej ? "submission rejected, scores 0" : pct(v, 0)}${s.probes ? ` · ${p} probes` : ""}">${rej ? "×" : Math.round(v * 100)}</td>`; }).join("")}<td class="avg">${pct(r.acc)}</td></tr>`).join("");
-  if (!s.probes) h += `<tr class="ideal"><td class="l">Oracle reference</td>${ids.map(c => { const v = D.oracle.tasks[c.id]; return `<td class="c" style="background:color-mix(in oklab, var(--ideal) ${Math.round(v * 70)}%, var(--wash));color:${v > .6 ? "#fff" : "var(--ink)"}" title="Oracle reference · ${c.id}: ${pct(v, 0)}">${Math.round(v * 100)}</td>`; }).join("")}<td class="avg" style="color:var(--ideal)">${pct(D.oracle.all)}</td></tr>`;
+  if (!s.probes) h += `<tr class="ideal"><td class="l">Oracle reference</td>${cs.map(c => { const v = D.oracle.tasks[c.id]; return `<td class="c" style="background:color-mix(in oklab, var(--ideal) ${Math.round(v * 70)}%, var(--wash));color:${v > .6 ? "#fff" : "var(--ink)"}" title="Oracle reference · ${c.id}: ${pct(v, 0)}">${Math.round(v * 100)}</td>`; }).join("")}<td class="avg" style="color:var(--ideal)">${pct(oracle())}</td></tr>`;
   $("#heat").innerHTML = h + "</tbody>";
-  $("#tasknote").textContent = `${s.label} · ${ids.length} students × ${rs.length} models`;
+  $("#tasknote").textContent = `${LVL[lvl].name} · ${s.label} · ${cs.length} students × ${rs.length} models`;
 }
 
 /* worked example (public inputs only) */
@@ -355,7 +401,8 @@ function heat() {
 
 function draw() {
   document.querySelectorAll("#seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === cur));
-  $("#what").textContent = SET[cur].what;
+  document.querySelectorAll("#lvl button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lvl));
+  $("#what").textContent = `${LVL[lvl].what}; ${SET[cur].what}.`;
   chart(); read(); board(); heat();
 }
 all(); draw();

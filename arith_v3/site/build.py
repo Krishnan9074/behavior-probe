@@ -38,6 +38,7 @@ for cell in F["cells"]:
     by_case = {t.split("-")[0].upper(): v for t, v in ev.items()}
     scores = list(cell["per_case"].values())
     secs = [(v.get("task_breakdown") or {}).get("agent_run_duration") for v in by_case.values()]
+    rw = lambda c: (by_case.get(c) or {}).get("rewards") or {}  # noqa: E731
     runs.append({
         "model": cell["model"], "setting": cell["condition"],
         "harness": HARNESS["gpt" if cell["model"].startswith("gpt") else "anthropic"],
@@ -48,9 +49,12 @@ for cell in F["cells"]:
         "probes": r4(cell["probes_mean"]), "probed": cell["cases_probed"], "k100": cell["k100_reached"],
         "valid": cell["valid"], "n": cell["n"], "gain": r4(cell["gain_vs_noprobe"]),
         "secs": r4(mean([s for s in secs if s is not None])),
-        "tasks": {c: [round(cell["per_case"][c], 3),
-                      int(((by_case.get(c) or {}).get("rewards") or {}).get("probes_used", 0)),
-                      not ((by_case.get(c) or {}).get("rewards") or {}).get("valid")] for c in cell["per_case"]},
+        # per task: [error-Q acc, probes, rejected, all-question acc, Brier, agent secs, K100 reached]
+        # (the page recomputes every column from these for the level toggle)
+        "tasks": {c: [round(cell["per_case"][c], 3), int(rw(c).get("probes_used", 0)), not rw(c).get("valid"),
+                      r4(rw(c).get("overall_accuracy")), r4(rw(c).get("brier_error_cases")),
+                      r4(((by_case.get(c) or {}).get("task_breakdown") or {}).get("agent_run_duration")),
+                      "k100_error_observed" in rw(c)] for c in cell["per_case"]},
     })
 
 O = F["oracle_reference"]

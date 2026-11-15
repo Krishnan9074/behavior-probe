@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARITH-PROBE v3: can a model predict one student's arithmetic mistakes?</title>
+<meta name="description" content="ARITH-PROBE v3 leaderboard. Five frontier models infer how one simulated student gets addition, subtraction, multiplication and division wrong, and predict that student's next answers, with and without optional probes.">
+<meta property="og:title" content="ARITH-PROBE v3 leaderboard">
+<meta property="og:description" content="Can a model work out how one particular student gets arithmetic wrong, across all four operations, then predict that student's next answers?">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101828'/%3E%3Cpath d='M8 13h16M8 21h9' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='21' r='2.5' fill='%237c9cff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#fff; --wash:#f4f5f8; --ink:#101828; --body:#2b3445; --muted:#5a6475; --line:#dde1e8; --band:#101828; --band-ink:#e8ecf5;
+  --accent:#2242c7; --accent-wash:#e9edfb; --anthropic:#b9552f; --openai:#0c7f69; --ideal:#8a5a00;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:116px}
+body{margin:0;background:var(--ground);color:var(--body);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1.5px}
+a:hover{color:var(--accent)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.narrow{max-width:760px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:28px;height:56px}
+.mark{display:flex;align-items:center;gap:10px;font:600 17px/1 var(--serif);color:var(--ink);text-decoration:none;letter-spacing:-.01em;white-space:nowrap}
+.top nav{display:flex;gap:22px;margin-left:auto;overflow-x:auto}
+.top nav a{font:500 14px/1 var(--sans);color:var(--muted);text-decoration:none;white-space:nowrap;padding:6px 0}
+.top nav a:hover{color:var(--ink)}
+
+/* header */
+.head{padding:72px 0 56px}
+h1{font:600 clamp(40px,6vw,64px)/1.05 var(--serif);letter-spacing:-.025em;color:var(--ink);margin:0 0 14px;text-wrap:balance}
+.meta{font:500 12px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 32px}
+.lede{font:400 clamp(20px,2.4vw,25px)/1.35 var(--serif);color:var(--ink);margin:0 0 16px;text-wrap:balance}
+.head p{margin:0 0 12px}
+.asof b{font-weight:600;color:var(--ink)}
+
+/* section band */
+.band{background:var(--band);color:var(--band-ink);margin-top:64px}
+.band .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;min-height:52px;padding-top:8px;padding-bottom:8px}
+h2{font:500 13px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0;color:#fff}
+.band .note{font:400 13px/1.3 var(--sans);color:#aab3c5;margin-left:auto}
+section{border-bottom:1px solid var(--line)}
+.pad{padding:32px 0 48px}
+
+/* setting switch */
+.switchbar{position:sticky;top:56px;z-index:4;background:var(--wash);border-bottom:1px solid var(--line)}
+.switchbar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.switchbar .lbl{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden;flex-wrap:wrap}
+.seg button{appearance:none;border:0;border-right:1px solid var(--line);background:none;font:500 14px/1 var(--sans);color:var(--muted);padding:10px 14px;cursor:pointer;transition:background .15s,color .15s}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--ink);background:var(--wash)}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.switchbar .what{font-size:14px;color:var(--muted);flex:1 1 280px}
+
+/* chart */
+.chartgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:start}
+#chart{width:100%;display:block}
+#chart text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+#chart .name{font-family:var(--sans);font-size:13px;font-weight:500;fill:var(--ink)}
+#chart .pt{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.read h3{font:600 20px/1.25 var(--serif);color:var(--ink);margin:0 0 10px;letter-spacing:-.01em}
+.read p{margin:0 0 12px;font-size:15px}
+
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{padding-left:0}
+th{font:500 11px/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);vertical-align:bottom;background:#fff}
+th button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+th button:hover{color:var(--ink)}
+th button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+th[aria-sort] button{color:var(--ink)}
+th[aria-sort=descending] button::after{content:"";border:4px solid transparent;border-top-color:currentColor;margin-top:4px}
+th[aria-sort=ascending] button::after{content:"";border:4px solid transparent;border-bottom-color:currentColor;margin-bottom:4px}
+td{font:400 14px/1.3 var(--mono);color:var(--body)}
+td.l,th.l{text-align:left}
+td.rank{color:var(--muted);width:36px}
+td.model{font:500 15px/1.3 var(--sans);color:var(--ink)}
+td.model small{display:block;font:400 12px/1.4 var(--sans);color:var(--muted)}
+td.acc{min-width:230px}
+.bar{display:flex;align-items:center;gap:12px}
+.bar i{flex:1;height:10px;background:var(--wash);border-radius:2px;position:relative;overflow:hidden}
+.bar i b{position:absolute;inset:0;border-radius:2px;transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.bar span{font:500 15px/1 var(--mono);color:var(--ink);min-width:54px}
+.bar em{font-style:normal;color:var(--muted);font-size:12px;min-width:44px}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--wash)}
+tr.ideal td{color:var(--ideal)}tr.ideal td.model{color:var(--ideal);font-style:italic}
+td.best{color:var(--ink);font-weight:500}
+.foot{font-size:13.5px;color:var(--muted);margin:14px 0 0;max-width:820px}
+
+/* per-task grid */
+.heat td,.heat th{padding:0;border:0}
+.heat{border-collapse:separate;border-spacing:3px;width:auto}
+.heat th{font:500 10px/1 var(--mono);letter-spacing:.04em;padding:0 0 6px;text-align:center}
+.heat th.l,.heat td.l{text-align:left;padding-right:14px;font:500 14px/1.2 var(--sans);color:var(--ink);letter-spacing:0;text-transform:none;position:sticky;left:0;background:#fff}
+.heat td.c{width:42px;height:34px;text-align:center;font:500 12px/34px var(--mono);border-radius:3px;transition:background .4s,color .4s}
+.heat td.avg{padding-left:12px;font:500 14px/1 var(--mono);color:var(--ink)}
+.heat tr.ideal td.l{color:var(--ideal);font-style:italic}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 56px}
+.method h3{font:600 22px/1.2 var(--serif);color:var(--ink);margin:0 0 10px;letter-spacing:-.01em}
+.method p,.method li{font-size:15.5px}
+.method p{margin:0 0 12px}
+.method ul{margin:0;padding-left:18px}.method li{margin:0 0 8px}
+code{font:400 .9em var(--mono);background:var(--wash);padding:1px 5px;border-radius:3px;color:var(--ink)}
+.ex{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:14px 0}
+.ex table td,.ex table th{padding:9px 14px}.ex table th:first-child,.ex table td:first-child{padding-left:14px}
+.ex tr:last-child td{border-bottom:0}
+.ex .wrong{color:#b42318;font-weight:500}
+.ex caption{caption-side:top;text-align:left;font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:12px 14px;background:var(--wash);border-bottom:1px solid var(--line)}
+
+footer{padding:36px 0 56px;font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;gap:16px 40px;flex-wrap:wrap;justify-content:space-between}
+footer p{margin:0;max-width:620px}
+
+@media (max-width:900px){.chartgrid{grid-template-columns:1fr;gap:24px}.method{grid-template-columns:1fr}.band .note{margin-left:0;flex-basis:100%}}
+@media (max-width:640px){.wrap{padding:0 16px}.head{padding:44px 0 36px}.top nav{gap:16px}.switchbar{position:static}.seg{width:100%}.seg button{flex:1 1 50%;border-bottom:1px solid var(--line)}.seg button:nth-child(2n){border-right:0}.seg button:nth-last-child(-n+2){border-bottom:0}td.acc{min-width:0}.bar i{display:none}.bar{gap:6px}.bar span{min-width:0}th,td{padding:12px 10px}td.rank{width:22px}td.model small .dot{display:none}.band{margin-top:40px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+.heat th small{display:block;font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+.heat th.grp{border-bottom:2px solid var(--line)}
+td.gain{color:var(--accent);font-weight:500}
+.ex .op{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <a class="mark" href="#top" aria-label="ARITH-PROBE home">
+    <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#101828"/><path d="M8 13h16M8 21h9" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="21" r="2.5" fill="#7c9cff"/></svg>
+    ARITH-PROBE v3</a>
+  <nav aria-label="Sections"><a href="#leaderboard">Leaderboard</a><a href="#settings">Both settings</a><a href="#tasks">Per task</a><a href="#method">Method</a></nav>
+</div></div>
+
+<header class="head" id="top"><div class="wrap"><div class="narrow">
+  <h1>ARITH-PROBE v3</h1>
+  <p class="meta" id="meta"></p>
+  <p class="lede">Can a model work out how one particular student gets arithmetic wrong, across all four operations, then predict that student's next answers?</p>
+  <p>Each task shows a few answers from one simulated student who follows hidden, systematically buggy rules for addition, subtraction, multiplication or division. The model must predict exactly what that student will write on 40 or 80 new problems. Reproducing correct arithmetic earns nothing on the questions that count.</p>
+  <p class="asof" id="asof"></p>
+</div></div></header>
+
+<div class="switchbar"><div class="wrap">
+  <span class="lbl" id="setlbl">Setting</span>
+  <div class="seg" role="group" aria-labelledby="setlbl" id="seg"></div>
+  <span class="what" id="what"></span>
+</div></div>
+
+<section id="leaderboard">
+  <div class="wrap pad">
+    <div class="chartgrid">
+      <div>
+        <div class="legend"><span><i class="dot" style="background:var(--anthropic)"></i>Anthropic</span><span><i class="dot" style="background:var(--openai)"></i>OpenAI</span><span id="ideallegend"><i class="dot" style="background:var(--ideal)"></i>Oracle reference</span></div>
+        <svg id="chart" role="img" aria-label="Accuracy against time per task for each model"></svg>
+      </div>
+      <div class="read" id="read"></div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:0"><div class="wrap"><h2>Leaderboard</h2><span class="note" id="lbnote"></span></div></div>
+  <div class="wrap pad">
+    <div class="scroll"><table id="lb"><thead></thead><tbody></tbody></table></div>
+    <p class="foot">Accuracy is exact-match on the questions the student gets wrong, averaged over 20 tasks; ± is one standard error across tasks. The level columns break the same score down: Level 1 easy (8 tasks, one bug, one operation), Level 1 hard (4, two interacting bugs), Level 2 (4, a different bug in each operation) and Level 3 (4, one shared misreading in every operation, with no examples of the target operation). Brier measures calibration of the stated confidence on the same questions (lower is better). Cost was not recorded for these runs.</p>
+  </div>
+</section>
+
+<section id="settings">
+  <div class="band"><div class="wrap"><h2>Both settings</h2><span class="note">Accuracy on student-error questions, one run per cell</span></div></div>
+  <div class="wrap pad"><div class="scroll"><table id="all"><thead></thead><tbody></tbody></table></div>
+  <p class="foot" id="allfoot"></p></div>
+</section>
+
+<section id="tasks">
+  <div class="band"><div class="wrap"><h2>Per task</h2><span class="note" id="tasknote"></span></div></div>
+  <div class="wrap pad"><div class="scroll"><table class="heat" id="heat"></table></div>
+  <p class="foot">Each cell is one model's accuracy on one student, in percent. Tasks are grouped by level; the small label is the operation (Level 1) or the operation with no examples (Level 3). Hover a cell for the number of probes used. × marks a submission the grader rejected, which scores 0. Hidden rules and answer keys are withheld to keep the test set clean.</p></div>
+</section>
+
+<section id="method">
+  <div class="band"><div class="wrap"><h2>Method</h2></div></div>
+  <div class="wrap pad"><div class="method">
+    <div>
+      <h3>The task</h3>
+      <p>A simulated student does arithmetic column by column but follows fixed, rule-governed errors, such as forgetting to decrement after borrowing, dropping a carry or reading a 1 as a 0. The model sees a handful of that student's answers and the test problems, and writes a JSON file with a predicted answer and a confidence for each.</p>
+      <div class="ex"><table><caption id="excap"></caption><thead><tr><th class="l">Problem</th><th>Student wrote</th><th>Correct</th></tr></thead><tbody id="exrows"></tbody></table></div>
+      <p id="exnote"></p>
+    </div>
+    <div>
+      <h3>Three levels</h3>
+      <ul>
+        <li><b>Level 1, one operation.</b> Easy tasks have one bug and six examples. Hard tasks combine two interacting bugs and show four examples chosen so that many rule pairs fit them. 40 test problems.</li>
+        <li><b>Level 2, mixed.</b> A different hidden bug in each of the four operations, two examples per operation. 80 test problems.</li>
+        <li><b>Level 3, transfer.</b> One misreading of digits applies to every operation. The four examples cover three operations; the fourth, the target, has none. 80 test problems.</li>
+      </ul>
+      <p style="margin-top:12px">The error types are 12 of the 17 numbered categories in Wallace (1984), plus her supplementary "smaller from larger". Their exact algorithms and triggers are our own operationalization.</p>
+      <h3 style="margin-top:28px">Optional probes</h3>
+      <p>In the probe setting the sandbox also has a <code>probe OP A B</code> command that returns this student's answer to any new problem, up to 10 times, and a <code>snapshot</code> command that saves the current predictions without revealing a score. Test problems cannot be probed. Using either is left entirely to the model.</p>
+    </div>
+    <div>
+      <h3>Scoring</h3>
+      <ul>
+        <li>A prediction is correct only if it equals the student's answer exactly. There is no partial credit and no model-based judging.</li>
+        <li>Half of the test problems are ones the student gets wrong. The headline accuracy counts only those, since any model that can do arithmetic gets the other half.</li>
+        <li>A submission that omits a question or is malformed scores 0 for that task.</li>
+        <li>The <i>oracle reference</i> keeps every rule in the benchmark's hypothesis family that fits the examples and answers by majority vote. It shows what the evidence allows; it is not an upper bound.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Setup and limits</h3>
+      <ul>
+        <li>Each model runs in its vendor's agent harness (Claude Code or Codex CLI) on Valkyrie, in a Modal sandbox with a 30-minute limit and network access only to its model API. The hidden rules live in a separate oracle container; the grader and answer keys arrive only after the agent finishes.</li>
+        <li>Every cell is a single run over 20 students. Treat gaps smaller than the ± column as noise.</li>
+        <li>All four Level-3 tasks use the same hidden rule, so Level 3 measures one shared misreading, not transfer in general.</li>
+        <li>The students are simulated. Results show whether a model can identify a rule-governed error pattern, not how it would model real children.</li>
+      </ul>
+    </div>
+  </div></div>
+</section>
+
+<footer><div class="wrap">
+  <p>ARITH-PROBE is an independent benchmark and is not affiliated with any model provider. The earlier subtraction-only version, Behavior-Probe, is at <a href="/v1/">/v1</a>.</p>
+  <p id="footmeta"></p>
+</div></footer>
+
+<script>window.BP = {"updated":"November 15, 2026","models":{"claude-sonnet-5-5":{"name":"Claude Sonnet 5.5","lab":"Anthropic"},"claude-opus-5-5":{"name":"Claude Opus 5.5","lab":"Anthropic"},"claude-fable-5-2":{"name":"Claude Fable 5.2","lab":"Anthropic"},"gpt-6-astra":{"name":"GPT-6 Astra","lab":"OpenAI"},"gpt-6.1-sol":{"name":"GPT-6.1 Sol","lab":"OpenAI"}},"runs":[{"model":"claude-fable-5-2","setting":"v3-noprobe","harness":"Claude Code","acc":0.47,"se":0.1041,"lo":0.2737,"hi":0.6675,"easy":0.875,"hard":0.1875,"l2":0.4125,"l3":0.0,"overall":0.6588,"brier":0.2777,"ece":0.4289,"probes":0.0,"probed":0,"k100":6,"valid":20,"n":20,"gain":null,"secs":49.8922,"tasks":{"A001":[0.0,0,false],"A002":[0.0,0,false],"A003":[0.725,0,false],"A004":[0.0,0,false],"A005":[0.2,0,false],"A006":[1.0,0,false],"A007":[0.0,0,false],"A008":[0.0,0,false],"A009":[1.0,0,false],"A010":[1.0,0,false],"A011":[0.0,0,false],"A012":[0.8,0,false],"A013":[0.875,0,false],"A014":[0.0,0,false],"A015":[1.0,0,false],"A016":[0.75,0,false],"A017":[1.0,0,false],"A018":[0.05,0,false],"A019":[1.0,0,false],"A020":[0.0,0,false]}},{"model":"claude-fable-5-2","setting":"v3-probe10","harness":"Claude Code","acc":0.8912,"se":0.0444,"lo":0.8012,"hi":0.97,"easy":1.0,"hard":0.9375,"l2":0.7875,"l3":0.7312,"overall":0.9125,"brier":0.0791,"ece":0.1687,"probes":8.3,"probed":20,"k100":13,"valid":20,"n":20,"gain":0.4213,"secs":75.3516,"tasks":{"A001":[0.7,10,false],"A002":[0.425,10,false],"A003":[0.975,10,false],"A004":[1.0,10,false],"A005":[1.0,8,false],"A006":[1.0,4,false],"A007":[1.0,10,false],"A008":[1.0,10,false],"A009":[1.0,9,false],"A010":[1.0,5,false],"A011":[1.0,10,false],"A012":[1.0,9,false],"A013":[0.975,10,false],"A014":[0.5,10,false],"A015":[1.0,1,false],"A016":[0.75,9,false],"A017":[1.0,7,false],"A018":[0.5,10,false],"A019":[1.0,4,false],"A020":[1.0,10,false]}},{"model":"claude-opus-5-5","setting":"v3-noprobe","harness":"Claude Code","acc":0.4588,"se":0.1028,"lo":0.2662,"hi":0.6575,"easy":0.875,"hard":0.1875,"l2":0.3563,"l3":0.0,"overall":0.6569,"brier":0.3457,"ece":0.4738,"probes":0.0,"probed":0,"k100":6,"valid":20,"n":20,"gain":null,"secs":32.3438,"tasks":{"A001":[0.0,0,false],"A002":[0.0,0,false],"A003":[0.725,0,false],"A004":[0.0,0,false],"A005":[0.2,0,false],"A006":[1.0,0,false],"A007":[0.0,0,false],"A008":[0.0,0,false],"A009":[1.0,0,false],"A010":[1.0,0,false],"A011":[0.0,0,false],"A012":[0.8,0,false],"A013":[0.675,0,false],"A014":[0.0,0,false],"A015":[1.0,0,false],"A016":[0.75,0,false],"A017":[1.0,0,false],"A018":[0.025,0,false],"A019":[1.0,0,false],"A020":[0.0,0,false]}},{"model":"claude-opus-5-5","setting":"v3-probe10","harness":"Claude Code","acc":0.8363,"se":0.0683,"lo":0.6963,"hi":0.955,"easy":1.0,"hard":0.7,"l2":0.6687,"l3":0.8125,"overall":0.8806,"brier":0.1165,"ece":0.2074,"probes":7.4,"probed":20,"k100":13,"valid":20,"n":20,"gain":0.3775,"secs":50.4382,"tasks":{"A001":[0.5,10,false],"A002":[0.25,10,false],"A003":[0.975,10,false],"A004":[1.0,9,false],"A005":[1.0,6,false],"A006":[1.0,3,false],"A007":[0.05,10,false],"A008":[1.0,10,false],"A009":[1.0,8,false],"A010":[1.0,5,false],"A011":[1.0,6,false],"A012":[1.0,6,false],"A013":[0.925,10,false],"A014":[1.0,10,false],"A015":[1.0,8,false],"A016":[0.75,4,false],"A017":[1.0,3,false],"A018":[0.275,10,false],"A019":[1.0,2,false],"A020":[1.0,8,false]}},{"model":"claude-sonnet-5-5","setting":"v3-noprobe","harness":"Claude Code","acc":0.3225,"se":0.0894,"lo":0.1588,"hi":0.4963,"easy":0.6125,"hard":0.1375,"l2":0.25,"l3":0.0,"overall":0.6262,"brier":0.3014,"ece":0.4265,"probes":0.0,"probed":0,"k100":1,"valid":20,"n":20,"gain":null,"secs":16.2897,"tasks":{"A001":[0.25,0,false],"A002":[0.0,0,false],"A003":[0.325,0,false],"A004":[0.0,0,false],"A005":[0.0,0,false],"A006":[0.95,0,false],"A007":[0.0,0,false],"A008":[0.0,0,false],"A009":[0.9,0,false],"A010":[0.9,0,false],"A011":[0.0,0,false],"A012":[0.0,0,false],"A013":[0.425,0,false],"A014":[0.0,0,false],"A015":[0.2,0,false],"A016":[0.55,0,false],"A017":[1.0,0,false],"A018":[0.0,0,false],"A019":[0.95,0,false],"A020":[0.0,0,false]}},{"model":"claude-sonnet-5-5","setting":"v3-probe10","harness":"Claude Code","acc":0.3763,"se":0.099,"lo":0.1938,"hi":0.57,"easy":0.6,"hard":0.1875,"l2":0.25,"l3":0.2437,"overall":0.6412,"brier":0.2734,"ece":0.4281,"probes":2.25,"probed":5,"k100":3,"valid":20,"n":20,"gain":0.0537,"secs":20.2004,"tasks":{"A001":[0.25,10,false],"A002":[0.975,8,false],"A003":[0.575,9,false],"A004":[0.0,0,false],"A005":[0.0,0,false],"A006":[1.0,0,false],"A007":[0.0,0,false],"A008":[0.0,9,false],"A009":[0.9,0,false],"A010":[0.9,0,false],"A011":[0.0,0,false],"A012":[0.0,0,false],"A013":[0.175,0,false],"A014":[0.0,9,false],"A015":[0.0,0,false],"A016":[0.75,0,false],"A017":[1.0,0,false],"A018":[0.0,0,false],"A019":[1.0,0,false],"A020":[0.0,0,false]}},{"model":"gpt-6-astra","setting":"v3-noprobe","harness":"Codex CLI","acc":0.5112,"se":0.1027,"lo":0.31,"hi":0.705,"easy":0.975,"hard":0.1875,"l2":0.4188,"l3":0.0,"overall":0.695,"brier":0.3688,"ece":0.4266,"probes":0.0,"probed":0,"k100":6,"valid":20,"n":20,"gain":null,"secs":47.9725,"tasks":{"A001":[0.0,0,false],"A002":[0.0,0,false],"A003":[0.725,0,false],"A004":[0.0,0,false],"A005":[0.9,0,false],"A006":[1.0,0,false],"A007":[0.0,0,false],"A008":[0.0,0,false],"A009":[1.0,0,false],"A010":[0.9,0,false],"A011":[0.0,0,false],"A012":[1.0,0,false],"A013":[0.675,0,false],"A014":[0.0,0,false],"A015":[1.0,0,false],"A016":[0.75,0,false],"A017":[1.0,0,false],"A018":[0.275,0,false],"A019":[1.0,0,false],"A020":[0.0,0,false]}},{"model":"gpt-6-astra","setting":"v3-probe10","harness":"Codex CLI","acc":0.9412,"se":0.0335,"lo":0.8688,"hi":0.9925,"easy":0.9875,"hard":0.9375,"l2":0.8,"l3":0.9938,"overall":0.9488,"brier":0.0378,"ece":0.0539,"probes":7.2,"probed":20,"k100":15,"valid":20,"n":20,"gain":0.43,"secs":61.6614,"tasks":{"A001":[0.825,10,false],"A002":[0.975,10,false],"A003":[1.0,10,false],"A004":[1.0,7,false],"A005":[0.9,4,false],"A006":[1.0,3,false],"A007":[1.0,10,false],"A008":[1.0,10,false],"A009":[1.0,10,false],"A010":[1.0,5,false],"A011":[1.0,5,false],"A012":[1.0,7,false],"A013":[1.0,10,false],"A014":[1.0,10,false],"A015":[1.0,5,false],"A016":[0.75,6,false],"A017":[1.0,3,false],"A018":[0.375,10,false],"A019":[1.0,2,false],"A020":[1.0,7,false]}},{"model":"gpt-6.1-sol","setting":"v3-noprobe","harness":"Codex CLI","acc":0.5188,"se":0.1073,"lo":0.3175,"hi":0.72,"easy":0.9875,"hard":0.1875,"l2":0.425,"l3":0.0063,"overall":0.6925,"brier":0.3458,"ece":0.4186,"probes":0.0,"probed":0,"k100":7,"valid":20,"n":20,"gain":null,"secs":43.9836,"tasks":{"A001":[0.0,0,false],"A002":[0.0,0,false],"A003":[0.725,0,false],"A004":[0.0,0,false],"A005":[0.9,0,false],"A006":[1.0,0,false],"A007":[0.0,0,false],"A008":[0.025,0,false],"A009":[1.0,0,false],"A010":[1.0,0,false],"A011":[0.0,0,false],"A012":[1.0,0,false],"A013":[0.925,0,false],"A014":[0.0,0,false],"A015":[1.0,0,false],"A016":[0.75,0,false],"A017":[1.0,0,false],"A018":[0.05,0,false],"A019":[1.0,0,false],"A020":[0.0,0,false]}},{"model":"gpt-6.1-sol","setting":"v3-probe10","harness":"Codex CLI","acc":0.8363,"se":0.0701,"lo":0.69,"hi":0.9563,"easy":0.9875,"hard":0.7125,"l2":0.7312,"l3":0.7625,"overall":0.8894,"brier":0.1017,"ece":0.1256,"probes":7.05,"probed":20,"k100":12,"valid":20,"n":20,"gain":0.3175,"secs":59.781,"tasks":{"A001":[0.75,10,false],"A002":[0.975,7,false],"A003":[1.0,10,false],"A004":[1.0,10,false],"A005":[0.9,5,false],"A006":[1.0,1,false],"A007":[0.1,10,false],"A008":[0.075,10,false],"A009":[1.0,10,false],"A010":[1.0,5,false],"A011":[1.0,6,false],"A012":[1.0,8,false],"A013":[0.95,10,false],"A014":[1.0,10,false],"A015":[1.0,3,false],"A016":[0.75,5,false],"A017":[1.0,3,false],"A018":[0.225,10,false],"A019":[1.0,1,false],"A020":[1.0,7,false]}}],"cases":[{"id":"A001","group":"l2","op":null,"target":null},{"id":"A002","group":"l3","op":null,"target":"div"},{"id":"A003","group":"l2","op":null,"target":null},{"id":"A004","group":"l3","op":null,"target":"add"},{"id":"A005","group":"easy","op":"mul","target":null},{"id":"A006","group":"easy","op":"add","target":null},{"id":"A007","group":"hard","op":"add","target":null},{"id":"A008","group":"l3","op":null,"target":"mul"},{"id":"A009","group":"easy","op":"sub","target":null},{"id":"A010","group":"easy","op":"div","target":null},{"id":"A011","group":"hard","op":"mul","target":null},{"id":"A012","group":"easy","op":"div","target":null},{"id":"A013","group":"l2","op":null,"target":null},{"id":"A014","group":"l3","op":null,"target":"sub"},{"id":"A015","group":"easy","op":"mul","target":null},{"id":"A016","group":"hard","op":"div","target":null},{"id":"A017","group":"easy","op":"sub","target":null},{"id":"A018","group":"l2","op":null,"target":null},{"id":"A019","group":"easy","op":"add","target":null},{"id":"A020","group":"hard","op":"sub","target":null}],"oracle":{"all":0.6925,"easy":1.0,"hard":0.175,"l2":0.4688,"l3":0.8187,"tasks":{"A001":0.4,"A002":0.8,"A003":0.75,"A004":0.825,"A005":1.0,"A006":1.0,"A007":0.05,"A008":0.775,"A009":1.0,"A010":1.0,"A011":0.0,"A012":1.0,"A013":0.25,"A014":0.875,"A015":1.0,"A016":0.65,"A017":1.0,"A018":0.475,"A019":1.0,"A020":0.0}},"pairs":[{"condition":"v3-noprobe","a":"claude-fable-5-2","b":"claude-opus-5-5","diff":0.0112,"ci95":[0.0,0.032499999999999994],"significant":false},{"condition":"v3-noprobe","a":"claude-fable-5-2","b":"claude-sonnet-5-5","diff":0.1475,"ci95":[0.0425,0.275],"significant":true},{"condition":"v3-noprobe","a":"claude-fable-5-2","b":"gpt-6-astra","diff":-0.0412,"ci95":[-0.1275,0.019999999999999997],"significant":false},{"condition":"v3-noprobe","a":"claude-fable-5-2","b":"gpt-6.1-sol","diff":-0.0488,"ci95":[-0.12874999999999998,-0.00125],"significant":true},{"condition":"v3-noprobe","a":"claude-opus-5-5","b":"claude-sonnet-5-5","diff":0.1363,"ci95":[0.03624999999999999,0.25625],"significant":true},{"condition":"v3-noprobe","a":"claude-opus-5-5","b":"gpt-6-astra","diff":-0.0525,"ci95":[-0.1375,0.004999999999999999],"significant":false},{"condition":"v3-noprobe","a":"claude-opus-5-5","b":"gpt-6.1-sol","diff":-0.06,"ci95":[-0.1425,-0.0037500000000000007],"significant":true},{"condition":"v3-noprobe","a":"claude-sonnet-5-5","b":"gpt-6-astra","diff":-0.1888,"ci95":[-0.34375,-0.058750000000000004],"significant":true},{"condition":"v3-noprobe","a":"claude-sonnet-5-5","b":"gpt-6.1-sol","diff":-0.1962,"ci95":[-0.35,-0.0625],"significant":true},{"condition":"v3-noprobe","a":"gpt-6-astra","b":"gpt-6.1-sol","diff":-0.0075,"ci95":[-0.042499999999999996,0.027500000000000007],"significant":false},{"condition":"v3-probe10","a":"claude-fable-5-2","b":"claude-opus-5-5","diff":0.055,"ci95":[-0.04125,0.17375],"significant":false},{"condition":"v3-probe10","a":"claude-fable-5-2","b":"claude-sonnet-5-5","diff":0.515,"ci95":[0.3,0.7150000000000001],"significant":true},{"condition":"v3-probe10","a":"claude-fable-5-2","b":"gpt-6-astra","diff":-0.05,"ci95":[-0.13,0.012499999999999994],"significant":false},{"condition":"v3-probe10","a":"claude-fable-5-2","b":"gpt-6.1-sol","diff":0.055,"ci95":[-0.0825,0.215],"significant":false},{"condition":"v3-probe10","a":"claude-opus-5-5","b":"claude-sonnet-5-5","diff":0.46,"ci95":[0.24,0.66875],"significant":true},{"condition":"v3-probe10","a":"claude-opus-5-5","b":"gpt-6-astra","diff":-0.105,"ci95":[-0.23249999999999998,-0.0075000000000000015],"significant":true},{"condition":"v3-probe10","a":"claude-opus-5-5","b":"gpt-6.1-sol","diff":0.0,"ci95":[-0.11499999999999999,0.13125],"significant":false},{"condition":"v3-probe10","a":"claude-sonnet-5-5","b":"gpt-6-astra","diff":-0.565,"ci95":[-0.7525000000000001,-0.37374999999999997],"significant":true},{"condition":"v3-probe10","a":"claude-sonnet-5-5","b":"gpt-6.1-sol","diff":-0.46,"ci95":[-0.655,-0.275],"significant":true},{"condition":"v3-probe10","a":"gpt-6-astra","b":"gpt-6.1-sol","diff":0.105,"ci95":[0.007500000000000007,0.24],"significant":true}],"example":{"id":"A002","target":"div","observations":[{"op":"mul","a":4207,"b":2,"student_answer":8414},{"op":"mul","a":964,"b":91,"student_answer":86760},{"op":"sub","a":4624,"b":3690,"student_answer":934},{"op":"add","a":450,"b":8,"student_answer":458}],"questions":[{"op":"sub","a":688,"b":14},{"op":"div","a":304806,"b":6},{"op":"mul","a":415,"b":24}]}};</script>
+<script>
+const D = window.BP, $ = s => document.querySelector(s);
+const SET = {
+  "v3-noprobe": {label: "No probes", probes: false, what: "Only the given examples: 4 to 8 student answers per task."},
+  "v3-probe10": {label: "Optional probes", probes: true, what: "The same examples, plus up to 10 optional probes of the model's choosing."},
+};
+const GROUPS = [["easy", "L1 easy"], ["hard", "L1 hard"], ["l2", "Level 2"], ["l3", "Level 3"]];
+const SYM = {add: "+", sub: "−", mul: "×", div: "÷"};
+const pct = (v, d = 1) => v == null ? "–" : (v * 100).toFixed(d) + "%";
+const LABC = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
+const runs = s => D.runs.filter(r => r.setting === s);
+const name = m => D.models[m].name, lab = m => D.models[m].lab;
+const pair = (s, a, b) => { const p = D.pairs.find(p => p.condition === s && ((p.a === a && p.b === b) || (p.a === b && p.b === a))); return p && {...p, diff: p.a === a ? p.diff : -p.diff}; };
+let cur = "v3-noprobe", sortKey = "acc", sortDir = -1;
+
+/* header */
+$("#meta").innerHTML = [`Updated ${D.updated}`, `${Object.keys(D.models).length} models`, `${D.cases.length} students`, `${D.runs.reduce((a, r) => a + r.n, 0)} graded runs`].map(x => `<span>${x}</span>`).join("");
+{ const r = runs("v3-noprobe").sort((a, b) => b.acc - a.acc), p = runs("v3-probe10").sort((a, b) => b.acc - a.acc);
+  $("#asof").innerHTML = `As of ${D.updated}, no model scores above <b>${pct(r[0].acc)}</b> from the examples alone, below the oracle reference's ${pct(D.oracle.all)}. With optional probes, <b>${name(p[0].model)}</b> ranks first at <b>${pct(p[0].acc)}</b>, followed by ${name(p[1].model)} (${pct(p[1].acc)}). On Level 3, where the student's rule must transfer to an operation with no examples, every model scores at most ${pct(Math.max(...r.map(x => x.l3)))} without probes.`; }
+$("#footmeta").textContent = `Results from ${D.updated}. One run per model and setting.`;
+
+/* setting switch */
+$("#seg").innerHTML = Object.entries(SET).map(([k, s]) => `<button type="button" data-s="${k}">${s.label}</button>`).join("");
+$("#seg").onclick = e => { const b = e.target.closest("button"); if (b) { cur = b.dataset.s; draw(); } };
+
+/* chart: accuracy vs seconds per task */
+function chart() {
+  const svg = $("#chart"), W = Math.max(320, svg.parentNode.clientWidth), H = Math.round(Math.min(420, Math.max(300, W * .56)));
+  const G = W < 520 ? 122 : 150, P = {l: 46, r: G + 8, t: 16, b: 40}, rs = runs(cur), s = SET[cur];
+  const step = W < 520 ? 100 : 50, xmax = Math.ceil(Math.max(...D.runs.map(r => r.secs)) / step) * step;
+  const x = v => P.l + v / xmax * (W - P.l - P.r), y = v => P.t + (1 - v) * (H - P.t - P.b);
+  let g = "";
+  for (let v = 0; v <= 1.001; v += .25) g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${P.l - 8}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`;
+  for (let v = 0; v <= xmax; v += step) g += `<text x="${x(v)}" y="${H - P.b + 18}" text-anchor="middle">${v}s</text>`;
+  g += `<text x="${W - P.r}" y="${H - 4}" text-anchor="end">Average agent time per task</text>`;
+  if (!s.probes) { const iv = D.oracle.all;
+    g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(iv)}" y2="${y(iv)}" stroke="var(--ideal)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - P.r}" y="${y(iv) - 7}" text-anchor="end" style="fill:var(--ideal)">Oracle reference ${pct(iv)}</text>`; }
+  const pts = rs.map(r => ({r, px: x(r.secs), py: y(r.acc)})).sort((a, b) => a.py - b.py), lx = W - G;
+  let last = -99; pts.forEach(p => { p.ly = Math.max(p.py, last + 18); last = p.ly; });
+  const over = last - (H - P.b); if (over > 0) pts.forEach(p => p.ly -= over);
+  g += pts.map(p => { const c = LABC[lab(p.r.model)];
+    return `<g class="pt"><path d="M${p.px + 7} ${p.py}L${lx - 14} ${p.py}L${lx - 4} ${p.ly}" fill="none" stroke="${c}" stroke-width="1" opacity=".35"/>
+    <line x1="${p.px}" x2="${p.px}" y1="${y(Math.min(1, p.r.acc + p.r.se))}" y2="${y(Math.max(0, p.r.acc - p.r.se))}" stroke="${c}" stroke-width="1.5" opacity=".55"/>
+    <rect x="${p.px - 5}" y="${p.py - 5}" width="10" height="10" rx="2" fill="${c}"><title>${name(p.r.model)}: ${pct(p.r.acc)} ± ${pct(p.r.se)}, ${p.r.secs.toFixed(0)}s per task</title></rect>
+    <text class="name" x="${lx}" y="${p.ly + 4}">${name(p.r.model)}</text></g>`; }).join("");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H); svg.innerHTML = g;
+  $("#ideallegend").style.display = s.probes ? "none" : "";
+}
+
+/* reading of the current setting, computed from the data */
+function read() {
+  const rs = runs(cur).sort((a, b) => b.acc - a.acc), s = SET[cur], top = rs[0], bot = rs[rs.length - 1], sec = rs[1];
+  const p = pair(cur, top.model, sec.model);
+  let h = `<h3>${s.label}</h3><p>${name(top.model)} leads at ${pct(top.acc)}; ${name(bot.model)} is last at ${pct(bot.acc)}. ${p && !p.significant ? `The lead over ${name(sec.model)} (${pct(sec.acc)}) is within noise: the 95% interval of the paired difference spans zero.` : p ? `It is significantly ahead of ${name(sec.model)} (${pct(sec.acc)}).` : ""}</p>`;
+  if (!s.probes) h += `<p>On easy Level 1 the examples identify the bug, and scores reach ${pct(Math.max(...rs.map(r => r.easy)), 0)}. On Level 1 hard every model sits near the oracle reference (${pct(D.oracle.hard, 0)}): the evidence fits many rule pairs. On Level 3 the oracle reference gets ${pct(D.oracle.l3, 0)}, but no model scores above ${pct(Math.max(...rs.map(r => r.l3)), 1)}. The models answered almost entirely like a correct calculator and missed the one clue in the examples.</p>`;
+  else { const g = rs.slice().sort((a, b) => b.gain - a.gain), low = rs.slice().sort((a, b) => a.probes - b.probes)[0];
+    h += `<p>Probing is what moves scores: ${name(g[0].model)} gains ${(g[0].gain * 100).toFixed(0)} points over its no-probe run using ${g[0].probes.toFixed(1)} probes per task.</p>`;
+    if (low.probes < 4) h += `<p>${name(low.model)} probed in ${low.probed} of ${low.n} tasks (${low.probes.toFixed(1)} per task) and gained ${(low.gain * 100).toFixed(0)} points. The tool was available; it mostly chose not to use it.</p>`;
+    h += `<p>Level 3 recovers from near zero to ${pct(Math.min(...rs.filter(r => r.probed === r.n).map(r => r.l3)), 0)}–${pct(Math.max(...rs.map(r => r.l3)), 0)} for the models that probe, once they test the operation they had no examples for.</p>`; }
+  $("#read").innerHTML = h;
+}
+
+/* leaderboard */
+const COLS = [["acc", "Accuracy", "l"], ...GROUPS, ["brier", "Brier ↓"], ["probes", "Probes / task"], ["secs", "Time / task"]];
+const LOWER = k => k === "brier" || k === "secs";
+function board() {
+  const s = SET[cur], rs = runs(cur).sort((a, b) => ((a[sortKey] ?? -1) - (b[sortKey] ?? -1)) * sortDir || b.acc - a.acc);
+  const rank = new Map(runs(cur).sort((a, b) => b.acc - a.acc).map((r, i) => [r.model, i + 1]));
+  $("#lb thead").innerHTML = `<tr><th class="l">#</th><th class="l">Model</th>${COLS.map(([k, t, c]) => `<th class="${c || ""}" ${k === sortKey ? `aria-sort="${sortDir < 0 ? "descending" : "ascending"}"` : ""}><button type="button" data-k="${k}">${t}</button></th>`).join("")}</tr>`;
+  const best = k => (LOWER(k) ? Math.min : Math.max)(...rs.map(r => r[k]).filter(v => v != null));
+  const cell = (r, k, f) => `<td class="${r[k] != null && r[k] === best(k) ? "best" : ""}">${r[k] == null ? "–" : f(r[k])}</td>`;
+  let rows = rs.map(r => `<tr><td class="rank l">${rank.get(r.model)}</td><td class="model l">${name(r.model)}<small><i class="dot" style="background:${LABC[lab(r.model)]}"></i>${lab(r.model)} · ${r.harness}</small></td>
+    <td class="acc"><div class="bar"><i><b style="transform:scaleX(${r.acc});background:${LABC[lab(r.model)]}"></b></i><span>${pct(r.acc)}</span><em>± ${(r.se * 100).toFixed(1)}</em></div></td>
+    ${GROUPS.map(([k]) => cell(r, k, v => pct(v))).join("")}${cell(r, "brier", v => v.toFixed(2))}<td>${s.probes ? r.probes.toFixed(1) : "–"}</td>${cell(r, "secs", v => v.toFixed(0) + " s")}</tr>`).join("");
+  if (!s.probes) { const o = D.oracle;
+    rows += `<tr class="ideal"><td class="rank l"></td><td class="model l">Oracle reference<small>majority vote over every rule that fits the examples</small></td><td class="acc"><div class="bar"><i><b style="transform:scaleX(${o.all});background:var(--ideal);opacity:.55"></b></i><span style="color:var(--ideal)">${pct(o.all)}</span><em></em></div></td>${GROUPS.map(([k]) => `<td>${pct(o[k])}</td>`).join("")}<td>–</td><td>–</td><td>–</td></tr>`; }
+  $("#lb tbody").innerHTML = rows;
+  const inv = runs(cur).filter(r => r.valid < r.n);
+  $("#lbnote").textContent = `${s.label} · ${runs(cur)[0].n} students` + (inv.length ? ` · ${inv.map(r => `${name(r.model)}: ${r.n - r.valid} rejected`).join(", ")}` : "");
+}
+$("#lb thead").onclick = e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.k;
+  if (k === sortKey) sortDir = -sortDir; else { sortKey = k; sortDir = LOWER(k) ? 1 : -1; } board(); };
+
+/* both settings */
+function all() {
+  const ms = Object.keys(D.models).sort((a, b) => runs("v3-probe10").find(r => r.model === b).acc - runs("v3-probe10").find(r => r.model === a).acc);
+  $("#all thead").innerHTML = `<tr><th class="l">Model</th><th>No probes</th><th>Optional probes</th><th>Gain</th><th>Tasks probed</th><th>K100 reached</th></tr>`;
+  const best = k => Math.max(...runs(k).map(r => r.acc)), get = (k, m) => runs(k).find(x => x.model === m);
+  $("#all tbody").innerHTML = ms.map(m => { const a = get("v3-noprobe", m), b = get("v3-probe10", m);
+    return `<tr><td class="model l">${name(m)}</td><td class="${a.acc === best("v3-noprobe") ? "best" : ""}">${pct(a.acc)}</td><td class="${b.acc === best("v3-probe10") ? "best" : ""}">${pct(b.acc)} <span style="color:var(--muted)">· ${b.probes.toFixed(1)} probes</span></td><td class="gain">+${(b.gain * 100).toFixed(1)}</td><td>${b.probed} / ${b.n}</td><td>${b.k100} / ${b.n}</td></tr>`; }).join("") +
+    `<tr class="ideal"><td class="model l">Oracle reference</td><td>${pct(D.oracle.all)}</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>`;
+  $("#allfoot").textContent = "Bold marks the best model in each column. Gain is the change in accuracy over the same model's no-probe run, in points. K100 reached counts tasks where a saved snapshot got every error question right. The oracle reference is computed from the examples alone.";
+}
+
+/* per-task heat grid, grouped by level */
+function heat() {
+  const s = SET[cur], rs = runs(cur).sort((a, b) => b.acc - a.acc);
+  const ids = GROUPS.flatMap(([g]) => D.cases.filter(c => c.group === g));
+  const bg = v => `color-mix(in oklab, var(--accent) ${Math.round(v * 100)}%, var(--wash))`, fg = v => v > .55 ? "#fff" : "var(--ink)";
+  const tag = c => c.op ? SYM[c.op] : c.target ? `no ${SYM[c.target]}` : "mixed";
+  let h = `<thead><tr><th class="l"></th>${GROUPS.map(([g, t]) => `<th class="grp" colspan="${D.cases.filter(c => c.group === g).length}">${t}</th>`).join("")}<th></th></tr>
+    <tr><th class="l">Model</th>${ids.map(c => `<th>${c.id}<small>${tag(c)}</small></th>`).join("")}<th></th></tr></thead><tbody>`;
+  h += rs.map(r => `<tr><td class="l">${name(r.model)}</td>${ids.map(c => { const [v, p, rej] = r.tasks[c.id];
+    return `<td class="c" style="background:${rej ? "#fbe9e7" : bg(v)};color:${rej ? "#b42318" : fg(v)}" title="${name(r.model)} · ${c.id}: ${rej ? "submission rejected, scores 0" : pct(v, 0)}${s.probes ? ` · ${p} probes` : ""}">${rej ? "×" : Math.round(v * 100)}</td>`; }).join("")}<td class="avg">${pct(r.acc)}</td></tr>`).join("");
+  if (!s.probes) h += `<tr class="ideal"><td class="l">Oracle reference</td>${ids.map(c => { const v = D.oracle.tasks[c.id]; return `<td class="c" style="background:color-mix(in oklab, var(--ideal) ${Math.round(v * 70)}%, var(--wash));color:${v > .6 ? "#fff" : "var(--ink)"}" title="Oracle reference · ${c.id}: ${pct(v, 0)}">${Math.round(v * 100)}</td>`; }).join("")}<td class="avg" style="color:var(--ideal)">${pct(D.oracle.all)}</td></tr>`;
+  $("#heat").innerHTML = h + "</tbody>";
+  $("#tasknote").textContent = `${s.label} · ${ids.length} students × ${rs.length} models`;
+}
+
+/* worked example (public inputs only) */
+{ const e = D.example, f = {add: (a, b) => a + b, sub: (a, b) => a - b, mul: (a, b) => a * b, div: (a, b) => a / b};
+  $("#excap").textContent = `Level 3 task ${e.id}: the four answers the model sees`;
+  $("#exrows").innerHTML = e.observations.map(o => { const c = f[o.op](o.a, o.b), w = c !== o.student_answer; return `<tr><td class="l">${o.a} <span class="op">${SYM[o.op]}</span> ${o.b}</td><td class="${w ? "wrong" : ""}">${o.student_answer}</td><td>${c}</td></tr>`; }).join("");
+  const w = e.observations.find(o => f[o.op](o.a, o.b) !== o.student_answer), q = e.questions.find(q => q.op === e.target) || e.questions[0];
+  $("#exnote").innerHTML = `There are no ${SYM[e.target]} examples, yet the test includes problems such as <code>${q.a} ${SYM[q.op]} ${q.b}</code>. The only clue is ${w.a} ${SYM[w.op]} ${w.b}: the student wrote ${w.student_answer}, not ${f[w.op](w.a, w.b)}.`; }
+
+function draw() {
+  document.querySelectorAll("#seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === cur));
+  $("#what").textContent = SET[cur].what;
+  chart(); read(); board(); heat();
+}
+all(); draw();
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(chart, 120); });
+</script>
+</body>
+</html>

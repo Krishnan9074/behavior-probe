@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the ARITH-PROBE v3 leaderboard: template.html + slim stats -> public/index.html.
+"""Build the v3 Behavior-Probe leaderboard: template.html + slim stats -> public/index.html.
 
 Reads ../results/hosted/final.json (from harbor/analyze_hosted.py) and the raw Valkyrie results.
 Publishes only aggregate and per-task scores and one task's public inputs: no hidden rules,

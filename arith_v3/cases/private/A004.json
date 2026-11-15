@@ -1,0 +1,434 @@
+{
+  "task_id": "A004",
+  "family": "L3_cross_add",
+  "level": 3,
+  "rules": {
+    "add": [
+      {
+        "name": "one_as_zero",
+        "trigger": "any"
+      }
+    ],
+    "sub": [
+      {
+        "name": "one_as_zero",
+        "trigger": "any"
+      }
+    ],
+    "mul": [
+      {
+        "name": "one_as_zero",
+        "trigger": "any"
+      }
+    ],
+    "div": [
+      {
+        "name": "one_as_zero",
+        "trigger": "any"
+      }
+    ]
+  },
+  "target_operation": "add",
+  "test_answers": {
+    "Q01": {
+      "answer": 79,
+      "is_error": true,
+      "mathematically_correct": 179
+    },
+    "Q02": {
+      "answer": 24220,
+      "is_error": true,
+      "mathematically_correct": 24620
+    },
+    "Q03": {
+      "answer": 901,
+      "is_error": false,
+      "mathematically_correct": 901
+    },
+    "Q04": {
+      "answer": 1138,
+      "is_error": false,
+      "mathematically_correct": 1138
+    },
+    "Q05": {
+      "answer": 2280,
+      "is_error": true,
+      "mathematically_correct": 5280
+    },
+    "Q06": {
+      "answer": 851,
+      "is_error": false,
+      "mathematically_correct": 851
+    },
+    "Q07": {
+      "answer": 95205,
+      "is_error": true,
+      "mathematically_correct": 95215
+    },
+    "Q08": {
+      "answer": 8,
+      "is_error": true,
+      "mathematically_correct": 108
+    },
+    "Q09": {
+      "answer": 180,
+      "is_error": true,
+      "mathematically_correct": 496
+    },
+    "Q10": {
+      "answer": 91620,
+      "is_error": true,
+      "mathematically_correct": 97774
+    },
+    "Q11": {
+      "answer": 2916,
+      "is_error": true,
+      "mathematically_correct": 12636
+    },
+    "Q12": {
+      "answer": 1403,
+      "is_error": true,
+      "mathematically_correct": 6408
+    },
+    "Q13": {
+      "answer": 56798,
+      "is_error": false,
+      "mathematically_correct": 56798
+    },
+    "Q14": {
+      "answer": 16698,
+      "is_error": false,
+      "mathematically_correct": 16698
+    },
+    "Q15": {
+      "answer": 31,
+      "is_error": false,
+      "mathematically_correct": 31
+    },
+    "Q16": {
+      "answer": 240,
+      "is_error": true,
+      "mathematically_correct": 150
+    },
+    "Q17": {
+      "answer": 302,
+      "is_error": true,
+      "mathematically_correct": 807
+    },
+    "Q18": {
+      "answer": 345,
+      "is_error": true,
+      "mathematically_correct": 335
+    },
+    "Q19": {
+      "answer": 9506,
+      "is_error": false,
+      "mathematically_correct": 9506
+    },
+    "Q20": {
+      "answer": 214353,
+      "is_error": false,
+      "mathematically_correct": 214353
+    },
+    "Q21": {
+      "answer": 46000,
+      "is_error": true,
+      "mathematically_correct": 46014
+    },
+    "Q22": {
+      "answer": 556,
+      "is_error": false,
+      "mathematically_correct": 556
+    },
+    "Q23": {
+      "answer": 9029,
+      "is_error": false,
+      "mathematically_correct": 9029
+    },
+    "Q24": {
+      "answer": 5871,
+      "is_error": false,
+      "mathematically_correct": 5871
+    },
+    "Q25": {
+      "answer": 516,
+      "is_error": true,
+      "mathematically_correct": 3041
+    },
+    "Q26": {
+      "answer": 8107,
+      "is_error": false,
+      "mathematically_correct": 8107
+    },
+    "Q27": {
+      "answer": 624,
+      "is_error": false,
+      "mathematically_correct": 624
+    },
+    "Q28": {
+      "answer": 348,
+      "is_error": true,
+      "mathematically_correct": 339
+    },
+    "Q29": {
+      "answer": 672750,
+      "is_error": false,
+      "mathematically_correct": 672750
+    },
+    "Q30": {
+      "answer": 46715,
+      "is_error": false,
+      "mathematically_correct": 46715
+    },
+    "Q31": {
+      "answer": 909,
+      "is_error": true,
+      "mathematically_correct": 1010
+    },
+    "Q32": {
+      "answer": 74878,
+      "is_error": true,
+      "mathematically_correct": 85879
+    },
+    "Q33": {
+      "answer": 23309,
+      "is_error": false,
+      "mathematically_correct": 23309
+    },
+    "Q34": {
+      "answer": 4769,
+      "is_error": false,
+      "mathematically_correct": 4769
+    },
+    "Q35": {
+      "answer": 115057,
+      "is_error": true,
+      "mathematically_correct": 116167
+    },
+    "Q36": {
+      "answer": 1139,
+      "is_error": false,
+      "mathematically_correct": 1139
+    },
+    "Q37": {
+      "answer": 1761,
+      "is_error": false,
+      "mathematically_correct": 1761
+    },
+    "Q38": {
+      "answer": 672,
+      "is_error": true,
+      "mathematically_correct": 2102
+    },
+    "Q39": {
+      "answer": 154675,
+      "is_error": true,
+      "mathematically_correct": 154775
+    },
+    "Q40": {
+      "answer": 147292,
+      "is_error": true,
+      "mathematically_correct": 147752
+    },
+    "Q41": {
+      "answer": 62322,
+      "is_error": false,
+      "mathematically_correct": 62322
+    },
+    "Q42": {
+      "answer": 41,
+      "is_error": true,
+      "mathematically_correct": 591
+    },
+    "Q43": {
+      "answer": 1395,
+      "is_error": false,
+      "mathematically_correct": 1395
+    },
+    "Q44": {
+      "answer": 43848,
+      "is_error": true,
+      "mathematically_correct": 44718
+    },
+    "Q45": {
+      "answer": 180,
+      "is_error": false,
+      "mathematically_correct": 180
+    },
+    "Q46": {
+      "answer": 901,
+      "is_error": false,
+      "mathematically_correct": 901
+    },
+    "Q47": {
+      "answer": 196,
+      "is_error": false,
+      "mathematically_correct": 196
+    },
+    "Q48": {
+      "answer": 3012,
+      "is_error": true,
+      "mathematically_correct": 8012
+    },
+    "Q49": {
+      "answer": 701,
+      "is_error": true,
+      "mathematically_correct": 703
+    },
+    "Q50": {
+      "answer": 38496,
+      "is_error": true,
+      "mathematically_correct": 38976
+    },
+    "Q51": {
+      "answer": 2885,
+      "is_error": true,
+      "mathematically_correct": 1885
+    },
+    "Q52": {
+      "answer": 268096,
+      "is_error": false,
+      "mathematically_correct": 268096
+    },
+    "Q53": {
+      "answer": 67455,
+      "is_error": false,
+      "mathematically_correct": 67455
+    },
+    "Q54": {
+      "answer": 1211,
+      "is_error": false,
+      "mathematically_correct": 1211
+    },
+    "Q55": {
+      "answer": 167,
+      "is_error": true,
+      "mathematically_correct": 504
+    },
+    "Q56": {
+      "answer": 878,
+      "is_error": false,
+      "mathematically_correct": 878
+    },
+    "Q57": {
+      "answer": 40246,
+      "is_error": true,
+      "mathematically_correct": 39245
+    },
+    "Q58": {
+      "answer": 9975,
+      "is_error": false,
+      "mathematically_correct": 9975
+    },
+    "Q59": {
+      "answer": 29867,
+      "is_error": true,
+      "mathematically_correct": 19858
+    },
+    "Q60": {
+      "answer": 6743,
+      "is_error": false,
+      "mathematically_correct": 6743
+    },
+    "Q61": {
+      "answer": 2784,
+      "is_error": true,
+      "mathematically_correct": 12064
+    },
+    "Q62": {
+      "answer": 13126,
+      "is_error": false,
+      "mathematically_correct": 13126
+    },
+    "Q63": {
+      "answer": 66527,
+      "is_error": false,
+      "mathematically_correct": 66527
+    },
+    "Q64": {
+      "answer": 197,
+      "is_error": false,
+      "mathematically_correct": 197
+    },
+    "Q65": {
+      "answer": 77919,
+      "is_error": true,
+      "mathematically_correct": 78919
+    },
+    "Q66": {
+      "answer": 1164,
+      "is_error": false,
+      "mathematically_correct": 1164
+    },
+    "Q67": {
+      "answer": 59094,
+      "is_error": true,
+      "mathematically_correct": 59194
+    },
+    "Q68": {
+      "answer": 34723,
+      "is_error": true,
+      "mathematically_correct": 36390
+    },
+    "Q69": {
+      "answer": 31,
+      "is_error": false,
+      "mathematically_correct": 31
+    },
+    "Q70": {
+      "answer": 30476,
+      "is_error": true,
+      "mathematically_correct": 30486
+    },
+    "Q71": {
+      "answer": 150802,
+      "is_error": false,
+      "mathematically_correct": 150802
+    },
+    "Q72": {
+      "answer": 25,
+      "is_error": false,
+      "mathematically_correct": 25
+    },
+    "Q73": {
+      "answer": 711960,
+      "is_error": false,
+      "mathematically_correct": 711960
+    },
+    "Q74": {
+      "answer": 504,
+      "is_error": false,
+      "mathematically_correct": 504
+    },
+    "Q75": {
+      "answer": 97586,
+      "is_error": false,
+      "mathematically_correct": 97586
+    },
+    "Q76": {
+      "answer": 530,
+      "is_error": true,
+      "mathematically_correct": 430
+    },
+    "Q77": {
+      "answer": 11656,
+      "is_error": true,
+      "mathematically_correct": 11756
+    },
+    "Q78": {
+      "answer": 1453,
+      "is_error": true,
+      "mathematically_correct": 1463
+    },
+    "Q79": {
+      "answer": 50418,
+      "is_error": true,
+      "mathematically_correct": 50508
+    },
+    "Q80": {
+      "answer": 45,
+      "is_error": true,
+      "mathematically_correct": 135
+    }
+  }
+}

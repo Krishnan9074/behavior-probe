@@ -1,0 +1,286 @@
+{
+  "task_id": "A011",
+  "level": 1,
+  "difficulty": "L1_hard_mul",
+  "focus": "mul",
+  "target_operation": null,
+  "probe_budget_max": 10,
+  "instructions": "Predict the EXACT integer answers this virtual student would give to all hidden test questions. You can ask arithmetic probes when your session permits; responses are integers, not explanations. Return one integer answer and confidence probability [0,1] per question. Historical observations are intentionally limited. Do not assume the mathematically correct answer.",
+  "observations": [
+    {
+      "op": "mul",
+      "a": 1922,
+      "b": 42,
+      "student_answer": 11532
+    },
+    {
+      "op": "mul",
+      "a": 294,
+      "b": 2,
+      "student_answer": 588
+    },
+    {
+      "op": "mul",
+      "a": 7481,
+      "b": 7,
+      "student_answer": 52367
+    },
+    {
+      "op": "mul",
+      "a": 589,
+      "b": 45,
+      "student_answer": 5301
+    }
+  ],
+  "test_questions": [
+    {
+      "id": "Q01",
+      "op": "mul",
+      "a": 400,
+      "b": 9
+    },
+    {
+      "id": "Q02",
+      "op": "mul",
+      "a": 5300,
+      "b": 62
+    },
+    {
+      "id": "Q03",
+      "op": "mul",
+      "a": 5915,
+      "b": 3
+    },
+    {
+      "id": "Q04",
+      "op": "mul",
+      "a": 16,
+      "b": 7
+    },
+    {
+      "id": "Q05",
+      "op": "mul",
+      "a": 14,
+      "b": 5
+    },
+    {
+      "id": "Q06",
+      "op": "mul",
+      "a": 900,
+      "b": 3
+    },
+    {
+      "id": "Q07",
+      "op": "mul",
+      "a": 5700,
+      "b": 5
+    },
+    {
+      "id": "Q08",
+      "op": "mul",
+      "a": 8411,
+      "b": 5
+    },
+    {
+      "id": "Q09",
+      "op": "mul",
+      "a": 19,
+      "b": 7
+    },
+    {
+      "id": "Q10",
+      "op": "mul",
+      "a": 213,
+      "b": 2
+    },
+    {
+      "id": "Q11",
+      "op": "mul",
+      "a": 500,
+      "b": 85
+    },
+    {
+      "id": "Q12",
+      "op": "mul",
+      "a": 4812,
+      "b": 5
+    },
+    {
+      "id": "Q13",
+      "op": "mul",
+      "a": 7010,
+      "b": 79
+    },
+    {
+      "id": "Q14",
+      "op": "mul",
+      "a": 5400,
+      "b": 4
+    },
+    {
+      "id": "Q15",
+      "op": "mul",
+      "a": 612,
+      "b": 9
+    },
+    {
+      "id": "Q16",
+      "op": "mul",
+      "a": 3805,
+      "b": 70
+    },
+    {
+      "id": "Q17",
+      "op": "mul",
+      "a": 5200,
+      "b": 5
+    },
+    {
+      "id": "Q18",
+      "op": "mul",
+      "a": 7800,
+      "b": 32
+    },
+    {
+      "id": "Q19",
+      "op": "mul",
+      "a": 4300,
+      "b": 4
+    },
+    {
+      "id": "Q20",
+      "op": "mul",
+      "a": 6200,
+      "b": 14
+    },
+    {
+      "id": "Q21",
+      "op": "mul",
+      "a": 11,
+      "b": 2
+    },
+    {
+      "id": "Q22",
+      "op": "mul",
+      "a": 9615,
+      "b": 2
+    },
+    {
+      "id": "Q23",
+      "op": "mul",
+      "a": 6500,
+      "b": 5
+    },
+    {
+      "id": "Q24",
+      "op": "mul",
+      "a": 6009,
+      "b": 80
+    },
+    {
+      "id": "Q25",
+      "op": "mul",
+      "a": 2319,
+      "b": 3
+    },
+    {
+      "id": "Q26",
+      "op": "mul",
+      "a": 901,
+      "b": 90
+    },
+    {
+      "id": "Q27",
+      "op": "mul",
+      "a": 5415,
+      "b": 7
+    },
+    {
+      "id": "Q28",
+      "op": "mul",
+      "a": 7400,
+      "b": 30
+    },
+    {
+      "id": "Q29",
+      "op": "mul",
+      "a": 19,
+      "b": 5
+    },
+    {
+      "id": "Q30",
+      "op": "mul",
+      "a": 711,
+      "b": 4
+    },
+    {
+      "id": "Q31",
+      "op": "mul",
+      "a": 504,
+      "b": 20
+    },
+    {
+      "id": "Q32",
+      "op": "mul",
+      "a": 3200,
+      "b": 55
+    },
+    {
+      "id": "Q33",
+      "op": "mul",
+      "a": 215,
+      "b": 5
+    },
+    {
+      "id": "Q34",
+      "op": "mul",
+      "a": 2700,
+      "b": 75
+    },
+    {
+      "id": "Q35",
+      "op": "mul",
+      "a": 9919,
+      "b": 9
+    },
+    {
+      "id": "Q36",
+      "op": "mul",
+      "a": 316,
+      "b": 7
+    },
+    {
+      "id": "Q37",
+      "op": "mul",
+      "a": 13,
+      "b": 2
+    },
+    {
+      "id": "Q38",
+      "op": "mul",
+      "a": 4513,
+      "b": 3
+    },
+    {
+      "id": "Q39",
+      "op": "mul",
+      "a": 5600,
+      "b": 7
+    },
+    {
+      "id": "Q40",
+      "op": "mul",
+      "a": 6912,
+      "b": 7
+    }
+  ],
+  "submission_schema": {
+    "predictions": [
+      {
+        "id": "Q01",
+        "answer": 123,
+        "confidence": 0.75
+      }
+    ]
+  }
+}

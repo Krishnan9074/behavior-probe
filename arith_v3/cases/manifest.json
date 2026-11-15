@@ -1,0 +1,238 @@
+{
+  "seed": 20261115,
+  "n_cases": 20,
+  "labels_represented_in_tasks": [
+    "EXTRA_SFL",
+    "W01",
+    "W02",
+    "W04",
+    "W06",
+    "W08",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W15",
+    "W16"
+  ],
+  "label_taxonomy": "12 numbered Wallace categories + 1 Wallace supplemental category",
+  "selected_labels": [
+    "W01",
+    "W02",
+    "W04",
+    "W06",
+    "W08",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W15",
+    "W16",
+    "EXTRA_SFL"
+  ],
+  "split": "public = agent-visible; private = trusted evaluation only",
+  "cases": [
+    {
+      "task_id": "A001",
+      "level": 2,
+      "difficulty": "L2_mixed",
+      "focus": "all_four_operations",
+      "target_operation": null,
+      "n_history": 8,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A002",
+      "level": 3,
+      "difficulty": "L3_cross_div",
+      "focus": "all_four_operations",
+      "target_operation": "div",
+      "n_history": 4,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A003",
+      "level": 2,
+      "difficulty": "L2_mixed",
+      "focus": "all_four_operations",
+      "target_operation": null,
+      "n_history": 8,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A004",
+      "level": 3,
+      "difficulty": "L3_cross_add",
+      "focus": "all_four_operations",
+      "target_operation": "add",
+      "n_history": 4,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A005",
+      "level": 1,
+      "difficulty": "L1_easy_mul",
+      "focus": "mul",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A006",
+      "level": 1,
+      "difficulty": "L1_easy_add",
+      "focus": "add",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A007",
+      "level": 1,
+      "difficulty": "L1_hard_add",
+      "focus": "add",
+      "target_operation": null,
+      "n_history": 4,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A008",
+      "level": 3,
+      "difficulty": "L3_cross_mul",
+      "focus": "all_four_operations",
+      "target_operation": "mul",
+      "n_history": 4,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A009",
+      "level": 1,
+      "difficulty": "L1_easy_sub",
+      "focus": "sub",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A010",
+      "level": 1,
+      "difficulty": "L1_easy_div",
+      "focus": "div",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A011",
+      "level": 1,
+      "difficulty": "L1_hard_mul",
+      "focus": "mul",
+      "target_operation": null,
+      "n_history": 4,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A012",
+      "level": 1,
+      "difficulty": "L1_easy_div",
+      "focus": "div",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A013",
+      "level": 2,
+      "difficulty": "L2_mixed",
+      "focus": "all_four_operations",
+      "target_operation": null,
+      "n_history": 8,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A014",
+      "level": 3,
+      "difficulty": "L3_cross_sub",
+      "focus": "all_four_operations",
+      "target_operation": "sub",
+      "n_history": 4,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A015",
+      "level": 1,
+      "difficulty": "L1_easy_mul",
+      "focus": "mul",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A016",
+      "level": 1,
+      "difficulty": "L1_hard_div",
+      "focus": "div",
+      "target_operation": null,
+      "n_history": 4,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A017",
+      "level": 1,
+      "difficulty": "L1_easy_sub",
+      "focus": "sub",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A018",
+      "level": 2,
+      "difficulty": "L2_mixed",
+      "focus": "all_four_operations",
+      "target_operation": null,
+      "n_history": 8,
+      "n_test": 80,
+      "n_error_test": 40
+    },
+    {
+      "task_id": "A019",
+      "level": 1,
+      "difficulty": "L1_easy_add",
+      "focus": "add",
+      "target_operation": null,
+      "n_history": 6,
+      "n_test": 40,
+      "n_error_test": 20
+    },
+    {
+      "task_id": "A020",
+      "level": 1,
+      "difficulty": "L1_hard_sub",
+      "focus": "sub",
+      "target_operation": null,
+      "n_history": 4,
+      "n_test": 40,
+      "n_error_test": 20
+    }
+  ]
+}

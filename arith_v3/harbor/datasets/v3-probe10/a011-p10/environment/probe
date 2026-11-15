@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""probe OP A B   -> this student's integer answer (OP is add, sub, mul or div).
+snapshot [FILE]   -> save a full prediction snapshot (default /workspace/submission.json).
+Snapshots are stored for the probe curve; no score is ever returned."""
+import json
+import sys
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+
+def post(path, body):
+    req = urllib.request.Request(f"http://oracle:8000{path}", method="POST", data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    try:
+        print(urllib.request.urlopen(req, timeout=30).read().decode())
+    except urllib.error.HTTPError as e:
+        print(e.read().decode())
+        sys.exit(1)
+
+
+if Path(sys.argv[0]).name == "snapshot":
+    f = Path(sys.argv[1] if len(sys.argv) > 1 else "/workspace/submission.json")
+    try:
+        body = json.loads(f.read_text())
+    except (OSError, ValueError) as e:
+        sys.exit(f"cannot read {f}: {e}")
+    post("/snapshot", body)
+else:
+    if len(sys.argv) != 4:
+        sys.exit("usage: probe OP A B   (OP: add, sub, mul, div), e.g. probe sub 502 178")
+    try:
+        a, b = int(sys.argv[2]), int(sys.argv[3])
+    except ValueError:
+        sys.exit("A and B must be integers")
+    post("/probe", {"op": sys.argv[1], "a": a, "b": b})

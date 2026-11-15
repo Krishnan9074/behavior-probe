@@ -1,0 +1,219 @@
+{
+  "task_id": "A006",
+  "family": "L1_easy_add",
+  "level": 1,
+  "rules": {
+    "add": [
+      {
+        "name": "add_no_regroup",
+        "trigger": "any"
+      }
+    ],
+    "sub": [],
+    "mul": [],
+    "div": []
+  },
+  "target_operation": null,
+  "test_answers": {
+    "Q01": {
+      "answer": 1079,
+      "is_error": false,
+      "mathematically_correct": 1079
+    },
+    "Q02": {
+      "answer": 101714,
+      "is_error": true,
+      "mathematically_correct": 1184
+    },
+    "Q03": {
+      "answer": 2515,
+      "is_error": true,
+      "mathematically_correct": 265
+    },
+    "Q04": {
+      "answer": 1098,
+      "is_error": false,
+      "mathematically_correct": 1098
+    },
+    "Q05": {
+      "answer": 7144,
+      "is_error": true,
+      "mathematically_correct": 844
+    },
+    "Q06": {
+      "answer": 12988,
+      "is_error": false,
+      "mathematically_correct": 12988
+    },
+    "Q07": {
+      "answer": 8965,
+      "is_error": false,
+      "mathematically_correct": 8965
+    },
+    "Q08": {
+      "answer": 876,
+      "is_error": false,
+      "mathematically_correct": 876
+    },
+    "Q09": {
+      "answer": 7998,
+      "is_error": false,
+      "mathematically_correct": 7998
+    },
+    "Q10": {
+      "answer": 141010,
+      "is_error": true,
+      "mathematically_correct": 1510
+    },
+    "Q11": {
+      "answer": 7138,
+      "is_error": true,
+      "mathematically_correct": 838
+    },
+    "Q12": {
+      "answer": 95818,
+      "is_error": true,
+      "mathematically_correct": 9598
+    },
+    "Q13": {
+      "answer": 9909,
+      "is_error": false,
+      "mathematically_correct": 9909
+    },
+    "Q14": {
+      "answer": 1508,
+      "is_error": false,
+      "mathematically_correct": 1508
+    },
+    "Q15": {
+      "answer": 4136,
+      "is_error": false,
+      "mathematically_correct": 4136
+    },
+    "Q16": {
+      "answer": 141113,
+      "is_error": true,
+      "mathematically_correct": 1523
+    },
+    "Q17": {
+      "answer": 12448,
+      "is_error": false,
+      "mathematically_correct": 12448
+    },
+    "Q18": {
+      "answer": 9511,
+      "is_error": false,
+      "mathematically_correct": 9511
+    },
+    "Q19": {
+      "answer": 111586,
+      "is_error": true,
+      "mathematically_correct": 12586
+    },
+    "Q20": {
+      "answer": 84310,
+      "is_error": true,
+      "mathematically_correct": 8440
+    },
+    "Q21": {
+      "answer": 99814,
+      "is_error": true,
+      "mathematically_correct": 9994
+    },
+    "Q22": {
+      "answer": 2689,
+      "is_error": false,
+      "mathematically_correct": 2689
+    },
+    "Q23": {
+      "answer": 9912,
+      "is_error": true,
+      "mathematically_correct": 1002
+    },
+    "Q24": {
+      "answer": 67910,
+      "is_error": true,
+      "mathematically_correct": 6800
+    },
+    "Q25": {
+      "answer": 5172,
+      "is_error": true,
+      "mathematically_correct": 672
+    },
+    "Q26": {
+      "answer": 3610,
+      "is_error": true,
+      "mathematically_correct": 370
+    },
+    "Q27": {
+      "answer": 9119,
+      "is_error": true,
+      "mathematically_correct": 1019
+    },
+    "Q28": {
+      "answer": 1796,
+      "is_error": false,
+      "mathematically_correct": 1796
+    },
+    "Q29": {
+      "answer": 11107,
+      "is_error": true,
+      "mathematically_correct": 1207
+    },
+    "Q30": {
+      "answer": 285,
+      "is_error": false,
+      "mathematically_correct": 285
+    },
+    "Q31": {
+      "answer": 4157,
+      "is_error": false,
+      "mathematically_correct": 4157
+    },
+    "Q32": {
+      "answer": 21511,
+      "is_error": true,
+      "mathematically_correct": 361
+    },
+    "Q33": {
+      "answer": 4628,
+      "is_error": false,
+      "mathematically_correct": 4628
+    },
+    "Q34": {
+      "answer": 1113713,
+      "is_error": true,
+      "mathematically_correct": 12383
+    },
+    "Q35": {
+      "answer": 447,
+      "is_error": false,
+      "mathematically_correct": 447
+    },
+    "Q36": {
+      "answer": 8026,
+      "is_error": false,
+      "mathematically_correct": 8026
+    },
+    "Q37": {
+      "answer": 1271,
+      "is_error": false,
+      "mathematically_correct": 1271
+    },
+    "Q38": {
+      "answer": 1587,
+      "is_error": false,
+      "mathematically_correct": 1587
+    },
+    "Q39": {
+      "answer": 1021212,
+      "is_error": true,
+      "mathematically_correct": 10332
+    },
+    "Q40": {
+      "answer": 74913,
+      "is_error": true,
+      "mathematically_correct": 7503
+    }
+  }
+}

@@ -1,0 +1,10 @@
+anthropic/claude-fable-5-2	arith-probe/v3-noprobe@v3	bc424fe5-69d3-42fc-a09e-d913c1496587
+anthropic/claude-fable-5-2	arith-probe/v3-probe10@v3	7def8afb-1e84-4fdc-8d28-4622186f3041
+anthropic/claude-opus-5-5	arith-probe/v3-noprobe@v3	5f73515d-e695-47aa-b111-ab5c93a4edf3
+anthropic/claude-opus-5-5	arith-probe/v3-probe10@v3	efd62e4c-508d-4756-b737-78b9edc5a904
+anthropic/claude-sonnet-5-5	arith-probe/v3-noprobe@v3	88fb6741-a415-43a7-8694-fce6efa76196
+anthropic/claude-sonnet-5-5	arith-probe/v3-probe10@v3	36e66b93-07d0-44ab-9c60-ac214f02985a
+gpt-6-astra	arith-probe/v3-noprobe@v3	d040bef5-f912-4fc9-9185-cefa08c34500
+gpt-6-astra	arith-probe/v3-probe10@v3	185c489b-fd06-4b5a-bbed-7b7f3b4222e8
+gpt-6.1-sol	arith-probe/v3-noprobe@v3	5a481783-cd53-4dbc-9c25-209c7775f164
+gpt-6.1-sol	arith-probe/v3-probe10@v3	338d177f-2b6f-4b9e-83e3-bcb05923e3c5

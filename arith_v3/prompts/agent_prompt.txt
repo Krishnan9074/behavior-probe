@@ -1,0 +1,25 @@
+ARITH-PROBE v3: INTERACTIVE BLACK-BOX BEHAVIOR INFERENCE
+
+You are evaluating how a simulated student's arithmetic answers behave.
+You will receive task.json with some observed input/output examples and
+unseen test questions. The student may use systematic but incorrect rules.
+Predict the EXACT INTEGER ANSWER the student would give, not the mathematically
+correct result. Every prediction must include a confidence probability between
+0 and 1 of being an exact student-answer match.
+
+Submit only valid JSON:
+{"predictions":[{"id":"Q01","answer":123,"confidence":0.75}, ...]}
+Include all IDs listed in task.json, exactly once; do not omit any ID.
+No markdown fences or explanatory prose in the final JSON.
+
+You may use optional arithmetic probes only if your separate session provides
+access to a probe tool. Probes must be structured arithmetic expressions,
+for example {"op":"sub","a":502,"b":178}, and return the student's INTEGER
+answer. The model cannot probe exact held-out test questions. Do not ask
+natural-language questions about the student's strategy.
+
+If the evaluation is measuring a full probe curve or K100, submit a complete
+prediction snapshot before any probe and after every probe. Hidden evaluation
+scores must not be returned to you during the run.
+
+Do not assume any public taxonomy choices, labels, or student source code.

@@ -178,7 +178,7 @@ td.gain{color:var(--accent);font-weight:500}
   <div class="band" style="margin-top:0"><div class="wrap"><h2>Leaderboard</h2><span class="note" id="lbnote"></span></div></div>
   <div class="wrap pad">
     <div class="scroll"><table id="lb"><thead></thead><tbody></tbody></table></div>
-    <p class="foot">Accuracy is exact-match on the questions the student gets wrong, averaged over the tasks at the selected level; ± is one standard error across those tasks. With All selected, the level columns break the same score down: Level 1 easy (8 tasks, one bug, one operation), Level 1 hard (4, two interacting bugs), Level 2 (4, a different bug in each operation) and Level 3 (4, one shared misreading in every operation, with no examples of the target operation). Brier measures calibration of the stated confidence on the same questions (lower is better). Cost was not recorded for these runs.</p>
+    <p class="foot">Accuracy is exact-match on the questions the student gets wrong, averaged over the tasks at the selected level; ± is one standard error across those tasks. With All selected, the level columns break the same score down: Level 1 easy (8 tasks, one bug, one operation), Level 1 hard (4, two interacting bugs) and Level 2 (4, a different bug in each operation). Brier measures calibration of the stated confidence on the same questions (lower is better). Cost was not recorded for these runs.</p>
   </div>
 </section>
 
@@ -191,7 +191,7 @@ td.gain{color:var(--accent);font-weight:500}
 <section id="tasks">
   <div class="band"><div class="wrap"><h2>Per task</h2><span class="note" id="tasknote"></span></div></div>
   <div class="wrap pad"><div class="scroll"><table class="heat" id="heat"></table></div>
-  <p class="foot">Each cell is one model's accuracy on one student, in percent. Tasks are grouped by level; the small label is the operation (Level 1) or the operation with no examples (Level 3). Hover a cell for the number of probes used. × marks a submission the grader rejected, which scores 0. Hidden rules and answer keys are withheld to keep the test set clean.</p></div>
+  <p class="foot">Each cell is one model's accuracy on one student, in percent. Tasks are grouped by level; the small label is the operation (Level 1) or "mixed" (Level 2). Hover a cell for the number of probes used. × marks a submission the grader rejected, which scores 0. Hidden rules and answer keys are withheld to keep the test set clean.</p></div>
 </section>
 
 <section id="method">
@@ -204,11 +204,10 @@ td.gain{color:var(--accent);font-weight:500}
       <p id="exnote"></p>
     </div>
     <div>
-      <h3>Three levels</h3>
+      <h3>Levels</h3>
       <ul>
         <li><b>Level 1, one operation.</b> Easy tasks have one bug and six examples. Hard tasks combine two interacting bugs and show four examples chosen so that many rule pairs fit them. 40 test problems.</li>
         <li><b>Level 2, mixed.</b> A different hidden bug in each of the four operations, two examples per operation. 80 test problems.</li>
-        <li><b>Level 3, transfer.</b> One misreading of digits applies to every operation. The four examples cover three operations; the fourth, the target, has none. 80 test problems.</li>
       </ul>
       <p style="margin-top:12px">The error types are 12 of the 17 numbered categories in Wallace (1984), plus her supplementary "smaller from larger". Their exact algorithms and triggers are our own operationalization.</p>
       <h3 style="margin-top:28px">Optional probes</h3>
@@ -228,7 +227,6 @@ td.gain{color:var(--accent);font-weight:500}
       <ul>
         <li>Each model runs in its vendor's agent harness (Claude Code or Codex CLI) on Valkyrie, in a Modal sandbox with a 30-minute limit and network access only to its model API. The hidden rules live in a separate oracle container; the grader and answer keys arrive only after the agent finishes.</li>
         <li>Every cell is a single run over 20 students. Treat gaps smaller than the ± column as noise.</li>
-        <li>All four Level-3 tasks use the same hidden rule, so Level 3 measures one shared misreading, not transfer in general.</li>
         <li>The students are simulated. Results show whether a model can identify a rule-governed error pattern, not how it would model real children.</li>
       </ul>
     </div>
@@ -248,13 +246,12 @@ const SET = {
   "v3-probe10": {label: "Optional probes", probes: true, what: "the given examples plus up to 10 optional probes"},
 };
 const LVL = {
-  all: {label: "All", name: "All levels", what: "All 20 students"},
+  all: {label: "All", name: "All levels", what: `All ${D.cases.length} students`},
   easy: {label: "L1 easy", name: "Level 1 easy", what: "8 students, one bug in one operation, 6 examples"},
   hard: {label: "L1 hard", name: "Level 1 hard", what: "4 students, two interacting bugs in one operation, 4 ambiguous examples"},
   l2: {label: "L2", name: "Level 2", what: "4 students, a different bug in each operation, 2 examples per operation"},
-  l3: {label: "L3", name: "Level 3", what: "4 students, one misreading shared by all operations, no examples of the target operation"},
 };
-const GROUPS = [["easy", "L1 easy"], ["hard", "L1 hard"], ["l2", "Level 2"], ["l3", "Level 3"]];
+const GROUPS = [["easy", "L1 easy"], ["hard", "L1 hard"], ["l2", "Level 2"]];
 const SYM = {add: "+", sub: "−", mul: "×", div: "÷"};
 const pct = (v, d = 1) => v == null ? "–" : (v * 100).toFixed(d) + "%";
 const LABC = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
@@ -283,7 +280,7 @@ const gainOf = (m, l = lvl) => stats(runs("v3-probe10").find(r => r.model === m)
 /* header */
 $("#meta").innerHTML = [`Updated ${D.updated}`, `${Object.keys(D.models).length} models`, `${D.cases.length} students`, `${D.runs.reduce((a, r) => a + r.n, 0)} graded runs`].map(x => `<span>${x}</span>`).join("");
 { const r = cell("v3-noprobe", "all").sort((a, b) => b.acc - a.acc), p = cell("v3-probe10", "all").sort((a, b) => b.acc - a.acc);
-  $("#asof").innerHTML = `As of ${D.updated}, no model scores above <b>${pct(r[0].acc)}</b> from the examples alone, below the oracle reference's ${pct(D.oracle.all)}. With optional probes, <b>${name(p[0].model)}</b> ranks first at <b>${pct(p[0].acc)}</b>, followed by ${name(p[1].model)} (${pct(p[1].acc)}). On Level 3, where the student's rule must transfer to an operation with no examples, every model scores at most ${pct(Math.max(...cell("v3-noprobe", "l3").map(x => x.acc)))} without probes.`; }
+  $("#asof").innerHTML = `As of ${D.updated}, no model scores above <b>${pct(r[0].acc)}</b> from the examples alone, below the oracle reference's ${pct(D.oracle.all)}. With optional probes, <b>${name(p[0].model)}</b> ranks first at <b>${pct(p[0].acc)}</b>, followed by ${name(p[1].model)} (${pct(p[1].acc)}). The gap comes from whether a model chooses to ask, and how well it picks its questions.`; }
 $("#footmeta").textContent = `Results from ${D.updated}. One run per model and setting.`;
 
 /* switches */
@@ -326,17 +323,15 @@ function read() {
   h += `</p>`;
   if (!s.probes) {
     const NOTE = {
-      all: `On easy Level 1 the examples identify the bug, and scores reach ${pct(Math.max(...cell(cur, "easy").map(r => r.acc)), 0)}. On Level 1 hard every model sits near the oracle reference (${pct(oracle("hard"), 0)}). On Level 3 the oracle reference gets ${pct(oracle("l3"), 0)}, but no model scores above ${pct(Math.max(...cell(cur, "l3").map(r => r.acc)), 1)}.`,
+      all: `On easy Level 1 the examples identify the bug, and scores reach ${pct(Math.max(...cell(cur, "easy").map(r => r.acc)), 0)}. On Level 1 hard every model sits near the oracle reference (${pct(oracle("hard"), 0)}): the evidence fits many rule pairs, and without probes it runs out.`,
       easy: `Six examples usually pin down a single bug, and the oracle reference gets ${pct(o, 0)}. Misses here mean the model fitted the wrong rule from clear evidence.`,
       hard: `Four examples fit many pairs of bugs, so the oracle reference gets only ${pct(o, 0)}. Every model lands near it: without probing, the evidence runs out.`,
-      l2: `Two examples per operation leave several bugs open in each one. The oracle reference gets ${pct(o, 0)}.`,
-      l3: `The oracle reference gets ${pct(o, 0)} from the same four examples, but the models answered almost entirely like a correct calculator and missed the one clue: a single wrong answer in another operation.`};
+      l2: `Two examples per operation leave several bugs open in each one. The oracle reference gets ${pct(o, 0)}.`};
     h += `<p>${NOTE[lvl]}</p>`;
   } else {
     const g = rs.map(r => ({r, d: gainOf(r.model)})).sort((a, b) => b.d - a.d), low = rs.slice().sort((a, b) => a.probes - b.probes)[0];
     h += `<p>Probing is what moves scores: ${name(g[0].r.model)} gains ${(g[0].d * 100).toFixed(0)} points over its no-probe run here, using ${g[0].r.probes.toFixed(1)} probes per task.</p>`;
     if (low.probes < 4) h += `<p>${name(low.model)} probed in ${low.probed} of ${low.n} tasks (${low.probes.toFixed(1)} per task) and ${Math.abs(gainOf(low.model)) < .02 ? "did not improve" : `changed by ${(gainOf(low.model) * 100).toFixed(0)} points`}. The tool was available; it mostly chose not to use it.</p>`;
-    if (lvl === "l3") h += `<p>Once a model probes the operation it had no examples for, v3 no longer counts the task as a clean transfer test.</p>`;
   }
   $("#read").innerHTML = h;
 }
@@ -382,7 +377,7 @@ function heat() {
   const s = SET[cur], rs = cell(cur).sort((a, b) => b.acc - a.acc), R = m => runs(cur).find(r => r.model === m);
   const gs = lvl === "all" ? GROUPS : GROUPS.filter(([g]) => g === lvl), cs = gs.flatMap(([g]) => D.cases.filter(c => c.group === g));
   const bg = v => `color-mix(in oklab, var(--accent) ${Math.round(v * 100)}%, var(--wash))`, fg = v => v > .55 ? "#fff" : "var(--ink)";
-  const tag = c => c.op ? SYM[c.op] : c.target ? `no ${SYM[c.target]}` : "mixed";
+  const tag = c => c.op ? SYM[c.op] : "mixed";
   let h = `<thead><tr><th class="l"></th>${gs.map(([g, t]) => `<th class="grp" colspan="${D.cases.filter(c => c.group === g).length}">${t}</th>`).join("")}<th></th></tr>
     <tr><th class="l">Model</th>${cs.map(c => `<th>${c.id}<small>${tag(c)}</small></th>`).join("")}<th></th></tr></thead><tbody>`;
   h += rs.map(r => `<tr><td class="l">${name(r.model)}</td>${cs.map(c => { const [v, p, rej] = R(r.model).tasks[c.id];
@@ -394,10 +389,10 @@ function heat() {
 
 /* worked example (public inputs only) */
 { const e = D.example, f = {add: (a, b) => a + b, sub: (a, b) => a - b, mul: (a, b) => a * b, div: (a, b) => a / b};
-  $("#excap").textContent = `Level 3 task ${e.id}: the four answers the model sees`;
+  $("#excap").textContent = `Level 1 hard task ${e.id}: the four answers the model sees`;
   $("#exrows").innerHTML = e.observations.map(o => { const c = f[o.op](o.a, o.b), w = c !== o.student_answer; return `<tr><td class="l">${o.a} <span class="op">${SYM[o.op]}</span> ${o.b}</td><td class="${w ? "wrong" : ""}">${o.student_answer}</td><td>${c}</td></tr>`; }).join("");
-  const w = e.observations.find(o => f[o.op](o.a, o.b) !== o.student_answer), q = e.questions.find(q => q.op === e.target) || e.questions[0];
-  $("#exnote").innerHTML = `There are no ${SYM[e.target]} examples, yet the test includes problems such as <code>${q.a} ${SYM[q.op]} ${q.b}</code>. The only clue is ${w.a} ${SYM[w.op]} ${w.b}: the student wrote ${w.student_answer}, not ${f[w.op](w.a, w.b)}.`; }
+  const w = e.observations.find(o => f[o.op](o.a, o.b) !== o.student_answer), q = e.questions[0];
+  $("#exnote").innerHTML = `The model must then answer problems such as <code>${q.a} ${SYM[q.op]} ${q.b}</code> the way this student would. For ${w.a} ${SYM[w.op]} ${w.b}, predicting ${f[w.op](w.a, w.b)} would be a miss: the student wrote ${w.student_answer}.`; }
 
 function draw() {
   document.querySelectorAll("#seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === cur));

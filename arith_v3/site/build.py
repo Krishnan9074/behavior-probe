@@ -12,6 +12,7 @@ public/index.html at the root of a folder, site/public/index.html at v1/index.ht
 site/public/.vercel into it, and run `npx vercel deploy --prod` from that folder.
 """
 import json
+import random
 from pathlib import Path
 from statistics import mean, pstdev
 
@@ -57,20 +58,48 @@ for cell in F["cells"]:
                       "k100_error_observed" in rw(c)] for c in cell["per_case"]},
     })
 
+# Level 3 is left off the public page: drop its students from every number the page shows.
+KEEP = [c["task_id"] for c in MANIFEST if c["level"] != 3]
+for r in runs:
+    r["tasks"] = {c: v for c, v in r["tasks"].items() if c in KEEP}
+    r["n"] = len(r["tasks"])
+    for k in ("acc", "se", "lo", "hi", "l3", "overall", "brier", "ece", "probes", "probed", "k100", "valid", "gain", "secs"):
+        r.pop(k, None)  # aggregates are recomputed in the page from the kept tasks
+
+
+def boot(xs, rng, B=10_000):
+    n = len(xs)
+    ms = sorted(sum(xs[rng.randrange(n)] for _ in range(n)) / n for _ in range(B))
+    return [ms[int(0.025 * B)], ms[int(0.975 * B)]]
+
+
+# paired bootstrap over the kept students, same method as harbor/analyze_hosted.py
+rng, pairs = random.Random(0), []
+for cond in ("v3-noprobe", "v3-probe10"):
+    ms = sorted(r["model"] for r in runs if r["setting"] == cond)
+    get = lambda m: next(r for r in runs if r["model"] == m and r["setting"] == cond)["tasks"]  # noqa: E731
+    for i, a in enumerate(ms):
+        for b in ms[i + 1:]:
+            d = [get(a)[c][0] - get(b)[c][0] for c in KEEP]
+            lo, hi = boot(d, rng)
+            pairs.append({"condition": cond, "a": a, "b": b, "diff": r4(mean(d)), "ci95": [r4(lo), r4(hi)],
+                          "significant": lo > 0 or hi < 0})
+
 O = F["oracle_reference"]
 cases = [{"id": c["task_id"],
           "group": GROUP[{"L1_easy": "L1 easy", "L1_hard": "L1 hard"}.get(c["difficulty"][:7], f"L{c['level']}")],
-          "op": c["focus"] if c["level"] == 1 else None, "target": c["target_operation"]} for c in MANIFEST]
-pub = json.loads((V3 / "cases/public/A002.json").read_text())  # public inputs only
+          "op": c["focus"] if c["level"] == 1 else None} for c in MANIFEST if c["task_id"] in KEEP]
+pub = json.loads((V3 / "cases/public/A016.json").read_text())  # public inputs only (a Level 1 hard task)
 slim = {
     "updated": "November 15, 2026",
     "models": {k: {"name": n, "lab": lab} for k, (n, lab) in NAMES.items()},
     "runs": runs,
     "cases": cases,
-    "oracle": {"all": r4(O["no_probes"]), **{GROUP[g]: r4(v) for g, v in O["by_group"].items()},
-               "tasks": {c: r4(v) for c, v in O["per_case"].items()}},
-    "pairs": [{k: (r4(v) if isinstance(v, float) else v) for k, v in p.items() if k != "n"} for p in F["pairs"]],
-    "example": {"id": pub["task_id"], "target": pub["target_operation"], "observations": pub["observations"],
+    "oracle": {"all": r4(mean(O["per_case"][c] for c in KEEP)),
+               **{GROUP[g]: r4(v) for g, v in O["by_group"].items() if g != "L3"},
+               "tasks": {c: r4(O["per_case"][c]) for c in KEEP}},
+    "pairs": pairs,
+    "example": {"id": pub["task_id"], "observations": pub["observations"],
                 "questions": [{k: q[k] for k in ("op", "a", "b")} for q in pub["test_questions"][:3]]},
 }
 out = HERE / "public/index.html"
@@ -79,4 +108,5 @@ out.write_text((HERE / "template.html").read_text().replace(
     "/*DATA*/", "window.BP = " + json.dumps(slim, separators=(",", ":")).replace("</", "<\\/") + ";"))
 print("wrote", out, out.stat().st_size, "bytes")
 for r in runs:
-    print(f"{r['model']:18} {r['setting']:11} acc {r['acc']:.3f} ±{r['se']:.3f} secs {r['secs']:.0f} probes {r['probes']} valid {r['valid']}")
+    print(f"{r['model']:18} {r['setting']:11} acc {mean(t[0] for t in r['tasks'].values()):.3f} over {r['n']} students")
+print("oracle", slim["oracle"]["all"], "| significant pairs:", sum(p["significant"] for p in pairs), "/", len(pairs))

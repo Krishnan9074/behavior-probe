@@ -1,0 +1,25 @@
+{
+  "validated": true,
+  "n_cases": 20,
+  "level_counts": {
+    "2": 4,
+    "3": 4,
+    "1": 12
+  },
+  "n_selected_labels": 13,
+  "labels_represented": [
+    "EXTRA_SFL",
+    "W01",
+    "W02",
+    "W04",
+    "W06",
+    "W08",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W15",
+    "W16"
+  ]
+}

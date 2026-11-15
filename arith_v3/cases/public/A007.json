@@ -1,0 +1,286 @@
+{
+  "task_id": "A007",
+  "level": 1,
+  "difficulty": "L1_hard_add",
+  "focus": "add",
+  "target_operation": null,
+  "probe_budget_max": 10,
+  "instructions": "Predict the EXACT integer answers this virtual student would give to all hidden test questions. You can ask arithmetic probes when your session permits; responses are integers, not explanations. Return one integer answer and confidence probability [0,1] per question. Historical observations are intentionally limited. Do not assume the mathematically correct answer.",
+  "observations": [
+    {
+      "op": "add",
+      "a": 16755,
+      "b": 51546,
+      "student_answer": 68301
+    },
+    {
+      "op": "add",
+      "a": 5746,
+      "b": 6,
+      "student_answer": 11752
+    },
+    {
+      "op": "add",
+      "a": 777,
+      "b": 4,
+      "student_answer": 1181
+    },
+    {
+      "op": "add",
+      "a": 342,
+      "b": 654,
+      "student_answer": 996
+    }
+  ],
+  "test_questions": [
+    {
+      "id": "Q01",
+      "op": "add",
+      "a": 9702,
+      "b": 9640
+    },
+    {
+      "id": "Q02",
+      "op": "add",
+      "a": 9203,
+      "b": 6160
+    },
+    {
+      "id": "Q03",
+      "op": "add",
+      "a": 64413,
+      "b": 37130
+    },
+    {
+      "id": "Q04",
+      "op": "add",
+      "a": 53800,
+      "b": 60922
+    },
+    {
+      "id": "Q05",
+      "op": "add",
+      "a": 2709,
+      "b": 5110
+    },
+    {
+      "id": "Q06",
+      "op": "add",
+      "a": 58600,
+      "b": 89851
+    },
+    {
+      "id": "Q07",
+      "op": "add",
+      "a": 49508,
+      "b": 22940
+    },
+    {
+      "id": "Q08",
+      "op": "add",
+      "a": 41001,
+      "b": 71550
+    },
+    {
+      "id": "Q09",
+      "op": "add",
+      "a": 601,
+      "b": 940
+    },
+    {
+      "id": "Q10",
+      "op": "add",
+      "a": 2901,
+      "b": 6880
+    },
+    {
+      "id": "Q11",
+      "op": "add",
+      "a": 39200,
+      "b": 11085
+    },
+    {
+      "id": "Q12",
+      "op": "add",
+      "a": 9210,
+      "b": 9208
+    },
+    {
+      "id": "Q13",
+      "op": "add",
+      "a": 75814,
+      "b": 80191
+    },
+    {
+      "id": "Q14",
+      "op": "add",
+      "a": 410,
+      "b": 661
+    },
+    {
+      "id": "Q15",
+      "op": "add",
+      "a": 761,
+      "b": 210
+    },
+    {
+      "id": "Q16",
+      "op": "add",
+      "a": 39200,
+      "b": 87968
+    },
+    {
+      "id": "Q17",
+      "op": "add",
+      "a": 210,
+      "b": 167
+    },
+    {
+      "id": "Q18",
+      "op": "add",
+      "a": 1811,
+      "b": 309
+    },
+    {
+      "id": "Q19",
+      "op": "add",
+      "a": 58715,
+      "b": 11970
+    },
+    {
+      "id": "Q20",
+      "op": "add",
+      "a": 51418,
+      "b": 30231
+    },
+    {
+      "id": "Q21",
+      "op": "add",
+      "a": 410,
+      "b": 867
+    },
+    {
+      "id": "Q22",
+      "op": "add",
+      "a": 21001,
+      "b": 75081
+    },
+    {
+      "id": "Q23",
+      "op": "add",
+      "a": 17110,
+      "b": 6720
+    },
+    {
+      "id": "Q24",
+      "op": "add",
+      "a": 6700,
+      "b": 2314
+    },
+    {
+      "id": "Q25",
+      "op": "add",
+      "a": 93580,
+      "b": 38001
+    },
+    {
+      "id": "Q26",
+      "op": "add",
+      "a": 90817,
+      "b": 53660
+    },
+    {
+      "id": "Q27",
+      "op": "add",
+      "a": 76711,
+      "b": 90479
+    },
+    {
+      "id": "Q28",
+      "op": "add",
+      "a": 607,
+      "b": 880
+    },
+    {
+      "id": "Q29",
+      "op": "add",
+      "a": 94612,
+      "b": 2610
+    },
+    {
+      "id": "Q30",
+      "op": "add",
+      "a": 3210,
+      "b": 539
+    },
+    {
+      "id": "Q31",
+      "op": "add",
+      "a": 9021,
+      "b": 7114
+    },
+    {
+      "id": "Q32",
+      "op": "add",
+      "a": 86000,
+      "b": 76027
+    },
+    {
+      "id": "Q33",
+      "op": "add",
+      "a": 8715,
+      "b": 8650
+    },
+    {
+      "id": "Q34",
+      "op": "add",
+      "a": 80204,
+      "b": 1
+    },
+    {
+      "id": "Q35",
+      "op": "add",
+      "a": 4018,
+      "b": 6221
+    },
+    {
+      "id": "Q36",
+      "op": "add",
+      "a": 5100,
+      "b": 1161
+    },
+    {
+      "id": "Q37",
+      "op": "add",
+      "a": 53770,
+      "b": 20771
+    },
+    {
+      "id": "Q38",
+      "op": "add",
+      "a": 70160,
+      "b": 23612
+    },
+    {
+      "id": "Q39",
+      "op": "add",
+      "a": 21215,
+      "b": 64170
+    },
+    {
+      "id": "Q40",
+      "op": "add",
+      "a": 92040,
+      "b": 57751
+    }
+  ],
+  "submission_schema": {
+    "predictions": [
+      {
+        "id": "Q01",
+        "answer": 123,
+        "confidence": 0.75
+      }
+    ]
+  }
+}

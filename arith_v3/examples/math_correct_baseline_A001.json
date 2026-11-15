@@ -1,0 +1,404 @@
+{
+  "predictions": [
+    {
+      "id": "Q01",
+      "answer": 49,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q02",
+      "answer": 73381,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q03",
+      "answer": 33058,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q04",
+      "answer": 52743,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q05",
+      "answer": 9245,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q06",
+      "answer": 90271,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q07",
+      "answer": 625,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q08",
+      "answer": 1501,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q09",
+      "answer": 384,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q10",
+      "answer": 236,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q11",
+      "answer": 22331,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q12",
+      "answer": 45035,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q13",
+      "answer": 372,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q14",
+      "answer": 4780,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q15",
+      "answer": 990,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q16",
+      "answer": 1834,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q17",
+      "answer": 700,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q18",
+      "answer": 504,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q19",
+      "answer": 614,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q20",
+      "answer": 111208,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q21",
+      "answer": 28382,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q22",
+      "answer": 430,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q23",
+      "answer": 108,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q24",
+      "answer": 234,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q25",
+      "answer": 9048,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q26",
+      "answer": 2171,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q27",
+      "answer": 88395,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q28",
+      "answer": 1227,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q29",
+      "answer": 46644,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q30",
+      "answer": 23856,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q31",
+      "answer": 39534,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q32",
+      "answer": 8165,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q33",
+      "answer": 1284,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q34",
+      "answer": 437,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q35",
+      "answer": 33967,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q36",
+      "answer": 40406,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q37",
+      "answer": 243,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q38",
+      "answer": 96966,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q39",
+      "answer": 750,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q40",
+      "answer": 217,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q41",
+      "answer": 36,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q42",
+      "answer": 295,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q43",
+      "answer": 896,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q44",
+      "answer": 4887,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q45",
+      "answer": 4600,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q46",
+      "answer": 31095,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q47",
+      "answer": 1076,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q48",
+      "answer": 406,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q49",
+      "answer": 597,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q50",
+      "answer": 45403,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q51",
+      "answer": 1180,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q52",
+      "answer": 17973,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q53",
+      "answer": 67985,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q54",
+      "answer": 1557,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q55",
+      "answer": 2714,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q56",
+      "answer": 71161,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q57",
+      "answer": 2019,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q58",
+      "answer": 294732,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q59",
+      "answer": 920,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q60",
+      "answer": 271788,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q61",
+      "answer": 584,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q62",
+      "answer": 170685,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q63",
+      "answer": 87082,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q64",
+      "answer": 390,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q65",
+      "answer": 7136,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q66",
+      "answer": 617,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q67",
+      "answer": 29907,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q68",
+      "answer": 87063,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q69",
+      "answer": 330,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q70",
+      "answer": 12590,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q71",
+      "answer": 529161,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q72",
+      "answer": 5449,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q73",
+      "answer": 6007,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q74",
+      "answer": 257,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q75",
+      "answer": 379,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q76",
+      "answer": 80901,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q77",
+      "answer": 154,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q78",
+      "answer": 1023,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q79",
+      "answer": 2016,
+      "confidence": 1.0
+    },
+    {
+      "id": "Q80",
+      "answer": 3097,
+      "confidence": 1.0
+    }
+  ]
+}

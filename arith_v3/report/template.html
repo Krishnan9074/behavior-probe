@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behavior-Probe v3 Results</title>
+<style>
+:root{--bg:#fbfbfa;--panel:#ffffff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e4e3df;--accent:#2f5bd3;--add:#e3f5e6;--addink:#17632a;--del:#fbe6e4;--delink:#9b2318;--warn:#fff4d6;--warnink:#7a5600;--chip:#f1f0ec;--bar1:#2f5bd3;--bar2:#9db3ee;--bar3:#c2410c;--bar4:#f2a77c}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#8aa8ff;--add:#173a22;--addink:#9fe0ae;--del:#43201c;--delink:#ffb2a8;--warn:#3b2f10;--warnink:#f5d48a;--chip:#2a2926;--bar1:#8aa8ff;--bar2:#45599a;--bar3:#f08a4b;--bar4:#8a4a26}}
+:root[data-theme=dark]{--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#8aa8ff;--add:#173a22;--addink:#9fe0ae;--del:#43201c;--delink:#ffb2a8;--warn:#3b2f10;--warnink:#f5d48a;--chip:#2a2926;--bar1:#8aa8ff;--bar2:#45599a;--bar3:#f08a4b;--bar4:#8a4a26}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+header{padding:20px 16px 0;max-width:1280px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:16px;margin:24px 0 8px}
+h3{font-size:14px;margin:16px 0 6px}
+.sub{color:var(--muted);margin:0 0 14px}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);padding:8px 12px;font:inherit;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+main{max-width:1280px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.note{background:var(--warn);color:var(--warnink);border-radius:8px;padding:10px 12px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px}
+.scroll{overflow-x:auto}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--chip)}tr.sel td{background:var(--chip)}
+.num{text-align:right}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--muted)}
+.good{color:var(--addink)}.bad{color:var(--delink)}
+select{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px;max-width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+pre,.mono{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+pre{white-space:pre-wrap;word-break:break-word;margin:0}
+.diff{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.diff .ln{padding:1px 8px;white-space:pre-wrap;word-break:break-word;min-height:18px;font:12px/1.5 ui-monospace,Menlo,monospace;border-bottom:1px solid transparent}
+.diff .l{border-right:1px solid var(--line)}
+.diff .del{background:var(--del)}.diff .add{background:var(--add)}.diff .gap{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--chip) 6px 12px)}
+.diff mark.d{background:none;color:var(--delink);text-decoration:line-through;font-weight:700}
+.diff mark.a{background:none;color:var(--addink);font-weight:700}
+@media (max-width:820px){.diff{grid-template-columns:1fr}.diff .l{border-right:0}}
+.dg{font:13px ui-monospace,Menlo,monospace}.dg .x{background:var(--del);color:var(--delink);font-weight:700;border-radius:2px}
+.traj .s{border-left:3px solid var(--line);padding:4px 10px;margin:6px 0}
+.traj .assistant{border-color:var(--accent)}.traj .tool{border-color:var(--bar3)}.traj .result{border-color:var(--line);color:var(--muted)}.traj .reasoning{border-color:var(--bar2)}
+.traj .k{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.bars{width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--chip);border-radius:8px;padding:10px}.kpi b{display:block;font-size:20px}
+.box{max-height:380px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:10px;margin:6px 0}
+tr.dim td{opacity:.5}
+td.num{white-space:nowrap}
+summary{cursor:pointer;margin:6px 0}
+ol.steps{margin:6px 0;padding-left:20px}ol.steps li{margin:3px 0}
+.themebtn{float:right;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer;font:inherit}
+.lvl{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:600;background:var(--chip);color:var(--muted)}
+.op{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <button class="themebtn" id="theme">Theme</button>
+  <h1>Behavior-Probe v3 Results</h1>
+  <p class="sub">Five models on 20 simulated students across four operations and three levels, each run with and without optional probes, on Valkyrie with Modal sandboxes. The hidden rules live in an oracle sidecar and the grader runs only after the agent finishes.</p>
+  <nav id="tabs"><button data-t="overview" class="on">Overview</button><button data-t="tasks">All tasks</button><button data-t="inputs">Inputs diff</button><button data-t="runs">Runs</button><button data-t="compare">Compare runs</button></nav>
+</header>
+<main>
+<section id="overview" class="on"></section>
+<section id="tasks"></section>
+<section id="inputs"></section>
+<section id="runs"></section>
+<section id="compare"></section>
+</main>
+<script>/*DATA*/</script>
+<script>
+const D = window.BP_DATA;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct = v => v == null ? "–" : (v * 100).toFixed(1) + "%";
+const f2 = v => v == null ? "–" : (+v).toFixed(2);
+const mean = xs => { xs = xs.filter(x => x != null); return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null; };
+const SYM = {add: "+", sub: "−", mul: "×", div: "÷"};
+const DS = ["v3-noprobe", "v3-probe10"];
+const DSLABEL = {"v3-noprobe": "No probes", "v3-probe10": "Optional probes"};
+const GROUPS = [["easy", "L1 easy"], ["hard", "L1 hard"], ["l2", "Level 2"], ["l3", "Level 3"]];
+const GL = Object.fromEntries(GROUPS);
+const NAMES = {"claude-fable-5-2": "Claude Fable 5.2", "claude-opus-5-5": "Claude Opus 5.5", "claude-sonnet-5-5": "Claude Sonnet 5.5", "gpt-6-astra": "GPT-6 Astra", "gpt-6.1-sol": "GPT-6.1 Sol"};
+const nm = m => NAMES[m] || m;
+const MODELS = [...new Set(D.runs.map(r => r.model))];
+const CASES = Object.keys(D.cases);
+const prob = (o) => `${o.a} <span class="op">${SYM[o.op]}</span> ${o.b}`;
+const runLabel = r => `${nm(r.model)} · ${DSLABEL[r.dataset] || r.dataset}`;
+const R = t => t?.rewards || {};
+const err = t => R(t).reward ?? 0;  // missing or errored task scores 0
+const runStat = r => {
+  const ts = r.tasks, ok = ts.filter(t => R(t).valid);
+  const s = {err: mean(ts.map(err)), overall: mean(ok.map(t => R(t).overall_accuracy)), brier: mean(ok.map(t => R(t).brier_error_cases)),
+    probes: mean(ts.map(t => R(t).probes_used ?? 0)), probed: ts.filter(t => R(t).probes_used > 0).length, n: ts.length, valid: ok.length,
+    k100: ts.filter(t => R(t).k100_error_observed != null).length,
+    secs: mean(ts.map(t => t.secs)), cost: mean(ts.map(t => t.metrics?.cost)), tokens: mean(ts.map(t => t.metrics?.output_tokens))};
+  GROUPS.forEach(([g]) => s[g] = mean(ts.filter(t => D.cases[t.case].group === g).map(err)));
+  return s;
+};
+const RS = new Map(D.runs.map(r => [r.id, runStat(r)]));
+const findRun = (m, ds) => D.runs.find(r => r.model === m && r.dataset === ds);
+const ORDER = MODELS.slice().sort((a, b) => RS.get(findRun(b, "v3-probe10").id).err - RS.get(findRun(a, "v3-probe10").id).err);
+const lvlChip = c => `<span class="lvl">${GL[D.cases[c].group]}</span>`;
+const caseTag = c => { const x = D.cases[c]; return x.level === 1 ? `${SYM[x.focus]} only` : x.target ? `no ${SYM[x.target]} examples` : "all four ops"; };
+/* ---------- tabs + theme ---------- */
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => show(b.dataset.t));
+function show(t) {
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  document.querySelectorAll("main section").forEach(s => s.classList.toggle("on", s.id === t));
+}
+$("#theme").onclick = () => {
+  const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark";
+};
+/* ---------- overview ---------- */
+function renderOverview() {
+  const O = D.oracle;
+  const cell = (m, ds) => { const r = findRun(m, ds); if (!r) return `<td class="num">–</td>`; const s = RS.get(r.id);
+    return `<td class="num"><b>${pct(s.err)}</b>${r.budget ? `<br><span class="chip">${f2(s.probes)} probes/task · ${s.probed}/${s.n} probed</span>` : ""}</td>`; };
+  const rows = ORDER.map(m => `<tr><td><b>${esc(nm(m))}</b><br><span class="chip">${esc(findRun(m, DS[0]).agent)}</span></td>${DS.map(ds => cell(m, ds)).join("")}<td class="num">${((d => (d >= 0 ? "+" : "") + (d * 100).toFixed(1))(RS.get(findRun(m, "v3-probe10").id).err - RS.get(findRun(m, "v3-noprobe").id).err))} pts</td></tr>`).join("");
+  // grouped bars: each model, each level, both settings
+  const W = 760, rowH = 15, gap = 22, padL = 200, per = GROUPS.length * 2, H = ORDER.length * (rowH * per + gap) + 30;
+  const colors = ["var(--bar2)", "var(--bar1)"];
+  let svg = `<svg class="bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy on student-error questions by model, level and setting">`;
+  [0, .25, .5, .75, 1].forEach(v => { const x = padL + v * (W - padL - 40); svg += `<line x1="${x}" y1="0" x2="${x}" y2="${H - 20}" stroke="var(--line)"/><text x="${x}" y="${H - 6}" font-size="11" fill="var(--muted)" text-anchor="middle">${v * 100}%</text>`; });
+  ORDER.forEach((m, i) => {
+    const y0 = 10 + i * (rowH * per + gap);
+    svg += `<text x="0" y="${y0 + rowH * per / 2}" font-size="12" fill="var(--ink)" font-weight="600">${esc(nm(m))}</text>`;
+    GROUPS.forEach(([g, gl], gi) => DS.forEach((ds, j) => {
+      const v = RS.get(findRun(m, ds).id)[g], y = y0 + (gi * 2 + j) * rowH, w = (v || 0) * (W - padL - 40);
+      if (j === 0) svg += `<text x="${padL - 6}" y="${y + rowH + 3}" font-size="10" fill="var(--muted)" text-anchor="end">${gl}</text>`;
+      svg += `<rect x="${padL}" y="${y + 2}" width="${Math.max(w, 1)}" height="${rowH - 4}" rx="2" fill="${colors[j]}"><title>${esc(nm(m))} · ${gl} · ${DSLABEL[ds]}: ${pct(v)}</title></rect>`;
+      svg += `<text x="${padL + w + 5}" y="${y + rowH - 4}" font-size="10" fill="var(--muted)">${pct(v)}</text>`;
+    }));
+  });
+  svg += `</svg>`;
+  const failed = D.failed_runs.length ? `<div class="note"><b>Earlier GPT runs were discarded.</b> The first ${D.failed_runs.length} GPT runs (${D.failed_runs.map(f => `<span class="mono">${f.id.slice(0, 8)}</span>`).join(", ")}) hit an OpenAI quota error partway through ("Quota exceeded"), so 5 to 15 tasks per run errored. Those are infrastructure failures, not model results. Both GPT models were rerun in full with a new key; only the reruns are shown.</div>` : "";
+  $("#overview").innerHTML = `
+  <div class="card"><div class="kpis">
+    <div class="kpi"><span class="chip">Runs</span><b>${D.runs.length}</b>${D.runs.reduce((a, r) => a + r.tasks.length, 0)} tasks graded, 0 errored</div>
+    <div class="kpi"><span class="chip">Students</span><b>${CASES.length}</b>${GROUPS.map(([g, l]) => `${CASES.filter(c => D.cases[c].group === g).length} ${l}`).join(" · ")}</div>
+    <div class="kpi"><span class="chip">Oracle reference</span><b>${pct(O.no_probes)}</b>majority vote over every rule that fits the examples</div>
+    <div class="kpi"><span class="chip">Probes</span><b>${D.runs.reduce((a, r) => a + r.tasks.reduce((b, t) => b + t.probes.length, 0), 0)}</b>asked across all probe runs</div>
+  </div></div>
+  ${failed}
+  <div class="note"><b>Per-question predictions were not saved for these runs.</b> The verifier scored each submission inside the sandbox and Valkyrie kept only its summary (<code>reward.json</code>), so this report shows per-task and per-operation scores, every probe and reply, final messages and full trajectories, but not each model's answer to each question. A future dataset version can print the per-question detail to the verifier log.</div>
+  <div class="card"><h2 style="margin-top:0">Accuracy on student-error questions</h2>
+  <div class="scroll"><table><thead><tr><th>Model · harness</th>${DS.map(ds => `<th class="num">${DSLABEL[ds]}</th>`).join("")}<th class="num">Gain</th></tr></thead><tbody>${rows}
+  <tr><td><i>Oracle reference</i></td><td class="num"><i>${pct(O.no_probes)}</i></td><td class="num">–</td><td class="num">–</td></tr></tbody></table></div>
+  <p class="sub" style="margin-top:8px">Each cell is the mean over 20 students from one run. With 20 students, treat differences under about 10 points as noise; paired comparisons are in the run detail below.</p></div>
+  <div class="card"><h2 style="margin-top:0">By level</h2><div class="legend">${DS.map((ds, j) => `<span><i style="background:${colors[j]}"></i>${DSLABEL[ds]}</span>`).join("")}<span>Oracle reference, no probes: ${GROUPS.map(([g, l]) => `${l} ${pct(O.by_group[l === "Level 2" ? "L2" : l === "Level 3" ? "L3" : l])}`).join(" · ")}</span></div>${svg}</div>
+  <div class="card"><h2 style="margin-top:0">Detail by run</h2><div class="scroll"><table><thead><tr><th>Run</th><th class="num">Error-Q</th><th class="num">Overall</th>${GROUPS.map(([, l]) => `<th class="num">${l}</th>`).join("")}<th class="num">Brier ↓</th><th class="num">Probes/task</th><th class="num">K100</th><th class="num">Valid</th><th class="num">Avg s/task</th><th class="num">$/task</th></tr></thead><tbody>
+  ${D.runs.map(r => { const s = RS.get(r.id); return `<tr class="click" data-run="${r.id}"><td>${esc(runLabel(r))}</td><td class="num"><b>${pct(s.err)}</b></td><td class="num">${pct(s.overall)}</td>${GROUPS.map(([g]) => `<td class="num">${pct(s[g])}</td>`).join("")}<td class="num">${f2(s.brier)}</td><td class="num">${f2(s.probes)}</td><td class="num">${r.budget ? `${s.k100}/${s.n}` : "–"}</td><td class="num">${s.valid}/${s.n}</td><td class="num">${s.secs ? s.secs.toFixed(0) : "–"}</td><td class="num">${s.cost != null ? "$" + s.cost.toFixed(2) : "–"}</td></tr>`; }).join("")}
+  </tbody></table></div><p class="sub">Click a row to open that run. K100 counts tasks where a saved snapshot got every error question right. Cost is reported by Claude Code only.</p></div>
+  <div class="card"><h2 style="margin-top:0">Paired comparisons (all 20 students)</h2><div class="scroll"><table><thead><tr><th>Setting</th><th>A</th><th>B</th><th class="num">A − B</th><th class="num">95% CI</th><th></th></tr></thead><tbody>
+  ${D.pairs.map(p => `<tr><td>${DSLABEL[p.condition]}</td><td>${esc(nm(p.a))}</td><td>${esc(nm(p.b))}</td><td class="num">${(p.diff * 100).toFixed(1)}</td><td class="num">${(p.ci95[0] * 100).toFixed(1)} to ${(p.ci95[1] * 100).toFixed(1)}</td><td>${p.significant ? '<span class="chip good">significant</span>' : '<span class="chip">within noise</span>'}</td></tr>`).join("")}
+  </tbody></table></div><p class="sub">Paired bootstrap over students, 10,000 resamples.</p></div>`;
+  document.querySelectorAll("#overview tr[data-run]").forEach(tr => tr.onclick = () => { selectRun(tr.dataset.run); show("runs"); });
+}
+/* ---------- diff engine ---------- */
+function lcs(a, b) {
+  const n = a.length, m = b.length, dp = Array.from({length: n + 1}, () => new Int32Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const ops = []; let i = 0, j = 0;
+  while (i < n && j < m) { if (a[i] === b[j]) { ops.push(["=", a[i], b[j]]); i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) ops.push(["-", a[i++], null]); else ops.push(["+", null, b[j++]]); }
+  while (i < n) ops.push(["-", a[i++], null]); while (j < m) ops.push(["+", null, b[j++]]);
+  return ops;
+}
+function wordDiff(x, y) {
+  const a = x.split(/(\s+)/), b = y.split(/(\s+)/), ops = lcs(a, b);
+  return [ops.map(o => o[0] === "+" ? "" : o[0] === "-" ? `<mark class="d">${esc(o[1])}</mark>` : esc(o[1])).join(""),
+          ops.map(o => o[0] === "-" ? "" : o[0] === "+" ? `<mark class="a">${esc(o[2])}</mark>` : esc(o[2])).join("")];
+}
+function sideBySide(left, right) {
+  const ops = lcs(left.split("\n"), right.split("\n"));
+  let html = "", k = 0;
+  while (k < ops.length) {
+    if (ops[k][0] === "=") { html += `<div class="ln l">${esc(ops[k][1])}</div><div class="ln">${esc(ops[k][2])}</div>`; k++; continue; }
+    const dels = [], adds = [];
+    while (k < ops.length && ops[k][0] !== "=") { ops[k][0] === "-" ? dels.push(ops[k][1]) : adds.push(ops[k][2]); k++; }
+    for (let i = 0; i < Math.max(dels.length, adds.length); i++) {
+      const d = dels[i], a = adds[i];
+      if (d != null && a != null) { const [dl, ar] = wordDiff(d, a); html += `<div class="ln l del">${dl}</div><div class="ln add">${ar}</div>`; }
+      else if (d != null) html += `<div class="ln l del">${esc(d)}</div><div class="ln gap"></div>`;
+      else html += `<div class="ln l gap"></div><div class="ln add">${esc(a)}</div>`;
+    }
+  }
+  return `<div class="diff">${html}</div>`;
+}
+/* ---------- inputs ---------- */
+function renderInputs() {
+  const keys = Object.keys(D.inputs);
+  const opt = sel => keys.map(k => `<option ${k === sel ? "selected" : ""}>${esc(k)}</option>`).join("");
+  $("#inputs").innerHTML = `<div class="card"><p class="sub" style="margin-top:0">Exactly what each sandbox received (<code>instruction.md</code>, <code>task.toml</code>, the agent image), the probe client, the oracle sidecar, the verifier, both agent harnesses and the source specs. Pick any two to diff: removed text is red on the left, added text green on the right.</p>
+  <div class="row"><select id="inL">${opt(keys[0])}</select><span>vs</span><select id="inR">${opt(keys[1])}</select></div><div id="inDiff"></div></div>`;
+  const draw = () => $("#inDiff").innerHTML = sideBySide(D.inputs[$("#inL").value], D.inputs[$("#inR").value]);
+  $("#inL").onchange = $("#inR").onchange = draw; draw();
+}
+/* ---------- shared task pieces ---------- */
+const ruleBlock = c => `<table><thead><tr><th>Op</th><th>Rule</th><th>Trigger</th><th>Wallace label</th></tr></thead><tbody>${c.rules.map(r => `<tr><td>${SYM[r.op]}</td><td><b class="mono">${esc(r.name)}</b><br><span class="sub">${esc(r.desc)}</span></td><td class="mono">${esc(r.trigger)}</td><td class="mono">${esc(r.label)}</td></tr>`).join("")}</tbody></table>
+  <p class="sub">${c.level === 3 ? "The same rule applies to all four operations." : c.level === 1 ? "Other operations are computed correctly." : ""} Oracle reference from the examples alone: <b>${pct(c.oracle_score)}</b> Error-Q. Rules still fitting the examples: ${Object.entries(c.compatible).filter(([op]) => c.level !== 1 || op === c.focus).map(([op, n]) => `${SYM[op]} ${n}`).join(" · ")}.</p>`;
+const obsTable = c => `<table><tbody>${c.observations.map(o => `<tr><td class="mono">${prob(o)}</td><td class="mono num">student: <b>${o.student_answer}</b></td><td class="mono num">correct: ${o.correct}${o.student_answer === o.correct ? "" : ` <span class="chip bad">student errs</span>`}</td></tr>`).join("")}</tbody></table>`;
+const probeTable = (t, budget) => t?.probes?.length ? `<table><thead><tr><th>#</th><th>Agent asked</th><th class="num">Correct</th><th class="num">Student's answer returned</th></tr></thead><tbody>${t.probes.map((p, i) => { const c = {add: p.a + p.b, sub: p.a - p.b, mul: p.a * p.b, div: p.a / p.b}[p.op]; return `<tr><td>${i + 1}</td><td class="mono">probe ${p.op} ${p.a} ${p.b}</td><td class="mono num">${c}</td><td class="mono num"><b class="${c !== p.student_answer ? "bad" : ""}">${p.student_answer}</b></td></tr>`; }).join("")}</tbody></table>` : `<p class="sub">${budget ? "The agent chose not to probe." : "No probe tool in this run."}</p>`;
+const opChips = t => ["add", "sub", "mul", "div"].filter(op => R(t)[`${op}_error_accuracy`] != null).map(op => `<span class="chip">${SYM[op]} ${pct(R(t)[`${op}_error_accuracy`])}</span>`).join(" ");
+const promptBlock = (c, ds, label) => c.statement?.[ds] ? `<details><summary><b>${label || "Input: exact instruction.md given to the agent"}</b> <span class="chip">${c.statement[ds].length} chars</span></summary><pre class="box">${esc(c.statement[ds])}</pre></details>` : "";
+const qTable = c => `<div class="scroll"><table><thead><tr><th>Q</th><th class="num">Problem</th><th class="num">Correct</th><th class="num">Student</th><th class="num">Oracle reference</th><th></th></tr></thead><tbody>${c.questions.map(q => `<tr class="${q.student_is_wrong ? "" : "dim"}"><td class="mono">${q.id}</td><td class="mono num">${prob(q)}</td><td class="mono num">${q.correct}</td><td class="mono num"><b>${q.answer}</b></td><td class="mono num">${q.oracle === q.answer ? '<span class="good">' + q.oracle + " ✓</span>" : '<span class="bad">' + q.oracle + " ✗</span>"} <span class="chip">${f2(q.oracle_conf)}</span></td><td>${q.student_is_wrong ? '<span class="chip">student errs</span>' : ""}</td></tr>`).join("")}</tbody></table></div>`;
+/* ---------- runs ---------- */
+function taskDetail(run, t) {
+  const c = D.cases[t.case]; if (!c) return "";
+  const r = R(t), m = t.metrics || {};
+  const traj = (t.trajectory || []).map(s => `<div class="s ${s.k}"><div class="k">${s.k}</div><pre>${esc(s.t)}</pre></div>`).join("") || `<p class="sub">No trajectory saved.</p>`;
+  return `<div class="card"><h2 style="margin-top:0">${esc(t.case)} ${lvlChip(t.case)} · ${esc(runLabel(run))}</h2>
+  <div class="row"><span class="chip">Error-Q ${pct(r.reward)}</span><span class="chip">Overall ${pct(r.overall_accuracy)}</span>${opChips(t)}<span class="chip">Brier ${f2(r.brier_error_cases)}</span><span class="chip">Probes ${r.probes_used ?? 0}/${run.budget}</span>${run.budget ? `<span class="chip">${r.snapshots ?? 0} snapshots</span><span class="chip">K100 ${r.k100_error_observed ?? "not reached"}</span>` : ""}${r.transfer_error_accuracy != null ? `<span class="chip">Transfer ${pct(r.transfer_error_accuracy)}</span>` : ""}${t.secs ? `<span class="chip">${t.secs.toFixed(0)} s</span>` : ""}${m.cost ? `<span class="chip">$${(+m.cost).toFixed(3)}</span>` : ""}${m.output_tokens ? `<span class="chip">${m.output_tokens} output tokens</span>` : ""}${r.valid ? "" : `<span class="chip bad">submission rejected</span>`}</div>
+  ${promptBlock(c, run.dataset)}
+  <div class="grid2"><div><h3>Examples given to the agent</h3>${obsTable(c)}</div>
+  <div><h3>Probes</h3>${probeTable(t, run.budget)}</div></div>
+  <h3>Hidden rules (grader only)</h3>${ruleBlock(c)}
+  <h3>Agent's final message</h3><pre class="box">${esc(t.final_message || "–")}</pre>
+  <details><summary><b>Full trajectory (${(t.trajectory || []).length} steps)</b></summary><div class="traj">${traj}</div></details>
+  <details><summary><b>Test questions with the student's answers</b> <span class="chip">${c.questions.length}</span></summary>${qTable(c)}</details></div>`;
+}
+let curRun = null;
+function selectRun(id) { curRun = id; renderRuns(); }
+function renderRuns() {
+  curRun = curRun || D.runs[0]?.id;
+  const run = D.runs.find(r => r.id === curRun);
+  $("#runs").innerHTML = `<div class="card"><div class="row"><select id="runSel">${D.runs.map(r => `<option value="${r.id}" ${r.id === curRun ? "selected" : ""}>${esc(runLabel(r))}</option>`).join("")}</select><span class="chip mono">${run.id}</span></div>
+  <div class="scroll"><table><thead><tr><th>Case</th><th>Level</th><th class="num">Error-Q</th><th class="num">Overall</th><th class="num">Probes</th><th class="num">Brier</th><th class="num">Seconds</th><th>Agent's stated rule</th></tr></thead><tbody>
+  ${run.tasks.map((t, i) => { const r = R(t); const fm = (t.final_message || "").replace(/\s+/g, " ").slice(0, 140);
+    return `<tr class="click" data-i="${i}"><td class="mono">${t.case}</td><td>${lvlChip(t.case)}</td><td class="num">${pct(r.reward)}</td><td class="num">${pct(r.overall_accuracy)}</td><td class="num">${r.probes_used ?? "–"}</td><td class="num">${f2(r.brier_error_cases)}</td><td class="num">${t.secs ? t.secs.toFixed(0) : "–"}</td><td>${esc(fm)}${fm.length >= 140 ? "…" : ""}</td></tr>`; }).join("")}
+  </tbody></table></div></div><div id="taskDetail"></div>`;
+  $("#runSel").onchange = e => selectRun(e.target.value);
+  document.querySelectorAll("#runs tr[data-i]").forEach(tr => tr.onclick = () => {
+    document.querySelectorAll("#runs tr.sel").forEach(x => x.classList.remove("sel")); tr.classList.add("sel");
+    $("#taskDetail").innerHTML = taskDetail(run, run.tasks[+tr.dataset.i]); $("#taskDetail").scrollIntoView({behavior: "smooth"});
+  });
+}
+/* ---------- all tasks: input -> output -> comparison ---------- */
+let curCase = null, curLvl = "all";
+function openTask(runId, cid) {
+  selectRun(runId); show("runs");
+  const i = D.runs.find(r => r.id === runId).tasks.findIndex(t => t.case === cid);
+  document.querySelector(`#runs tr[data-i="${i}"]`)?.click();
+}
+function renderTasks() {
+  const ids = CASES.filter(c => curLvl === "all" || D.cases[c].group === curLvl);
+  const RR = D.runs.slice().sort((a, b) => a.budget - b.budget || ORDER.indexOf(a.model) - ORDER.indexOf(b.model));
+  if (!ids.includes(curCase)) curCase = ids[0];
+  const c = D.cases[curCase], task = r => r.tasks.find(t => t.case === curCase);
+  const head = r => `${esc(nm(r.model).replace("Claude ", ""))}<br><span class="chip">${r.budget ? "probes" : "no probes"}</span>`;
+  const short = cs => [...new Set(cs.rules.map(r => `${r.name} / ${r.trigger}`))].join(" + ");
+  const matrix = ids.map(id => { const cs = D.cases[id];
+    return `<tr class="click ${id === curCase ? "sel" : ""}" data-c="${id}"><td class="mono"><b>${id}</b></td><td>${lvlChip(id)}<br><span class="sub">${caseTag(id)}</span></td><td class="mono">${esc(short(cs))}</td><td class="num">${pct(cs.oracle_score)}</td>${RR.map(r => { const t = r.tasks.find(x => x.case === id), rep = R(t);
+      return `<td class="num ${rep.valid ? "" : "bad"}">${pct(rep.reward)}${r.budget ? ` <span class="chip">${rep.probes_used ?? 0}p</span>` : ""}</td>`; }).join("")}</tr>`; }).join("");
+  const sumRows = RR.map(r => { const t = task(r), rep = R(t), fm = (t?.final_message || "").replace(/\s+/g, " ");
+    return `<tr><td><b>${esc(nm(r.model))}</b><br><span class="chip">${r.budget ? "optional probes" : "no probes"}</span></td><td class="num">${rep.probes_used ?? 0}/${r.budget}</td><td class="num"><b>${pct(rep.reward)}</b></td><td>${opChips(t)}</td><td class="num">${pct(rep.overall_accuracy)}</td><td class="num">${f2(rep.brier_error_cases)}</td><td>${esc(fm.slice(0, 220))}${fm.length > 220 ? "…" : ""}</td></tr>`; }).join("");
+  const perRun = RR.map(r => { const t = task(r); if (!t) return "";
+    return `<details><summary><b>${esc(runLabel(r))}</b> <span class="chip">Error-Q ${pct(R(t).reward)}</span> <span class="chip">${R(t).probes_used ?? 0} probes</span></summary>
+    <h3>Probe calls (extra input the agent asked for)</h3>${probeTable(t, r.budget)}
+    <h3>Agent's final message (not graded)</h3><pre class="box">${esc(t.final_message || "–")}</pre>
+    <p><button class="themebtn" style="float:none" data-open="${r.id}">Open full trajectory in Runs</button></p></details>`; }).join("");
+  const lvlOpts = [["all", "All levels"], ...GROUPS].map(([k, l]) => `<option value="${k}" ${k === curLvl ? "selected" : ""}>${l}</option>`).join("");
+  $("#tasks").innerHTML = `
+  <div class="card"><h2 style="margin-top:0">What happens in one task</h2><ol class="steps">
+    <li><b>Input.</b> The agent starts in <code>/workspace</code> with one prompt, <code>instruction.md</code>: a few answers from one simulated student and 40 (Level 1) or 80 (Levels 2–3) unanswered problems. Claude models run in Claude Code, GPT models in Codex. In the optional-probe runs, <code>probe OP A B</code> returns the student's answer to any new problem (up to 10 times) and <code>snapshot</code> saves the current predictions without revealing a score.</li>
+    <li><b>Isolation.</b> The agent's network reaches only its model API and the oracle sidecar. The hidden rules exist only inside the oracle, which enforces the budget, refuses the test problems and logs every probe and snapshot.</li>
+    <li><b>Output.</b> The only graded output is <code>/workspace/submission.json</code>: for each question id, an integer answer and a confidence between 0 and 1. The final message and trajectory are saved but not scored.</li>
+    <li><b>Comparison.</b> After the agent finishes, Harbor copies in the answer key and the unmodified v3 grader. A missing, duplicate or malformed entry scores the task 0; otherwise each answer must equal the student's exactly.</li>
+    <li><b>Score.</b> Half the questions are ones the student gets wrong. <b>Error-Q</b> = matches on those ÷ their count, the headline number. Overall counts every question. Brier is on the error questions, lower is better. The oracle reference keeps every rule in the family that fits the examples and answers by majority vote.</li></ol></div>
+  <div class="card"><h2 style="margin-top:0">${ids.length} tasks × ${RR.length} runs (Error-Q)</h2><div class="row"><select id="lvlSel">${lvlOpts}</select><span class="sub">Click a row to see that task's input, every run's output and the student's answers. "3p" means 3 probes used.</span></div>
+  <div class="scroll"><table><thead><tr><th>Task</th><th>Level</th><th>Hidden rule (name / trigger)</th><th class="num">Oracle ref.</th>${RR.map(r => `<th class="num">${head(r)}</th>`).join("")}</tr></thead><tbody>${matrix}</tbody></table></div></div>
+  <div id="taskCase"><div class="card"><h2 style="margin-top:0">${curCase} ${lvlChip(curCase)} · 1. Input</h2>
+    <div class="grid2"><div><h3>The ${c.observations.length} examples in the prompt</h3>${obsTable(c)}
+    <p class="sub">${c.target ? `No examples of ${SYM[c.target]}, the target operation. ` : ""}Plus the ${c.questions.length} test problems (no answers), listed in part 3.</p></div>
+    <div><h3>Hidden rules (grader only, never in the agent's sandbox)</h3>${ruleBlock(c)}</div></div>
+    ${promptBlock(c, "v3-noprobe", "Exact prompt · no-probe runs")}${promptBlock(c, "v3-probe10", "Exact prompt · optional-probe runs")}</div>
+  <div class="card"><h2 style="margin-top:0">${curCase} · 2. Output and result per run</h2>
+    <div class="scroll"><table><thead><tr><th>Run</th><th class="num">Probes used</th><th class="num">Error-Q</th><th>By operation (Error-Q)</th><th class="num">Overall</th><th class="num">Brier ↓</th><th>Rule the agent stated (start of final message)</th></tr></thead><tbody>${sumRows}</tbody></table></div>
+    <h3>Each run's probes and final message</h3>${perRun}</div>
+  <div class="card"><h2 style="margin-top:0">${curCase} · 3. The student's answers</h2>
+    <p class="sub">Each row is a test problem with the answer the hidden student gives and the oracle reference's majority-vote answer (with its vote share). Greyed rows are questions the student gets right; they do not count toward Error-Q. Each model's per-question answers were not saved for these runs.</p>
+    ${qTable(c)}</div></div>`;
+  $("#lvlSel").onchange = e => { curLvl = e.target.value; renderTasks(); };
+  document.querySelectorAll("#tasks tr[data-c]").forEach(tr => tr.onclick = () => { curCase = tr.dataset.c; renderTasks(); $("#taskCase").scrollIntoView({behavior: "smooth"}); });
+  document.querySelectorAll("#tasks button[data-open]").forEach(b => b.onclick = () => openTask(b.dataset.open, curCase));
+}
+/* ---------- compare ---------- */
+function renderCompare() {
+  const opts = sel => D.runs.map(r => `<option value="${r.id}" ${r.id === sel ? "selected" : ""}>${esc(runLabel(r))}</option>`).join("");
+  const a0 = findRun(ORDER[0], "v3-noprobe").id, b0 = findRun(ORDER[0], "v3-probe10").id;
+  $("#compare").innerHTML = `<div class="card"><p class="sub" style="margin-top:0">Compare any two runs student by student. Pick a student to see both runs' probes and final messages side by side.</p>
+  <div class="row"><b>A</b><select id="cA">${opts(a0)}</select><b>B</b><select id="cB">${opts(b0)}</select></div><div id="cmpBody"></div></div><div id="cmpCase"></div>`;
+  const draw = () => {
+    const A = D.runs.find(r => r.id === $("#cA").value), B = D.runs.find(r => r.id === $("#cB").value), sa = RS.get(A.id), sb = RS.get(B.id);
+    const rows = CASES.map(c => {
+      const ta = A.tasks.find(t => t.case === c), tb = B.tasks.find(t => t.case === c), va = R(ta).reward, vb = R(tb).reward, d = va != null && vb != null ? vb - va : null;
+      return `<tr class="click" data-c="${c}"><td class="mono">${c}</td><td>${lvlChip(c)}</td><td class="num">${pct(va)} <span class="chip">${R(ta).probes_used ?? 0}p</span></td><td class="num">${pct(vb)} <span class="chip">${R(tb).probes_used ?? 0}p</span></td><td class="num ${d > 0 ? "good" : d < 0 ? "bad" : ""}">${d == null ? "–" : (d > 0 ? "+" : "") + (d * 100).toFixed(0)}</td></tr>`;
+    }).join("");
+    $("#cmpBody").innerHTML = `<div class="kpis" style="margin-bottom:10px"><div class="kpi"><span class="chip">A</span><b>${pct(sa.err)}</b>${f2(sa.probes)} probes/task</div><div class="kpi"><span class="chip">B</span><b>${pct(sb.err)}</b>${f2(sb.probes)} probes/task</div><div class="kpi"><span class="chip">B − A</span><b class="${sb.err - sa.err >= 0 ? "good" : "bad"}">${((sb.err - sa.err) * 100).toFixed(1)} pts</b>error-question accuracy</div></div>
+    <div class="scroll"><table><thead><tr><th>Case</th><th>Level</th><th class="num">A</th><th class="num">B</th><th class="num">Δ pts</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    $("#cmpCase").innerHTML = "";
+    document.querySelectorAll("#cmpBody tr[data-c]").forEach(tr => tr.onclick = () => {
+      const c = tr.dataset.c, ta = A.tasks.find(t => t.case === c), tb = B.tasks.find(t => t.case === c);
+      $("#cmpCase").innerHTML = `<div class="card"><h2 style="margin-top:0">${esc(c)} ${lvlChip(c)}: A vs B</h2>
+      <div class="grid2"><div><h3>A · ${esc(runLabel(A))}</h3><div class="row"><span class="chip">Error-Q ${pct(R(ta).reward)}</span>${opChips(ta)}</div>${probeTable(ta, A.budget)}</div>
+      <div><h3>B · ${esc(runLabel(B))}</h3><div class="row"><span class="chip">Error-Q ${pct(R(tb).reward)}</span>${opChips(tb)}</div>${probeTable(tb, B.budget)}</div></div>
+      <h3>Final messages, diffed</h3>${sideBySide(ta?.final_message || "", tb?.final_message || "")}</div>`;
+      $("#cmpCase").scrollIntoView({behavior: "smooth"});
+    });
+  };
+  $("#cA").onchange = $("#cB").onchange = draw; draw();
+}
+renderOverview(); renderTasks(); renderInputs(); renderRuns(); renderCompare();
+</script>
+</body>
+</html>

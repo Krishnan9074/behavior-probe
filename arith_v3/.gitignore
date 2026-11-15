@@ -1,0 +1,2 @@
+# raw agent outputs (trajectories); report/build_report.py re-downloads them
+results/hosted/outputs/

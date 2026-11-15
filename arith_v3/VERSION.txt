@@ -1,0 +1,5 @@
+ARITH-PROBE v3.0
+Scope: Four operations, 12 selected numbered Wallace categories + 1 supplemental category.
+Tasks: 12 Level 1, 4 Level 2, 4 Level 3; 20 total.
+Runtime: Python 3.10+; standard library only.
+Delivery: local pilot; Valkyrie BenchmarkService integration is not included.

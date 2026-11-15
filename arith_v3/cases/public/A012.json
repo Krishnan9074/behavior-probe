@@ -1,0 +1,298 @@
+{
+  "task_id": "A012",
+  "level": 1,
+  "difficulty": "L1_easy_div",
+  "focus": "div",
+  "target_operation": null,
+  "probe_budget_max": 10,
+  "instructions": "Predict the EXACT integer answers this virtual student would give to all hidden test questions. You can ask arithmetic probes when your session permits; responses are integers, not explanations. Return one integer answer and confidence probability [0,1] per question. Historical observations are intentionally limited. Do not assume the mathematically correct answer.",
+  "observations": [
+    {
+      "op": "div",
+      "a": 37933,
+      "b": 7,
+      "student_answer": 5419
+    },
+    {
+      "op": "div",
+      "a": 27624,
+      "b": 6,
+      "student_answer": 1100
+    },
+    {
+      "op": "div",
+      "a": 1212,
+      "b": 6,
+      "student_answer": 0
+    },
+    {
+      "op": "div",
+      "a": 1622,
+      "b": 2,
+      "student_answer": 311
+    },
+    {
+      "op": "div",
+      "a": 29925,
+      "b": 5,
+      "student_answer": 5985
+    },
+    {
+      "op": "div",
+      "a": 82485,
+      "b": 9,
+      "student_answer": 9165
+    }
+  ],
+  "test_questions": [
+    {
+      "id": "Q01",
+      "op": "div",
+      "a": 31500,
+      "b": 7
+    },
+    {
+      "id": "Q02",
+      "op": "div",
+      "a": 2525,
+      "b": 5
+    },
+    {
+      "id": "Q03",
+      "op": "div",
+      "a": 990,
+      "b": 3
+    },
+    {
+      "id": "Q04",
+      "op": "div",
+      "a": 65200,
+      "b": 8
+    },
+    {
+      "id": "Q05",
+      "op": "div",
+      "a": 81828,
+      "b": 9
+    },
+    {
+      "id": "Q06",
+      "op": "div",
+      "a": 43176,
+      "b": 6
+    },
+    {
+      "id": "Q07",
+      "op": "div",
+      "a": 2007,
+      "b": 9
+    },
+    {
+      "id": "Q08",
+      "op": "div",
+      "a": 404,
+      "b": 4
+    },
+    {
+      "id": "Q09",
+      "op": "div",
+      "a": 1510,
+      "b": 5
+    },
+    {
+      "id": "Q10",
+      "op": "div",
+      "a": 12160,
+      "b": 4
+    },
+    {
+      "id": "Q11",
+      "op": "div",
+      "a": 4872,
+      "b": 6
+    },
+    {
+      "id": "Q12",
+      "op": "div",
+      "a": 21154,
+      "b": 7
+    },
+    {
+      "id": "Q13",
+      "op": "div",
+      "a": 12400,
+      "b": 8
+    },
+    {
+      "id": "Q14",
+      "op": "div",
+      "a": 1448,
+      "b": 2
+    },
+    {
+      "id": "Q15",
+      "op": "div",
+      "a": 25075,
+      "b": 5
+    },
+    {
+      "id": "Q16",
+      "op": "div",
+      "a": 8439,
+      "b": 3
+    },
+    {
+      "id": "Q17",
+      "op": "div",
+      "a": 3650,
+      "b": 5
+    },
+    {
+      "id": "Q18",
+      "op": "div",
+      "a": 6108,
+      "b": 2
+    },
+    {
+      "id": "Q19",
+      "op": "div",
+      "a": 4872,
+      "b": 8
+    },
+    {
+      "id": "Q20",
+      "op": "div",
+      "a": 6324,
+      "b": 6
+    },
+    {
+      "id": "Q21",
+      "op": "div",
+      "a": 22524,
+      "b": 4
+    },
+    {
+      "id": "Q22",
+      "op": "div",
+      "a": 2128,
+      "b": 7
+    },
+    {
+      "id": "Q23",
+      "op": "div",
+      "a": 25914,
+      "b": 7
+    },
+    {
+      "id": "Q24",
+      "op": "div",
+      "a": 49812,
+      "b": 6
+    },
+    {
+      "id": "Q25",
+      "op": "div",
+      "a": 47505,
+      "b": 5
+    },
+    {
+      "id": "Q26",
+      "op": "div",
+      "a": 3154,
+      "b": 2
+    },
+    {
+      "id": "Q27",
+      "op": "div",
+      "a": 10500,
+      "b": 3
+    },
+    {
+      "id": "Q28",
+      "op": "div",
+      "a": 16506,
+      "b": 3
+    },
+    {
+      "id": "Q29",
+      "op": "div",
+      "a": 3117,
+      "b": 3
+    },
+    {
+      "id": "Q30",
+      "op": "div",
+      "a": 15636,
+      "b": 6
+    },
+    {
+      "id": "Q31",
+      "op": "div",
+      "a": 1881,
+      "b": 9
+    },
+    {
+      "id": "Q32",
+      "op": "div",
+      "a": 4977,
+      "b": 9
+    },
+    {
+      "id": "Q33",
+      "op": "div",
+      "a": 4812,
+      "b": 6
+    },
+    {
+      "id": "Q34",
+      "op": "div",
+      "a": 2592,
+      "b": 6
+    },
+    {
+      "id": "Q35",
+      "op": "div",
+      "a": 24212,
+      "b": 4
+    },
+    {
+      "id": "Q36",
+      "op": "div",
+      "a": 2424,
+      "b": 3
+    },
+    {
+      "id": "Q37",
+      "op": "div",
+      "a": 50736,
+      "b": 6
+    },
+    {
+      "id": "Q38",
+      "op": "div",
+      "a": 820,
+      "b": 4
+    },
+    {
+      "id": "Q39",
+      "op": "div",
+      "a": 12018,
+      "b": 2
+    },
+    {
+      "id": "Q40",
+      "op": "div",
+      "a": 11410,
+      "b": 2
+    }
+  ],
+  "submission_schema": {
+    "predictions": [
+      {
+        "id": "Q01",
+        "answer": 123,
+        "confidence": 0.75
+      }
+    ]
+  }
+}

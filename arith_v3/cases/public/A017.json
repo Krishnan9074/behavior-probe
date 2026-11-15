@@ -1,0 +1,298 @@
+{
+  "task_id": "A017",
+  "level": 1,
+  "difficulty": "L1_easy_sub",
+  "focus": "sub",
+  "target_operation": null,
+  "probe_budget_max": 10,
+  "instructions": "Predict the EXACT integer answers this virtual student would give to all hidden test questions. You can ask arithmetic probes when your session permits; responses are integers, not explanations. Return one integer answer and confidence probability [0,1] per question. Historical observations are intentionally limited. Do not assume the mathematically correct answer.",
+  "observations": [
+    {
+      "op": "sub",
+      "a": 8238,
+      "b": 299,
+      "student_answer": 8039
+    },
+    {
+      "op": "sub",
+      "a": 668,
+      "b": 665,
+      "student_answer": 3
+    },
+    {
+      "op": "sub",
+      "a": 3694,
+      "b": 1733,
+      "student_answer": 1961
+    },
+    {
+      "op": "sub",
+      "a": 1557,
+      "b": 587,
+      "student_answer": 1070
+    },
+    {
+      "op": "sub",
+      "a": 132,
+      "b": 26,
+      "student_answer": 106
+    },
+    {
+      "op": "sub",
+      "a": 1822,
+      "b": 1261,
+      "student_answer": 661
+    }
+  ],
+  "test_questions": [
+    {
+      "id": "Q01",
+      "op": "sub",
+      "a": 966,
+      "b": 521
+    },
+    {
+      "id": "Q02",
+      "op": "sub",
+      "a": 5305,
+      "b": 1642
+    },
+    {
+      "id": "Q03",
+      "op": "sub",
+      "a": 1591,
+      "b": 74
+    },
+    {
+      "id": "Q04",
+      "op": "sub",
+      "a": 4743,
+      "b": 1223
+    },
+    {
+      "id": "Q05",
+      "op": "sub",
+      "a": 2748,
+      "b": 1066
+    },
+    {
+      "id": "Q06",
+      "op": "sub",
+      "a": 9933,
+      "b": 3480
+    },
+    {
+      "id": "Q07",
+      "op": "sub",
+      "a": 193,
+      "b": 42
+    },
+    {
+      "id": "Q08",
+      "op": "sub",
+      "a": 859,
+      "b": 636
+    },
+    {
+      "id": "Q09",
+      "op": "sub",
+      "a": 2788,
+      "b": 477
+    },
+    {
+      "id": "Q10",
+      "op": "sub",
+      "a": 344,
+      "b": 328
+    },
+    {
+      "id": "Q11",
+      "op": "sub",
+      "a": 462,
+      "b": 204
+    },
+    {
+      "id": "Q12",
+      "op": "sub",
+      "a": 864,
+      "b": 605
+    },
+    {
+      "id": "Q13",
+      "op": "sub",
+      "a": 9189,
+      "b": 6912
+    },
+    {
+      "id": "Q14",
+      "op": "sub",
+      "a": 4229,
+      "b": 1534
+    },
+    {
+      "id": "Q15",
+      "op": "sub",
+      "a": 766,
+      "b": 21
+    },
+    {
+      "id": "Q16",
+      "op": "sub",
+      "a": 5253,
+      "b": 145
+    },
+    {
+      "id": "Q17",
+      "op": "sub",
+      "a": 1745,
+      "b": 1673
+    },
+    {
+      "id": "Q18",
+      "op": "sub",
+      "a": 315,
+      "b": 46
+    },
+    {
+      "id": "Q19",
+      "op": "sub",
+      "a": 6739,
+      "b": 6174
+    },
+    {
+      "id": "Q20",
+      "op": "sub",
+      "a": 8761,
+      "b": 7596
+    },
+    {
+      "id": "Q21",
+      "op": "sub",
+      "a": 118,
+      "b": 58
+    },
+    {
+      "id": "Q22",
+      "op": "sub",
+      "a": 6652,
+      "b": 2230
+    },
+    {
+      "id": "Q23",
+      "op": "sub",
+      "a": 8970,
+      "b": 555
+    },
+    {
+      "id": "Q24",
+      "op": "sub",
+      "a": 804,
+      "b": 256
+    },
+    {
+      "id": "Q25",
+      "op": "sub",
+      "a": 150,
+      "b": 131
+    },
+    {
+      "id": "Q26",
+      "op": "sub",
+      "a": 6797,
+      "b": 1459
+    },
+    {
+      "id": "Q27",
+      "op": "sub",
+      "a": 7139,
+      "b": 4112
+    },
+    {
+      "id": "Q28",
+      "op": "sub",
+      "a": 223,
+      "b": 24
+    },
+    {
+      "id": "Q29",
+      "op": "sub",
+      "a": 3162,
+      "b": 986
+    },
+    {
+      "id": "Q30",
+      "op": "sub",
+      "a": 4714,
+      "b": 1426
+    },
+    {
+      "id": "Q31",
+      "op": "sub",
+      "a": 2936,
+      "b": 2444
+    },
+    {
+      "id": "Q32",
+      "op": "sub",
+      "a": 6626,
+      "b": 1485
+    },
+    {
+      "id": "Q33",
+      "op": "sub",
+      "a": 4642,
+      "b": 2828
+    },
+    {
+      "id": "Q34",
+      "op": "sub",
+      "a": 1507,
+      "b": 1058
+    },
+    {
+      "id": "Q35",
+      "op": "sub",
+      "a": 249,
+      "b": 168
+    },
+    {
+      "id": "Q36",
+      "op": "sub",
+      "a": 257,
+      "b": 84
+    },
+    {
+      "id": "Q37",
+      "op": "sub",
+      "a": 641,
+      "b": 630
+    },
+    {
+      "id": "Q38",
+      "op": "sub",
+      "a": 785,
+      "b": 775
+    },
+    {
+      "id": "Q39",
+      "op": "sub",
+      "a": 6736,
+      "b": 2148
+    },
+    {
+      "id": "Q40",
+      "op": "sub",
+      "a": 239,
+      "b": 58
+    }
+  ],
+  "submission_schema": {
+    "predictions": [
+      {
+        "id": "Q01",
+        "answer": 123,
+        "confidence": 0.75
+      }
+    ]
+  }
+}

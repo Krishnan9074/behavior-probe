@@ -1,0 +1,139 @@
+{
+  "note": "DETERMINISTIC CODE BASELINES ONLY - NOT frontier model results",
+  "math_correct": {
+    "valid": true,
+    "error": null,
+    "primary_accuracy": 0.0,
+    "overall_accuracy": 0.5,
+    "macro_error_accuracy": 0.0,
+    "n_error": 40,
+    "n_all": 80,
+    "error_correct": 0,
+    "all_correct": 40,
+    "per_operation": {
+      "add": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      },
+      "div": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      },
+      "mul": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      },
+      "sub": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      }
+    },
+    "calibration_error_cases": {
+      "brier": 1.0,
+      "ece_5_bins": 1.0,
+      "high_confidence_threshold": 0.9,
+      "high_confidence_error_rate": 1.0,
+      "high_confidence_coverage": 1.0,
+      "n": 40
+    },
+    "calibration_all": {
+      "brier": 0.5,
+      "ece_5_bins": 0.5,
+      "high_confidence_threshold": 0.9,
+      "high_confidence_error_rate": 0.5,
+      "high_confidence_coverage": 1.0,
+      "n": 80
+    },
+    "transfer_target_operation": null,
+    "transfer_contaminated": null,
+    "transfer_error_accuracy": null,
+    "transfer_note": null
+  },
+  "compatible_model_majority": {
+    "valid": true,
+    "error": null,
+    "primary_accuracy": 0.4,
+    "overall_accuracy": 0.7,
+    "macro_error_accuracy": 0.4,
+    "n_error": 40,
+    "n_all": 80,
+    "error_correct": 16,
+    "all_correct": 56,
+    "per_operation": {
+      "add": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      },
+      "div": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 10,
+        "error_correct": 0,
+        "accuracy_all": 0.5,
+        "accuracy_error": 0.0
+      },
+      "mul": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 20,
+        "error_correct": 10,
+        "accuracy_all": 1.0,
+        "accuracy_error": 1.0
+      },
+      "sub": {
+        "n_all": 20,
+        "n_error": 10,
+        "all_correct": 16,
+        "error_correct": 6,
+        "accuracy_all": 0.8,
+        "accuracy_error": 0.6
+      }
+    },
+    "calibration_error_cases": {
+      "brier": 0.244444,
+      "ece_5_bins": 0.066667,
+      "high_confidence_threshold": 0.9,
+      "high_confidence_error_rate": null,
+      "high_confidence_coverage": 0.0,
+      "n": 40
+    },
+    "calibration_all": {
+      "brier": 0.191667,
+      "ece_5_bins": 0.158333,
+      "high_confidence_threshold": 0.9,
+      "high_confidence_error_rate": 0.0,
+      "high_confidence_coverage": 0.25,
+      "n": 80
+    },
+    "transfer_target_operation": null,
+    "transfer_contaminated": null,
+    "transfer_error_accuracy": null,
+    "transfer_note": null
+  },
+  "compatible_model_counts": {
+    "add": 3,
+    "sub": 3,
+    "mul": 3,
+    "div": 3
+  }
+}

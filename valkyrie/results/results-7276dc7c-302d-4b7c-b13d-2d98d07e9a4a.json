@@ -1,0 +1,112 @@
+{
+    "benchmark_id": "7276dc7c-302d-4b7c-b13d-2d98d07e9a4a",
+    "benchmark_name": "behavior-probe",
+    "started_at": "2026-11-15T08:26:07.233872",
+    "status": "IN_PROGRESS",
+    "benchmark_arguments": {
+        "contract": {
+            "name": "claude_code-v1.0.0",
+            "model": "anthropic/claude-sonnet-5-5",
+            "install_cmd": "bash setup.sh",
+            "run_cmd": "bash -lc 'set -o pipefail && mkdir -p /logs && AGENT_OUTPUT_ROOT=/logs python3 /bundle/claude_code-v1.0.0/collect_outputs.py {problem_statement_path} --task-id {task_id} --model {model}'",
+            "final_output": "/logs",
+            "output_artifacts": [],
+            "egress_allowlist": [],
+            "allow_provider_tools": false,
+            "isolate_agent_uid": false,
+            "inference_settings_attested": true
+        },
+        "agent_attempts": [],
+        "concurrency": 2,
+        "slice_str": "0:60",
+        "dataset": "hard-probe3",
+        "sandbox_provider": "docker",
+        "environment": "local",
+        "properties": {
+            "data_root": "/Users/vsk/Downloads/behavior_probe_mvp/valkyrie/Valkyrie/.local/data",
+            "secrets_file": "/Users/vsk/Downloads/behavior_probe_mvp/.env"
+        }
+    },
+    "average_task_breakdown": {
+        "sandbox_build_duration": 1.910879562026821,
+        "agent_run_duration": 26.898700499499682,
+        "evaluation_run_duration": 0.3994430414750241,
+        "sandbox_run_duration": 38.1865601669997
+    },
+    "evaluation_results": {
+        "H002": {
+            "case": "H002",
+            "session": "H002_b3_9071e40894d9",
+            "probe_budget": 3,
+            "probes_used": 0,
+            "primary_wrong_answer_accuracy": 0.55,
+            "wrong_answer_test_n": 20,
+            "overall_accuracy_diagnostic": 0.775,
+            "correct_answer_accuracy_diagnostic": 1.0,
+            "wrong_answer_accuracy_by_domain": {
+                "familiar": 1.0,
+                "transfer": 0.1
+            },
+            "calibration_on_wrong_questions": {
+                "brier_lower_is_better": 0.25,
+                "ece_5bins_lower_is_better": 0.05,
+                "high_confidence_coverage": 0.0,
+                "accuracy_when_high_confidence": null,
+                "accuracy_when_low_confidence": 0.55,
+                "high_confidence_error_rate": null
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "sandbox_run_duration": 38.77427075000014,
+                "sandbox_build_duration": 1.901943666045554,
+                "agent_run_duration": 27.636776583036408,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3401014159899205,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 27.636778417043388
+            },
+            "attempts": 1
+        },
+        "H001": {
+            "case": "H001",
+            "session": "H001_b3_438954736418",
+            "probe_budget": 3,
+            "probes_used": 0,
+            "primary_wrong_answer_accuracy": 0.5,
+            "wrong_answer_test_n": 20,
+            "overall_accuracy_diagnostic": 0.4,
+            "correct_answer_accuracy_diagnostic": 0.3,
+            "wrong_answer_accuracy_by_domain": {
+                "familiar": 0.7,
+                "transfer": 0.3
+            },
+            "calibration_on_wrong_questions": {
+                "brier_lower_is_better": 0.26,
+                "ece_5bins_lower_is_better": 0.1,
+                "high_confidence_coverage": 0.0,
+                "accuracy_when_high_confidence": null,
+                "accuracy_when_low_confidence": 0.5,
+                "high_confidence_error_rate": null
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "sandbox_run_duration": 37.598849583999254,
+                "sandbox_build_duration": 1.9198154580080882,
+                "agent_run_duration": 26.160624415962957,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.45878466696012765,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 26.16062762506772
+            },
+            "attempts": 1
+        }
+    }
+}

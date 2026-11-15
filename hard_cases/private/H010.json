@@ -1,0 +1,222 @@
+{
+  "id": "H010",
+  "rule": {
+    "components": [
+      [
+        "forget_decrement",
+        "big_bottom"
+      ],
+      [
+        "double_decrement",
+        "incoming"
+      ]
+    ]
+  },
+  "test_answers": {
+    "Q01": {
+      "answer": 2919,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q02": {
+      "answer": 39,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q03": {
+      "answer": 89240,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q04": {
+      "answer": 54048,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q05": {
+      "answer": 119,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q06": {
+      "answer": 1498,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q07": {
+      "answer": 489,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q08": {
+      "answer": 207,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q09": {
+      "answer": 84,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q10": {
+      "answer": 18,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q11": {
+      "answer": 6040,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q12": {
+      "answer": 4535,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q13": {
+      "answer": 7957,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q14": {
+      "answer": 362,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q15": {
+      "answer": 707,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q16": {
+      "answer": 198,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q17": {
+      "answer": 121,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q18": {
+      "answer": 450,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q19": {
+      "answer": 41848,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q20": {
+      "answer": 364,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q21": {
+      "answer": 153,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q22": {
+      "answer": 1470,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q23": {
+      "answer": 246,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q24": {
+      "answer": 543,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q25": {
+      "answer": 394,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q26": {
+      "answer": 5116,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q27": {
+      "answer": 992,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q28": {
+      "answer": 87813,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q29": {
+      "answer": 526,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q30": {
+      "answer": 26851,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    },
+    "Q31": {
+      "answer": 858,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q32": {
+      "answer": 2177,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q33": {
+      "answer": 46087,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q34": {
+      "answer": 59,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q35": {
+      "answer": 542,
+      "student_is_wrong": true,
+      "domain": "familiar"
+    },
+    "Q36": {
+      "answer": 276,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q37": {
+      "answer": 766,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q38": {
+      "answer": 1729,
+      "student_is_wrong": true,
+      "domain": "transfer"
+    },
+    "Q39": {
+      "answer": 593,
+      "student_is_wrong": false,
+      "domain": "familiar"
+    },
+    "Q40": {
+      "answer": 1197,
+      "student_is_wrong": false,
+      "domain": "transfer"
+    }
+  },
+  "ceiling": {
+    "consistent_hypotheses": 188,
+    "ideal_b0": 0.55,
+    "ideal_b3_greedy": 1.0
+  }
+}

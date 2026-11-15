@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Helvetica,Arial,sans-serif">
+<rect width="760" height="380" fill="#fff"/>
+<text x="60" y="26" font-size="16" font-weight="700" fill="#17241F">Accuracy on the student's errors (hard suite, n=30 cases)</text>
+<line x1="60" y1="320.0" x2="740" y2="320.0" stroke="#E3E8E5"/>
+<text x="52" y="324.0" font-size="11" fill="#6b6b66" text-anchor="end">0%</text>
+<line x1="60" y1="252.5" x2="740" y2="252.5" stroke="#E3E8E5"/>
+<text x="52" y="256.5" font-size="11" fill="#6b6b66" text-anchor="end">25%</text>
+<line x1="60" y1="185.0" x2="740" y2="185.0" stroke="#E3E8E5"/>
+<text x="52" y="189.0" font-size="11" fill="#6b6b66" text-anchor="end">50%</text>
+<line x1="60" y1="117.5" x2="740" y2="117.5" stroke="#E3E8E5"/>
+<text x="52" y="121.5" font-size="11" fill="#6b6b66" text-anchor="end">75%</text>
+<line x1="60" y1="50.0" x2="740" y2="50.0" stroke="#E3E8E5"/>
+<text x="52" y="54.0" font-size="11" fill="#6b6b66" text-anchor="end">100%</text>
+<rect x="72.0" y="209.3" width="52.0" height="110.7" rx="3" fill="#8A9A93"><title>Fable 5.2 · No probes: 41.0%</title></rect>
+<line x1="98.0" y1="232.2" x2="98.0" y2="186.3" stroke="#17241F" stroke-width="1.2"/>
+<text x="98.0" y="180.3" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">41</text>
+<rect x="128.0" y="74.3" width="52.0" height="245.7" rx="3" fill="#3E8E8F"><title>Fable 5.2 · ≤10 optional probes: 91.0%</title></rect>
+<line x1="154.0" y1="90.5" x2="154.0" y2="60.8" stroke="#17241F" stroke-width="1.2"/>
+<text x="154.0" y="54.8" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">91</text>
+<text x="128.0" y="340" font-size="12" text-anchor="middle" fill="#17241F">Fable 5.2</text>
+<rect x="208.0" y="213.8" width="52.0" height="106.2" rx="3" fill="#8A9A93"><title>GPT-6.1 Sol · No probes: 39.3%</title></rect>
+<line x1="234.0" y1="236.8" x2="234.0" y2="191.3" stroke="#17241F" stroke-width="1.2"/>
+<text x="234.0" y="185.3" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">39</text>
+<rect x="264.0" y="111.2" width="52.0" height="208.8" rx="3" fill="#3E8E8F"><title>GPT-6.1 Sol · ≤10 optional probes: 77.3%</title></rect>
+<line x1="290.0" y1="133.2" x2="290.0" y2="91.0" stroke="#17241F" stroke-width="1.2"/>
+<text x="290.0" y="85.0" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">77</text>
+<text x="264.0" y="340" font-size="12" text-anchor="middle" fill="#17241F">GPT-6.1 Sol</text>
+<rect x="344.0" y="208.4" width="52.0" height="111.6" rx="3" fill="#8A9A93"><title>GPT-6 Astra · No probes: 41.3%</title></rect>
+<line x1="370.0" y1="232.2" x2="370.0" y2="184.1" stroke="#17241F" stroke-width="1.2"/>
+<text x="370.0" y="178.1" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">41</text>
+<rect x="400.0" y="113.9" width="52.0" height="206.1" rx="3" fill="#3E8E8F"><title>GPT-6 Astra · ≤10 optional probes: 76.3%</title></rect>
+<line x1="426.0" y1="137.3" x2="426.0" y2="92.3" stroke="#17241F" stroke-width="1.2"/>
+<text x="426.0" y="86.3" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">76</text>
+<text x="400.0" y="340" font-size="12" text-anchor="middle" fill="#17241F">GPT-6 Astra</text>
+<rect x="480.0" y="212.9" width="52.0" height="107.1" rx="3" fill="#8A9A93"><title>Opus 5.5 · No probes: 39.7%</title></rect>
+<line x1="506.0" y1="236.8" x2="506.0" y2="188.2" stroke="#17241F" stroke-width="1.2"/>
+<text x="506.0" y="182.2" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">40</text>
+<rect x="536.0" y="124.2" width="52.0" height="195.8" rx="3" fill="#3E8E8F"><title>Opus 5.5 · ≤10 optional probes: 72.5%</title></rect>
+<line x1="562.0" y1="150.8" x2="562.0" y2="99.5" stroke="#17241F" stroke-width="1.2"/>
+<text x="562.0" y="93.5" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">72</text>
+<text x="536.0" y="340" font-size="12" text-anchor="middle" fill="#17241F">Opus 5.5</text>
+<rect x="616.0" y="220.1" width="52.0" height="99.9" rx="3" fill="#8A9A93"><title>Sonnet 5.5 · No probes: 37.0%</title></rect>
+<line x1="642.0" y1="244.0" x2="642.0" y2="196.2" stroke="#17241F" stroke-width="1.2"/>
+<text x="642.0" y="190.2" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">37</text>
+<rect x="672.0" y="195.8" width="52.0" height="124.2" rx="3" fill="#3E8E8F"><title>Sonnet 5.5 · ≤10 optional probes: 46.0%</title></rect>
+<line x1="698.0" y1="223.7" x2="698.0" y2="168.3" stroke="#17241F" stroke-width="1.2"/>
+<text x="698.0" y="162.3" font-size="11" font-weight="700" text-anchor="middle" fill="#17241F">46</text>
+<text x="672.0" y="340" font-size="12" text-anchor="middle" fill="#17241F">Sonnet 5.5</text>
+<line x1="60" y1="171.5" x2="740" y2="171.5" stroke="#E4572E" stroke-dasharray="5 4" stroke-width="1.5"/>
+<text x="64" y="166.5" font-size="11" text-anchor="start" fill="#E4572E">ideal reasoner, no probes (55%)</text>
+<line x1="60" y1="50.0" x2="740" y2="50.0" stroke="#E4572E" stroke-dasharray="5 4" stroke-width="1.5"/>
+<text x="64" y="45.0" font-size="11" text-anchor="start" fill="#E4572E">ideal reasoner, 3 probes (100%)</text>
+<rect x="60" y="358" width="12" height="12" rx="2" fill="#8A9A93"/><text x="77" y="368" font-size="12" fill="#17241F">No probes</text>
+<rect x="250" y="358" width="12" height="12" rx="2" fill="#3E8E8F"/><text x="267" y="368" font-size="12" fill="#17241F">≤10 optional probes</text>
+<text x="740" y="368" font-size="10" text-anchor="end" fill="#6b6b66">whiskers: 95% bootstrap CI over cases</text>
+</svg>

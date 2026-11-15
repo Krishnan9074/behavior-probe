@@ -1,0 +1,149 @@
+{
+    "benchmark_id": "2929a6b2-8a26-44ce-bd76-164f9337ce70",
+    "benchmark_name": "behavior-probe",
+    "started_at": "2026-11-15T08:26:06.843164",
+    "status": "IN_PROGRESS",
+    "benchmark_arguments": {
+        "contract": {
+            "name": "claude_code-v1.0.0",
+            "model": "anthropic/claude-sonnet-5-5",
+            "install_cmd": "bash setup.sh",
+            "run_cmd": "bash -lc 'set -o pipefail && mkdir -p /logs && AGENT_OUTPUT_ROOT=/logs python3 /bundle/claude_code-v1.0.0/collect_outputs.py {problem_statement_path} --task-id {task_id} --model {model}'",
+            "final_output": "/logs",
+            "output_artifacts": [],
+            "egress_allowlist": [],
+            "allow_provider_tools": false,
+            "isolate_agent_uid": false,
+            "inference_settings_attested": true
+        },
+        "agent_attempts": [],
+        "concurrency": 2,
+        "slice_str": "20:60",
+        "dataset": "hard-probe10",
+        "sandbox_provider": "docker",
+        "environment": "local",
+        "properties": {
+            "data_root": "/Users/vsk/Downloads/behavior_probe_mvp/valkyrie/Valkyrie/.local/data",
+            "secrets_file": "/Users/vsk/Downloads/behavior_probe_mvp/.env"
+        }
+    },
+    "average_task_breakdown": {
+        "sandbox_build_duration": 1.564870986000945,
+        "agent_run_duration": 24.520233693998307,
+        "evaluation_run_duration": 0.40095781965646893,
+        "sandbox_run_duration": 34.174093444327205
+    },
+    "evaluation_results": {
+        "H023": {
+            "case": "H023",
+            "session": "H023_b10_92a6b5ea38f4",
+            "probe_budget": 10,
+            "probes_used": 0,
+            "primary_wrong_answer_accuracy": 0.3,
+            "wrong_answer_test_n": 20,
+            "overall_accuracy_diagnostic": 0.15,
+            "correct_answer_accuracy_diagnostic": 0.0,
+            "wrong_answer_accuracy_by_domain": {
+                "familiar": 0.2,
+                "transfer": 0.4
+            },
+            "calibration_on_wrong_questions": {
+                "brier_lower_is_better": 0.25,
+                "ece_5bins_lower_is_better": 0.2,
+                "high_confidence_coverage": 0.0,
+                "accuracy_when_high_confidence": null,
+                "accuracy_when_low_confidence": 0.3,
+                "high_confidence_error_rate": null
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "sandbox_run_duration": 28.227043749997392,
+                "sandbox_build_duration": 1.745377958053723,
+                "agent_run_duration": 21.05237908300478,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3574130419874564,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 21.052389916032553
+            },
+            "attempts": 1
+        },
+        "H021": {
+            "case": "H021",
+            "session": "H021_b10_d5a5c07d393e",
+            "probe_budget": 10,
+            "probes_used": 0,
+            "primary_wrong_answer_accuracy": 0.55,
+            "wrong_answer_test_n": 20,
+            "overall_accuracy_diagnostic": 0.775,
+            "correct_answer_accuracy_diagnostic": 1.0,
+            "wrong_answer_accuracy_by_domain": {
+                "familiar": 1.0,
+                "transfer": 0.1
+            },
+            "calibration_on_wrong_questions": {
+                "brier_lower_is_better": 0.25,
+                "ece_5bins_lower_is_better": 0.05,
+                "high_confidence_coverage": 0.0,
+                "accuracy_when_high_confidence": null,
+                "accuracy_when_low_confidence": 0.55,
+                "high_confidence_error_rate": null
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "sandbox_run_duration": 37.91366762504913,
+                "sandbox_build_duration": 1.609112957958132,
+                "agent_run_duration": 26.52168816595804,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.4156359580811113,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 26.52169041603338
+            },
+            "attempts": 1
+        },
+        "H022": {
+            "case": "H022",
+            "session": "H022_b10_31c0988c7cf5",
+            "probe_budget": 10,
+            "probes_used": 0,
+            "primary_wrong_answer_accuracy": 0.45,
+            "wrong_answer_test_n": 20,
+            "overall_accuracy_diagnostic": 0.725,
+            "correct_answer_accuracy_diagnostic": 1.0,
+            "wrong_answer_accuracy_by_domain": {
+                "familiar": 0.3,
+                "transfer": 0.6
+            },
+            "calibration_on_wrong_questions": {
+                "brier_lower_is_better": 0.25,
+                "ece_5bins_lower_is_better": 0.05,
+                "high_confidence_coverage": 0.0,
+                "accuracy_when_high_confidence": null,
+                "accuracy_when_low_confidence": 0.45,
+                "high_confidence_error_rate": null
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "sandbox_run_duration": 36.38156895793509,
+                "sandbox_build_duration": 1.3401220419909805,
+                "agent_run_duration": 25.9866338330321,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.4298244589008391,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 25.986635499983095
+            },
+            "attempts": 1
+        }
+    }
+}

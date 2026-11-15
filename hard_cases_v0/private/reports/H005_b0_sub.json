@@ -1,0 +1,22 @@
+{
+  "case": "H005",
+  "session": "H005_b0_sub",
+  "probe_budget": 0,
+  "probes_used": 0,
+  "primary_wrong_answer_accuracy": 0.4,
+  "wrong_answer_test_n": 20,
+  "overall_accuracy_diagnostic": 0.7,
+  "correct_answer_accuracy_diagnostic": 1.0,
+  "wrong_answer_accuracy_by_domain": {
+    "familiar": 0.7,
+    "transfer": 0.1
+  },
+  "calibration_on_wrong_questions": {
+    "brier_lower_is_better": 0.3856,
+    "ece_5bins_lower_is_better": 0.3925,
+    "high_confidence_coverage": 0.55,
+    "accuracy_when_high_confidence": 0.2727,
+    "accuracy_when_low_confidence": 0.5556,
+    "high_confidence_error_rate": 0.7273
+  }
+}

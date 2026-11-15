@@ -1,0 +1,57 @@
+{
+  "case": "S004",
+  "budget": 10,
+  "probes": [
+    {
+      "a": 3002,
+      "b": 1567,
+      "student_answer": 1545
+    },
+    {
+      "a": 802,
+      "b": 395,
+      "student_answer": 417
+    },
+    {
+      "a": 600,
+      "b": 123,
+      "student_answer": 487
+    },
+    {
+      "a": 5003,
+      "b": 2918,
+      "student_answer": 2195
+    },
+    {
+      "a": 430,
+      "b": 271,
+      "student_answer": 159
+    },
+    {
+      "a": 1000,
+      "b": 1,
+      "student_answer": 1009
+    },
+    {
+      "a": 504,
+      "b": 207,
+      "student_answer": 307
+    },
+    {
+      "a": 1002,
+      "b": 315,
+      "student_answer": 797
+    },
+    {
+      "a": 1046,
+      "b": 592,
+      "student_answer": 554
+    },
+    {
+      "a": 5401,
+      "b": 203,
+      "student_answer": 5208
+    }
+  ],
+  "graded": true
+}

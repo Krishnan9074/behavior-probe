@@ -1,0 +1,27 @@
+{
+  "case": "S019",
+  "budget": 10,
+  "probes": [
+    {
+      "a": 503,
+      "b": 28,
+      "student_answer": 525
+    },
+    {
+      "a": 4012,
+      "b": 1375,
+      "student_answer": 3363
+    },
+    {
+      "a": 300,
+      "b": 7,
+      "student_answer": 307
+    },
+    {
+      "a": 1000,
+      "b": 1,
+      "student_answer": 1001
+    }
+  ],
+  "graded": true
+}

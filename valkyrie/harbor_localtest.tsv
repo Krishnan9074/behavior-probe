@@ -1,0 +1,3 @@
+anthropic/claude-sonnet-5-5	behavior-probe-harbor/hard-probe10@localtest	f8599181-d4a8-4ae0-9a7d-6f9c8b9cb4d9
+gpt-6-astra	behavior-probe-harbor/hard-probe10@localtest	3b4d0a0f-8fd5-4f2b-b0a8-adfc74d2084b
+anthropic/claude-opus-5-5	behavior-probe-harbor/hard-noprobe@localtest	0f7a71e8-b4b3-4d2e-a393-4f69cfc1bd88

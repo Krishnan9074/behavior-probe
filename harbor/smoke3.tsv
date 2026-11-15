@@ -1,0 +1,3 @@
+anthropic/claude-opus-5-5	behavior-probe/hard-probe10@v2	90f8263f-cd48-4df5-a415-5e45652f3f23
+anthropic/claude-opus-5-5	behavior-probe/hard-noprobe@v2	fdf5dba5-aa78-41fd-88e7-cef0e12e528d
+gpt-6-astra	behavior-probe/hard-probe10@v2	24db4c26-8cc4-4268-9b69-9b7f0a25bc4c

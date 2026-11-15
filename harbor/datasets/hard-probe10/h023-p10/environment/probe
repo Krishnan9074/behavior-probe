@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+"""probe A B -> this student's answer to A - B (asks the oracle sidecar)."""
+import json, sys, urllib.request, urllib.error
+if len(sys.argv) != 3:
+    sys.exit("usage: probe A B")
+req = urllib.request.Request("http://oracle:8000/probe", method="POST",
+    data=json.dumps({"a": sys.argv[1], "b": sys.argv[2]}).encode(), headers={"Content-Type": "application/json"})
+try:
+    print(urllib.request.urlopen(req, timeout=30).read().decode())
+except urllib.error.HTTPError as e:
+    print(e.read().decode()); sys.exit(1)

@@ -1,0 +1,27 @@
+schema_version = "1.4"
+
+[task]
+name = "behavior-probe/h027-p10"
+
+[metadata]
+category = "hypothesis-testing"
+case = "H027"
+probe_budget = 10
+ideal_reasoner_no_probes = 0.55
+ideal_reasoner_3_probes = 1.0
+
+[agent]
+timeout_sec = 1800.0
+# No public internet for the agent: only the model APIs (and the oracle sidecar).
+network_mode = "allowlist"
+allowed_hosts = ["api.anthropic.com", "api.openai.com", "statsig.anthropic.com", "sentry.io", "chatgpt.com", "ab.chatgpt.com", "oracle"]
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+build_timeout_sec = 1800.0
+network_mode = "public"

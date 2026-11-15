@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behavior-Probe Results</title>
+<style>
+:root{--bg:#fbfbfa;--panel:#ffffff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e4e3df;--accent:#2f5bd3;--add:#e3f5e6;--addink:#17632a;--del:#fbe6e4;--delink:#9b2318;--warn:#fff4d6;--warnink:#7a5600;--chip:#f1f0ec;--bar1:#2f5bd3;--bar2:#9db3ee;--bar3:#c2410c;--bar4:#f2a77c}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#8aa8ff;--add:#173a22;--addink:#9fe0ae;--del:#43201c;--delink:#ffb2a8;--warn:#3b2f10;--warnink:#f5d48a;--chip:#2a2926;--bar1:#8aa8ff;--bar2:#45599a;--bar3:#f08a4b;--bar4:#8a4a26}}
+:root[data-theme=dark]{--bg:#141413;--panel:#1d1d1b;--ink:#ecebe6;--muted:#a3a29b;--line:#34332f;--accent:#8aa8ff;--add:#173a22;--addink:#9fe0ae;--del:#43201c;--delink:#ffb2a8;--warn:#3b2f10;--warnink:#f5d48a;--chip:#2a2926;--bar1:#8aa8ff;--bar2:#45599a;--bar3:#f08a4b;--bar4:#8a4a26}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+header{padding:20px 16px 0;max-width:1280px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:16px;margin:24px 0 8px}
+h3{font-size:14px;margin:16px 0 6px}
+.sub{color:var(--muted);margin:0 0 14px}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);padding:8px 12px;font:inherit;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+main{max-width:1280px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.note{background:var(--warn);color:var(--warnink);border-radius:8px;padding:10px 12px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px}
+.scroll{overflow-x:auto}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--chip)}tr.sel td{background:var(--chip)}
+.num{text-align:right}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--muted)}
+.good{color:var(--addink)}.bad{color:var(--delink)}
+select{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px;max-width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+pre,.mono{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+pre{white-space:pre-wrap;word-break:break-word;margin:0}
+.diff{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.diff .ln{padding:1px 8px;white-space:pre-wrap;word-break:break-word;min-height:18px;font:12px/1.5 ui-monospace,Menlo,monospace;border-bottom:1px solid transparent}
+.diff .l{border-right:1px solid var(--line)}
+.diff .del{background:var(--del)}.diff .add{background:var(--add)}.diff .gap{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--chip) 6px 12px)}
+.diff mark.d{background:none;color:var(--delink);text-decoration:line-through;font-weight:700}
+.diff mark.a{background:none;color:var(--addink);font-weight:700}
+@media (max-width:820px){.diff{grid-template-columns:1fr}.diff .l{border-right:0}}
+.dg{font:13px ui-monospace,Menlo,monospace}.dg .x{background:var(--del);color:var(--delink);font-weight:700;border-radius:2px}
+.traj .s{border-left:3px solid var(--line);padding:4px 10px;margin:6px 0}
+.traj .assistant{border-color:var(--accent)}.traj .tool{border-color:var(--bar3)}.traj .result{border-color:var(--line);color:var(--muted)}.traj .reasoning{border-color:var(--bar2)}
+.traj .k{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.bars{width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--chip);border-radius:8px;padding:10px}.kpi b{display:block;font-size:20px}
+.box{max-height:380px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:10px;margin:6px 0}
+tr.dim td{opacity:.5}
+td.num{white-space:nowrap}
+summary{cursor:pointer;margin:6px 0}
+ol.steps{margin:6px 0;padding-left:20px}ol.steps li{margin:3px 0}
+.themebtn{float:right;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer;font:inherit}
+</style>
+</head>
+<body>
+<header>
+  <button class="themebtn" id="theme">Theme</button>
+  <h1>Behavior-Probe Results</h1>
+  <p class="sub">Five models, two benchmarks (easy and hard), each run with and without an optional probe tool, all on Valkyrie with the grader kept outside the sandbox.</p>
+  <nav id="tabs"><button data-t="overview" class="on">Overview</button><button data-t="hard">Hard tasks</button><button data-t="inputs">Inputs diff</button><button data-t="runs">Runs</button><button data-t="compare">Compare runs</button></nav>
+</header>
+<main>
+<section id="overview" class="on"></section>
+<section id="hard"></section>
+<section id="inputs"></section>
+<section id="runs"></section>
+<section id="compare"></section>
+</main>
+<script>/*DATA*/</script>
+<script>
+const D = window.BP_DATA;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct = v => v == null ? "–" : (v * 100).toFixed(1) + "%";
+const f2 = v => v == null ? "–" : (+v).toFixed(2);
+const mean = xs => { xs = xs.filter(x => x != null); return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null; };
+const DS = ["noprobe", "probe10", "hard-noprobe", "hard-probe10"];
+const DSLABEL = {"noprobe": "Easy · no probes", "probe10": "Easy · optional probes", "hard-noprobe": "Hard · no probes", "hard-probe10": "Hard · optional probes"};
+const MODELS = [...new Set(D.runs.map(r => r.model))];
+const runLabel = r => `${r.model} · ${DSLABEL[r.dataset] || r.dataset}`;
+const okTasks = r => r.tasks.filter(t => t.report && !t.report.error);
+const runStat = r => {
+  const ts = r.tasks.filter(t => t.report);
+  const ok = okTasks(r);
+  return {
+    err: mean(ts.map(t => t.report.primary_wrong_answer_accuracy ?? 0)),
+    overall: mean(ok.map(t => t.report.overall_accuracy_diagnostic)),
+    probes: mean(ts.map(t => t.report.probes_used)),
+    probed: ts.filter(t => t.report.probes_used > 0).length,
+    brier: mean(ok.map(t => t.report.calibration_on_wrong_questions?.brier_lower_is_better)),
+    fam: mean(ok.map(t => t.report.wrong_answer_accuracy_by_domain?.familiar)),
+    tra: mean(ok.map(t => t.report.wrong_answer_accuracy_by_domain?.transfer)),
+    n: ts.length, valid: ok.length,
+    cost: mean(r.tasks.map(t => t.metrics?.cost).filter(x => x != null)),
+    secs: mean(r.tasks.map(t => t.metrics?.wall_clock_duration).filter(x => x != null)),
+  };
+};
+const RS = new Map(D.runs.map(r => [r.id, runStat(r)]));
+const findRun = (m, ds) => D.runs.find(r => r.model === m && r.dataset === ds);
+
+/* ---------- tabs + theme ---------- */
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => show(b.dataset.t));
+function show(t) {
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  document.querySelectorAll("main section").forEach(s => s.classList.toggle("on", s.id === t));
+}
+$("#theme").onclick = () => {
+  const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark";
+};
+
+/* ---------- overview ---------- */
+function renderOverview() {
+  const hardCeil = mean(Object.values(D.cases).filter(c => c.suite === "hard").map(c => c.ceiling?.ideal_b0));
+  const hardCeil3 = mean(Object.values(D.cases).filter(c => c.suite === "hard").map(c => c.ceiling?.ideal_b3_greedy));
+  const cell = (m, ds) => {
+    const r = findRun(m, ds); if (!r) return `<td class="num">–</td>`;
+    const s = RS.get(r.id);
+    const probeTxt = DS.indexOf(ds) % 2 ? `<br><span class="chip">${f2(s.probes)} probes/task · ${s.probed}/${s.n} probed</span>` : "";
+    return `<td class="num"><b>${pct(s.err)}</b>${probeTxt}</td>`;
+  };
+  const rows = MODELS.map(m => `<tr><td><b>${esc(m)}</b><br><span class="chip">${esc(D.runs.find(r => r.model === m).agent)}</span></td>${DS.map(ds => cell(m, ds)).join("")}</tr>`).join("");
+  // grouped bars
+  const W = 760, rowH = 26, gap = 18, padL = 130, H = MODELS.length * (rowH * 4 + gap) + 30;
+  const colors = ["var(--bar1)", "var(--bar2)", "var(--bar3)", "var(--bar4)"];
+  let svg = `<svg class="bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy on student-error questions by model and dataset">`;
+  [0, .25, .5, .75, 1].forEach(v => { const x = padL + v * (W - padL - 40); svg += `<line x1="${x}" y1="0" x2="${x}" y2="${H - 20}" stroke="var(--line)"/><text x="${x}" y="${H - 6}" font-size="11" fill="var(--muted)" text-anchor="middle">${v * 100}%</text>`; });
+  if (hardCeil != null) { const x = padL + hardCeil * (W - padL - 40); svg += `<line x1="${x}" y1="0" x2="${x}" y2="${H - 20}" stroke="var(--bar3)" stroke-dasharray="4 3"/><text x="${x + 4}" y="12" font-size="11" fill="var(--bar3)">hard ideal, no probes ${pct(hardCeil)}</text>`; }
+  MODELS.forEach((m, i) => {
+    const y0 = 18 + i * (rowH * 4 + gap);
+    svg += `<text x="0" y="${y0 + rowH * 2}" font-size="12" fill="var(--ink)" font-weight="600">${esc(m)}</text>`;
+    DS.forEach((ds, j) => {
+      const r = findRun(m, ds); const v = r ? RS.get(r.id).err : null; const y = y0 + j * rowH;
+      const w = v == null ? 0 : v * (W - padL - 40);
+      svg += `<rect x="${padL}" y="${y + 3}" width="${w}" height="${rowH - 8}" rx="3" fill="${colors[j]}"><title>${esc(m)} · ${DSLABEL[ds]}: ${pct(v)}</title></rect>`;
+      svg += `<text x="${padL + w + 5}" y="${y + rowH / 2 + 4}" font-size="11" fill="var(--muted)">${v == null ? "running" : pct(v)}</text>`;
+    });
+  });
+  svg += `</svg>`;
+  const pil = (k, b) => { const xs = D.pilots[k]?.[b] || []; return xs.length ? `${pct(mean(xs.map(x => x.err)))} <span class="chip">${xs.length} cases · ${f2(mean(xs.map(x => x.probes)))} probes</span>` : "–"; };
+  const broken = D.broken_runs.length ? `<div class="note"><b>Earlier probe runs were discarded.</b> ${D.broken_runs.length} probe-enabled runs first ran with the probe server on port 8002, which the local Tracker's own control service also uses. Every probe call from the sandbox hit that service ("Not Found"), even though most agents tried to probe. Those runs are excluded. The probe runs shown here were re-run on port 8020 after an end-to-end check.</div>` : "";
+  $("#overview").innerHTML = `
+  <div class="card"><div class="kpis">
+    <div class="kpi"><span class="chip">Runs</span><b>${D.runs.length}</b>${D.runs.reduce((a, r) => a + r.tasks.length, 0)} tasks graded</div>
+    <div class="kpi"><span class="chip">Cases</span><b>${Object.keys(D.cases).length}</b>20 easy + 20 hard students</div>
+    <div class="kpi"><span class="chip">Hard ceiling</span><b>${pct(hardCeil)}</b>ideal reasoner, 0 probes · ${pct(hardCeil3)} with 3</div>
+    <div class="kpi"><span class="chip">Metric</span><b>Error-Q acc.</b>accuracy on questions where the student errs</div>
+  </div></div>
+  ${broken}
+  <div class="card"><h2 style="margin-top:0">Accuracy on student-error questions</h2>
+  <div class="scroll"><table><thead><tr><th>Model · harness</th>${DS.map(ds => `<th class="num">${DSLABEL[ds]}</th>`).join("")}</tr></thead><tbody>${rows}
+  <tr><td><i>Ideal reasoner</i></td><td class="num">–</td><td class="num">–</td><td class="num"><i>${pct(hardCeil)}</i></td><td class="num"><i>${pct(hardCeil3)} with 3 probes</i></td></tr></tbody></table></div>
+  <p class="sub" style="margin-top:8px">Each cell is 20 students × 20 error questions, from one run. Treat differences under about 5 points as noise.</p></div>
+  <div class="card"><h2 style="margin-top:0">At a glance</h2><div class="legend">${DS.map((ds, j) => `<span><i style="background:${colors[j]}"></i>${DSLABEL[ds]}</span>`).join("")}</div>${svg}</div>
+  <div class="card"><h2 style="margin-top:0">Detail by run</h2><div class="scroll"><table><thead><tr><th>Run</th><th class="num">Error-Q</th><th class="num">Overall</th><th class="num">3-digit</th><th class="num">4–5-digit</th><th class="num">Brier ↓</th><th class="num">Probes/task</th><th class="num">Valid</th><th class="num">Avg s/task</th></tr></thead><tbody>
+  ${D.runs.map(r => { const s = RS.get(r.id); return `<tr class="click" data-run="${r.id}"><td>${esc(runLabel(r))}</td><td class="num">${pct(s.err)}</td><td class="num">${pct(s.overall)}</td><td class="num">${pct(s.fam)}</td><td class="num">${pct(s.tra)}</td><td class="num">${f2(s.brier)}</td><td class="num">${f2(s.probes)}</td><td class="num">${s.valid}/${s.n}</td><td class="num">${s.secs ? s.secs.toFixed(0) : "–"}</td></tr>`; }).join("")}
+  </tbody></table></div><p class="sub">Click a row to open that run.</p></div>
+  <div class="card"><h2 style="margin-top:0">Pilot runs (Claude subagents, before Valkyrie)</h2><table><thead><tr><th>Pilot</th><th class="num">Budget 0</th><th class="num">Budget 3</th><th class="num">Budget 10</th></tr></thead><tbody>
+  <tr><td>Easy · Opus-class subagents</td><td class="num">${pil("easy_subagent", "0")}</td><td class="num">${pil("easy_subagent", "3")}</td><td class="num">${pil("easy_subagent", "10")}</td></tr>
+  <tr><td>Hard v0 · Opus-class subagents</td><td class="num">${pil("hard_subagent_v0", "0")}</td><td class="num">${pil("hard_subagent_v0", "3")}</td><td class="num">–</td></tr></tbody></table>
+  <p class="sub">The pilots told agents to use their probes. The Valkyrie probe runs make probing optional. Hard v0 was generated before the digit-wraparound fix.</p></div>`;
+  document.querySelectorAll("#overview tr[data-run]").forEach(tr => tr.onclick = () => { selectRun(tr.dataset.run); show("runs"); });
+}
+
+/* ---------- diff engine ---------- */
+function lcs(a, b) {
+  const n = a.length, m = b.length, dp = Array.from({length: n + 1}, () => new Int32Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const ops = []; let i = 0, j = 0;
+  while (i < n && j < m) { if (a[i] === b[j]) { ops.push(["=", a[i], b[j]]); i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) ops.push(["-", a[i++], null]); else ops.push(["+", null, b[j++]]); }
+  while (i < n) ops.push(["-", a[i++], null]); while (j < m) ops.push(["+", null, b[j++]]);
+  return ops;
+}
+function wordDiff(x, y) {
+  const a = x.split(/(\s+)/), b = y.split(/(\s+)/), ops = lcs(a, b);
+  return [ops.map(o => o[0] === "+" ? "" : o[0] === "-" ? `<mark class="d">${esc(o[1])}</mark>` : esc(o[1])).join(""),
+          ops.map(o => o[0] === "-" ? "" : o[0] === "+" ? `<mark class="a">${esc(o[2])}</mark>` : esc(o[2])).join("")];
+}
+function sideBySide(left, right) {
+  const ops = lcs(left.split("\n"), right.split("\n"));
+  let html = "", k = 0;
+  while (k < ops.length) {
+    if (ops[k][0] === "=") { html += `<div class="ln l">${esc(ops[k][1])}</div><div class="ln">${esc(ops[k][2])}</div>`; k++; continue; }
+    const dels = [], adds = [];
+    while (k < ops.length && ops[k][0] !== "=") { ops[k][0] === "-" ? dels.push(ops[k][1]) : adds.push(ops[k][2]); k++; }
+    for (let i = 0; i < Math.max(dels.length, adds.length); i++) {
+      const d = dels[i], a = adds[i];
+      if (d != null && a != null) { const [dl, ar] = wordDiff(d, a); html += `<div class="ln l del">${dl}</div><div class="ln add">${ar}</div>`; }
+      else if (d != null) html += `<div class="ln l del">${esc(d)}</div><div class="ln gap"></div>`;
+      else html += `<div class="ln l gap"></div><div class="ln add">${esc(a)}</div>`;
+    }
+  }
+  return `<div class="diff">${html}</div>`;
+}
+
+/* ---------- inputs ---------- */
+function renderInputs() {
+  const keys = Object.keys(D.inputs);
+  const opt = sel => keys.map(k => `<option ${k === sel ? "selected" : ""}>${esc(k)}</option>`).join("");
+  const l0 = keys.find(k => k.includes("· noprobe")) || keys[0], r0 = keys.find(k => k.includes("· hard-probe10")) || keys[1];
+  $("#inputs").innerHTML = `<div class="card"><p class="sub" style="margin-top:0">Exactly what each sandbox received (the problem statement written to <code>/tmp/problem_statement.txt</code>), the probe tool, both agent harnesses, the pilot subagent prompts and the benchmark specs. Pick any two to diff: removed text is red on the left, added text green on the right.</p>
+  <div class="row"><select id="inL">${opt(l0)}</select><span>vs</span><select id="inR">${opt(r0)}</select></div><div id="inDiff"></div></div>`;
+  const draw = () => $("#inDiff").innerHTML = sideBySide(D.inputs[$("#inL").value], D.inputs[$("#inR").value]);
+  $("#inL").onchange = $("#inR").onchange = draw; draw();
+}
+
+/* ---------- runs ---------- */
+function digitDiff(pred, truth) {
+  if (pred == null) return `<span class="bad">missing</span>`;
+  const p = String(pred), t = String(truth), n = Math.max(p.length, t.length);
+  const pp = p.padStart(n, " "), tt = t.padStart(n, " ");
+  return `<span class="dg">${[...pp].map((c, i) => c === tt[i] ? esc(c) : `<span class="x">${c === " " ? "·" : esc(c)}</span>`).join("")}</span>`;
+}
+const BUG = {smaller_from_larger: "subtracts the smaller digit from the larger, no borrow", forget_decrement: "borrows 10 but never takes 1 off the next column", write_zero: "writes 0, no borrow", write_bottom: "writes the bottom digit, no borrow", borrow_skip: "takes the 1 from two columns to the left instead of the next column", double_decrement: "borrows but takes 2 off the next column"};
+const COND = {any: "in any column", ones: "in the ones column", tens: "in the tens column", high: "in the hundreds column or higher", next_zero: "when the next top digit is 0", incoming: "when that column already lost 1 to an earlier borrow", big_bottom: "when the bottom digit is 7 or more", top_zero: "when the top digit is 0"};
+const ruleText = rule => rule?.components ? rule.components.map(([b, c], i) => `${i + 1}. ${COND[c] || c}: ${BUG[b] || b}  [${b} / ${c}]`).join("\n") + "\nOnly columns that need a borrow are affected. The first line that applies wins; otherwise the student borrows correctly." : JSON.stringify(rule);
+// Recompute the grader's comparison from the saved submission: exact integer match per question.
+const tally = (t, c) => { const hit = q => t?.predictions?.[q.id]?.answer === q.answer, e = c.questions.filter(q => q.student_is_wrong); return {k: e.filter(hit).length, n: e.length, all: c.questions.filter(hit).length, total: c.questions.length}; };
+const promptBlock = (c, ds, label) => c.statement?.[ds] ? `<details><summary><b>${label || "Input: exact prompt given to the agent"}</b> <span class="chip">/tmp/problem_statement.txt · ${c.statement[ds].length} chars</span></summary><pre class="box">${esc(c.statement[ds])}</pre></details>` : "";
+const submissionBlock = t => { const ps = Object.values(t?.predictions || {}); return ps.length ? `<details><summary><b>Output: submission.json as the grader read it</b> <span class="chip">${ps.length} predictions</span></summary><pre class="box">${esc('{"predictions": [\n' + ps.map(p => " " + JSON.stringify(p)).join(",\n") + "\n]}")}</pre></details>` : `<p class="sub">No valid submission.json was saved for this task.</p>`; };
+const tallyLine = (t, c) => { const s = tally(t, c), rep = t?.report || {}; return rep.error ? `<span class="bad">Submission rejected (${esc(rep.error)}), so the task scores 0.</span>` : `${s.k} of the ${s.n} student-error questions match the student exactly → Error-Q ${s.k}/${s.n} = <b>${pct(s.k / s.n)}</b>. All questions: ${s.all}/${s.total} = ${pct(s.all / s.total)}.`; };
+function taskDetail(run, t) {
+  const c = D.cases[t.case]; if (!c) return "";
+  const rep = t.report || {};
+  const qrows = c.questions.map(q => {
+    const p = t.predictions?.[q.id]; const ok = p && p.answer === q.answer;
+    return `<tr><td class="mono">${q.id}</td><td class="mono num">${q.a} − ${q.b}</td><td class="mono num">${q.a - q.b}</td><td class="mono num"><b>${q.answer}</b></td><td class="num">${digitDiff(p?.answer, q.answer)}</td><td class="num">${p ? f2(p.confidence) : "–"}</td><td>${ok ? '<span class="good">✓</span>' : '<span class="bad">✗</span>'}</td><td>${q.student_is_wrong ? '<span class="chip">student errs</span>' : ""} <span class="chip">${q.domain}</span></td></tr>`;
+  }).join("");
+  const probes = t.probes?.length ? `<table><thead><tr><th>#</th><th>Probe</th><th class="num">Correct</th><th class="num">Student said</th></tr></thead><tbody>${t.probes.map((p, i) => `<tr><td>${i + 1}</td><td class="mono">${p.a} − ${p.b}</td><td class="mono num">${p.a - p.b}</td><td class="mono num"><b>${p.student_answer}</b></td></tr>`).join("")}</tbody></table>` : `<p class="sub">${run.budget ? "No probes used." : "No probe tool in this dataset."}</p>`;
+  const traj = (t.trajectory || []).map(s => `<div class="s ${s.k}"><div class="k">${s.k}</div><pre>${esc(s.t)}</pre></div>`).join("") || `<p class="sub">No trajectory saved.</p>`;
+  const m = t.metrics || {};
+  return `<div class="card"><h2 style="margin-top:0">${esc(t.case)} · ${esc(runLabel(run))}</h2>
+  <div class="row"><span class="chip">Error-Q ${pct(rep.primary_wrong_answer_accuracy)}</span><span class="chip">Overall ${pct(rep.overall_accuracy_diagnostic)}</span><span class="chip">Brier ${f2(rep.calibration_on_wrong_questions?.brier_lower_is_better)}</span><span class="chip">Probes ${rep.probes_used ?? 0}/${run.budget}</span>${m.wall_clock_duration ? `<span class="chip">${m.wall_clock_duration.toFixed(0)} s</span>` : ""}${m.cost ? `<span class="chip">$${(+m.cost).toFixed(3)}</span>` : ""}${m.output_tokens ? `<span class="chip">${m.output_tokens} output tokens</span>` : ""}${rep.error ? `<span class="chip bad">${esc(rep.error)}</span>` : ""}</div>
+  ${promptBlock(c, run.dataset)}
+  <div class="grid2"><div><h3>Observations given to the agent</h3><table><tbody>${c.observations.map(o => `<tr><td class="mono">${o.a} − ${o.b}</td><td class="mono num">student: <b>${o.student_answer}</b></td><td class="mono num">correct: ${o.a - o.b}</td></tr>`).join("")}</tbody></table></div>
+  <div><h3>Probes</h3>${probes}<h3>Hidden rule (grader only)</h3><pre class="mono">${esc(ruleText(c.rule))}${c.ceiling ? "\nideal reasoner: " + JSON.stringify(c.ceiling) : ""}</pre></div></div>
+  <h3>Predictions vs the student's actual answers</h3><p class="sub">Comparison: each predicted integer must equal the student's answer exactly. ${tallyLine(t, c)} Red digits are where the prediction differs from what the student wrote.</p>
+  ${submissionBlock(t)}
+  <div class="scroll"><table><thead><tr><th>Q</th><th class="num">Problem</th><th class="num">Correct</th><th class="num">Student</th><th class="num">Predicted</th><th class="num">Conf.</th><th></th><th></th></tr></thead><tbody>${qrows}</tbody></table></div>
+  <h3>Agent's final message</h3><pre>${esc(t.final_message || "–")}</pre>
+  <details><summary><b>Full trajectory (${(t.trajectory || []).length} steps)</b></summary><div class="traj">${traj}</div></details></div>`;
+}
+let curRun = null;
+function selectRun(id) { curRun = id; renderRuns(); }
+function renderRuns() {
+  curRun = curRun || D.runs[0]?.id;
+  const run = D.runs.find(r => r.id === curRun);
+  $("#runs").innerHTML = `<div class="card"><div class="row"><select id="runSel">${D.runs.map(r => `<option value="${r.id}" ${r.id === curRun ? "selected" : ""}>${esc(runLabel(r))}</option>`).join("")}</select><span class="chip mono">${run.id}</span></div>
+  <div class="scroll"><table><thead><tr><th>Case</th><th class="num">Error-Q</th><th class="num">Overall</th><th class="num">Probes</th><th class="num">Brier</th><th class="num">Seconds</th><th>Agent's stated rule</th></tr></thead><tbody>
+  ${run.tasks.map((t, i) => { const r = t.report || {}; const fm = (t.final_message || "").replace(/\s+/g, " ").slice(0, 140);
+    return `<tr class="click" data-i="${i}"><td class="mono">${t.case}</td><td class="num">${t.missing ? "–" : pct(r.primary_wrong_answer_accuracy)}</td><td class="num">${pct(r.overall_accuracy_diagnostic)}</td><td class="num">${r.probes_used ?? "–"}</td><td class="num">${f2(r.calibration_on_wrong_questions?.brier_lower_is_better)}</td><td class="num">${t.metrics?.wall_clock_duration ? t.metrics.wall_clock_duration.toFixed(0) : "–"}</td><td>${esc(fm)}${fm.length >= 140 ? "…" : ""}</td></tr>`; }).join("")}
+  </tbody></table></div></div><div id="taskDetail"></div>`;
+  $("#runSel").onchange = e => selectRun(e.target.value);
+  document.querySelectorAll("#runs tr[data-i]").forEach(tr => tr.onclick = () => {
+    document.querySelectorAll("#runs tr.sel").forEach(x => x.classList.remove("sel")); tr.classList.add("sel");
+    $("#taskDetail").innerHTML = taskDetail(run, run.tasks[+tr.dataset.i]); $("#taskDetail").scrollIntoView({behavior: "smooth"});
+  });
+}
+
+/* ---------- hard tasks: input -> output -> comparison ---------- */
+let curHard = null;
+function openTask(runId, cid) {
+  selectRun(runId); show("runs");
+  const i = D.runs.find(r => r.id === runId).tasks.findIndex(t => t.case === cid);
+  document.querySelector(`#runs tr[data-i="${i}"]`)?.click();
+}
+function renderHard() {
+  const ids = Object.keys(D.cases).filter(k => D.cases[k].suite === "hard");
+  const HR = D.runs.filter(r => r.suite === "hard").sort((a, b) => a.budget - b.budget || MODELS.indexOf(a.model) - MODELS.indexOf(b.model));
+  if (!ids.length || !HR.length) { $("#hard").innerHTML = `<p class="sub">No hard runs.</p>`; return; }
+  curHard = curHard || ids[0];
+  const c = D.cases[curHard], task = r => r.tasks.find(t => t.case === curHard);
+  const head = r => `${esc(r.model.replace("claude-", ""))}<br><span class="chip">${r.budget ? "probes" : "no probes"}</span>`;
+  const short = rule => rule.components.map(([b, k]) => `${b} / ${k}`).join(" + ");
+  const matrix = ids.map(id => { const cs = D.cases[id];
+    return `<tr class="click ${id === curHard ? "sel" : ""}" data-c="${id}"><td class="mono"><b>${id}</b></td><td class="mono">${esc(short(cs.rule))}</td><td class="num">${pct(cs.ceiling?.ideal_b0)}</td>${HR.map(r => { const t = r.tasks.find(x => x.case === id), rep = t?.report;
+      return `<td class="num ${rep?.error ? "bad" : ""}">${rep ? pct(rep.primary_wrong_answer_accuracy) : "–"}${r.budget && rep ? ` <span class="chip">${rep.probes_used}p</span>` : ""}</td>`; }).join("")}</tr>`; }).join("");
+  const sumRows = HR.map(r => { const t = task(r), rep = t?.report || {}, s = tally(t, c), fm = (t?.final_message || "").replace(/\s+/g, " ");
+    return `<tr><td><b>${esc(r.model)}</b><br><span class="chip">${r.budget ? "optional probes" : "no probes"}</span></td><td class="num">${rep.probes_used ?? 0}/${r.budget}</td><td class="num">${rep.error ? `<span class="bad">rejected</span>` : `${s.k}/${s.n}`}</td><td class="num"><b>${pct(rep.primary_wrong_answer_accuracy)}</b></td><td class="num">${rep.error ? "–" : `${s.all}/${s.total}`}</td><td class="num">${f2(rep.calibration_on_wrong_questions?.brier_lower_is_better)}</td><td>${esc(fm.slice(0, 220))}${fm.length > 220 ? "…" : ""}</td></tr>`; }).join("");
+  const qrows = c.questions.map(q => `<tr class="${q.student_is_wrong ? "" : "dim"}"><td class="mono">${q.id}</td><td class="mono num">${q.a} − ${q.b}</td><td class="mono num">${q.a - q.b}</td><td class="mono num"><b>${q.answer}</b></td>${HR.map(r => `<td class="num">${digitDiff(task(r)?.predictions?.[q.id]?.answer, q.answer)}</td>`).join("")}</tr>`).join("");
+  const perRun = HR.map(r => { const t = task(r); if (!t) return "";
+    const probes = t.probes?.length ? `<table><thead><tr><th>#</th><th>Agent asked</th><th class="num">Correct</th><th class="num">Student's answer returned</th></tr></thead><tbody>${t.probes.map((p, i) => `<tr><td>${i + 1}</td><td class="mono">probe ${p.a} ${p.b}</td><td class="mono num">${p.a - p.b}</td><td class="mono num"><b>${p.student_answer}</b></td></tr>`).join("")}</tbody></table>` : `<p class="sub">${r.budget ? "The agent chose not to probe." : "No probe tool in this run."}</p>`;
+    return `<details><summary><b>${esc(runLabel(r))}</b> <span class="chip">Error-Q ${pct(t.report?.primary_wrong_answer_accuracy)}</span> <span class="chip">${t.report?.probes_used ?? 0} probes</span></summary>
+    <p class="sub">${tallyLine(t, c)}</p><h3>Probe calls (extra input the agent asked for)</h3>${probes}
+    <h3>Agent's final message (not graded)</h3><pre class="box">${esc(t.final_message || "–")}</pre>${submissionBlock(t)}
+    <p><button class="themebtn" style="float:none" data-open="${r.id}">Open full trajectory in Runs</button></p></details>`; }).join("");
+  const np = HR.find(r => !r.budget), pr = HR.find(r => r.budget);
+  $("#hard").innerHTML = `
+  <div class="card"><h2 style="margin-top:0">What happens in one hard task</h2><ol class="steps">
+    <li><b>Input.</b> The agent starts in an empty sandbox (<code>/workspace</code>) and receives one text prompt, the file <code>/tmp/problem_statement.txt</code>. Claude models get it through <code>claude -p</code>, OpenAI models through <code>codex exec</code>. It holds the instructions, 4 worked answers from one simulated student and 40 unanswered subtraction questions. In the "optional probes" runs the prompt has one extra paragraph and a <code>probe A B</code> command is installed that returns the student's answer to a question of the agent's choice, up to 10 times.</li>
+    <li><b>Output.</b> The only graded output is <code>/workspace/submission.json</code>: for each of the 40 question ids, an integer answer and a confidence between 0 and 1. The agent's final message and reasoning are saved but not scored.</li>
+    <li><b>Comparison.</b> A grader outside the sandbox downloads the file. If any id is missing or duplicated, an answer is not an integer or a confidence is outside 0–1, the task scores 0. Otherwise each predicted answer is compared with the answer the hidden student rule produces, by exact integer equality with no partial credit.</li>
+    <li><b>Score.</b> 20 of the 40 questions are ones where the student's answer differs from the true difference. <b>Error-Q</b> = matches on those 20 ÷ 20, and it is the headline number. "All 40" also counts the 20 the student gets right. Brier = the mean of (confidence − match)² over the 20 error questions, lower is better. A run's score is the mean Error-Q over the 20 hard tasks.</li>
+    <li><b>Ideal reasoner.</b> For reference, each case stores how well a perfect reasoner does: it keeps every one of the 2,304 candidate student rules that fits the observations and answers each question by majority vote.</li></ol></div>
+  <div class="card"><h2 style="margin-top:0">All 20 hard tasks × 10 runs (Error-Q)</h2><p class="sub">Click a row to see that task's input, every model's output and the comparison. "3p" means 3 probes used.</p>
+  <div class="scroll"><table><thead><tr><th>Task</th><th>Hidden student rule (bug / when)</th><th class="num">Ideal, no probes</th>${HR.map(r => `<th class="num">${head(r)}</th>`).join("")}</tr></thead><tbody>${matrix}</tbody></table></div></div>
+  <div id="hardCase"><div class="card"><h2 style="margin-top:0">${curHard} · 1. Input</h2>
+    <div class="grid2"><div><h3>The 4 observations in the prompt</h3><table><tbody>${c.observations.map(o => `<tr><td class="mono">${o.a} − ${o.b}</td><td class="mono num">student: <b>${o.student_answer}</b></td><td class="mono num">correct: ${o.a - o.b}${o.student_answer === o.a - o.b ? "" : ` <span class="chip">student errs</span>`}</td></tr>`).join("")}</tbody></table>
+    <p class="sub">Plus the 40 test questions (problem only, no answers), listed in the comparison table below.</p></div>
+    <div><h3>Hidden student rule (grader only, never in the sandbox)</h3><pre class="mono">${esc(ruleText(c.rule))}</pre>
+    ${c.ceiling ? `<p class="sub">${c.ceiling.consistent_hypotheses} of the 2,304 candidate rules fit the 4 observations. The ideal reasoner scores ${pct(c.ceiling.ideal_b0)} Error-Q with no probes and ${pct(c.ceiling.ideal_b3_greedy)} after 3 well-chosen probes.</p>` : ""}</div></div>
+    ${np ? promptBlock(c, np.dataset, "Exact prompt · no-probe runs") : ""}${pr ? promptBlock(c, pr.dataset, "Exact prompt · optional-probe runs") : ""}</div>
+  <div class="card"><h2 style="margin-top:0">${curHard} · 2. Output and result per run</h2>
+    <div class="scroll"><table><thead><tr><th>Run</th><th class="num">Probes used</th><th class="num">Error Qs matched</th><th class="num">Error-Q</th><th class="num">All 40 matched</th><th class="num">Brier ↓</th><th>Rule the agent stated (start of final message)</th></tr></thead><tbody>${sumRows}</tbody></table></div>
+    <h3>Each run's probes, final message and submission.json</h3>${perRun}</div>
+  <div class="card"><h2 style="margin-top:0">${curHard} · 3. Comparison, question by question</h2>
+    <p class="sub">Each cell is the answer that run submitted. Red digits differ from the student's answer, so that cell is a miss. Greyed rows are questions the student gets right. They do not count toward Error-Q.</p>
+    <div class="scroll"><table><thead><tr><th>Q</th><th class="num">Problem</th><th class="num">Correct</th><th class="num">Student</th>${HR.map(r => `<th class="num">${head(r)}</th>`).join("")}</tr></thead><tbody>${qrows}
+    <tr><td colspan="4"><b>Error questions matched</b></td>${HR.map(r => { const t = task(r), s = tally(t, c); return `<td class="num"><b>${t?.report?.error ? "rejected" : `${s.k}/${s.n}`}</b></td>`; }).join("")}</tr></tbody></table></div></div></div>`;
+  document.querySelectorAll("#hard tr[data-c]").forEach(tr => tr.onclick = () => { curHard = tr.dataset.c; renderHard(); $("#hardCase").scrollIntoView({behavior: "smooth"}); });
+  document.querySelectorAll("#hard button[data-open]").forEach(b => b.onclick = () => openTask(b.dataset.open, curHard));
+}
+
+/* ---------- compare ---------- */
+function renderCompare() {
+  const opts = sel => D.runs.map(r => `<option value="${r.id}" ${r.id === sel ? "selected" : ""}>${esc(runLabel(r))}</option>`).join("");
+  const a0 = (D.runs.find(r => r.dataset === "noprobe") || D.runs[0]).id, b0 = (D.runs.find(r => r.dataset === "hard-noprobe") || D.runs[1] || D.runs[0]).id;
+  $("#compare").innerHTML = `<div class="card"><p class="sub" style="margin-top:0">Compare any two runs case by case. On the same benchmark, pick a case to see both models' predictions next to the student's answers.</p>
+  <div class="row"><b>A</b><select id="cA">${opts(a0)}</select><b>B</b><select id="cB">${opts(b0)}</select></div><div id="cmpBody"></div></div><div id="cmpCase"></div>`;
+  const draw = () => {
+    const A = D.runs.find(r => r.id === $("#cA").value), B = D.runs.find(r => r.id === $("#cB").value);
+    const same = A.suite === B.suite, sa = RS.get(A.id), sb = RS.get(B.id);
+    const cases = same ? A.tasks.map(t => t.case) : [...Array(Math.max(A.tasks.length, B.tasks.length)).keys()];
+    const rows = cases.map((c, i) => {
+      const ta = same ? A.tasks.find(t => t.case === c) : A.tasks[i], tb = same ? B.tasks.find(t => t.case === c) : B.tasks[i];
+      const va = ta?.report?.primary_wrong_answer_accuracy, vb = tb?.report?.primary_wrong_answer_accuracy, d = va != null && vb != null ? vb - va : null;
+      return `<tr class="${same ? "click" : ""}" data-c="${same ? c : ""}"><td class="mono">${same ? c : `${ta?.case || "–"} / ${tb?.case || "–"}`}</td><td class="num">${pct(va)} <span class="chip">${ta?.report?.probes_used ?? 0}p</span></td><td class="num">${pct(vb)} <span class="chip">${tb?.report?.probes_used ?? 0}p</span></td><td class="num ${d > 0 ? "good" : d < 0 ? "bad" : ""}">${d == null ? "–" : (d > 0 ? "+" : "") + (d * 100).toFixed(0)}</td></tr>`;
+    }).join("");
+    $("#cmpBody").innerHTML = `<div class="kpis" style="margin-bottom:10px"><div class="kpi"><span class="chip">A</span><b>${pct(sa.err)}</b>${f2(sa.probes)} probes/task</div><div class="kpi"><span class="chip">B</span><b>${pct(sb.err)}</b>${f2(sb.probes)} probes/task</div><div class="kpi"><span class="chip">B − A</span><b class="${sb.err - sa.err >= 0 ? "good" : "bad"}">${((sb.err - sa.err) * 100).toFixed(1)} pts</b>error-question accuracy</div></div>
+    ${same ? "" : `<div class="note">These runs are on different benchmarks, so rows pair cases by position only.</div>`}
+    <div class="scroll"><table><thead><tr><th>Case</th><th class="num">A</th><th class="num">B</th><th class="num">Δ pts</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    $("#cmpCase").innerHTML = "";
+    if (same) document.querySelectorAll("#cmpBody tr[data-c]").forEach(tr => tr.onclick = () => {
+      const c = tr.dataset.c, cs = D.cases[c], ta = A.tasks.find(t => t.case === c), tb = B.tasks.find(t => t.case === c);
+      const qr = cs.questions.map(q => { const pa = ta?.predictions?.[q.id]?.answer, pb = tb?.predictions?.[q.id]?.answer;
+        return `<tr><td class="mono">${q.id}</td><td class="mono num">${q.a} − ${q.b}</td><td class="mono num"><b>${q.answer}</b></td><td class="num">${digitDiff(pa, q.answer)} ${pa === q.answer ? '<span class="good">✓</span>' : '<span class="bad">✗</span>'}</td><td class="num">${digitDiff(pb, q.answer)} ${pb === q.answer ? '<span class="good">✓</span>' : '<span class="bad">✗</span>'}</td><td>${q.student_is_wrong ? '<span class="chip">student errs</span>' : ""}</td></tr>`; }).join("");
+      $("#cmpCase").innerHTML = `<div class="card"><h2 style="margin-top:0">${esc(c)}: A vs B</h2><div class="grid2"><div><h3>A · ${esc(runLabel(A))}</h3><pre>${esc(ta?.final_message || "–")}</pre></div><div><h3>B · ${esc(runLabel(B))}</h3><pre>${esc(tb?.final_message || "–")}</pre></div></div>
+      <h3>Answers</h3><div class="scroll"><table><thead><tr><th>Q</th><th class="num">Problem</th><th class="num">Student</th><th class="num">A predicted</th><th class="num">B predicted</th><th></th></tr></thead><tbody>${qr}</tbody></table></div>
+      <h3>Final messages, diffed</h3>${sideBySide(ta?.final_message || "", tb?.final_message || "")}</div>`;
+      $("#cmpCase").scrollIntoView({behavior: "smooth"});
+    });
+  };
+  $("#cA").onchange = $("#cB").onchange = draw; draw();
+}
+
+renderOverview(); renderHard(); renderInputs(); renderRuns(); renderCompare();
+</script>
+</body>
+</html>

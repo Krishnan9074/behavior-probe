@@ -1,0 +1,22 @@
+{
+  "case": "H013",
+  "budget": 3,
+  "probes": [
+    {
+      "a": 5432,
+      "b": 1170,
+      "student_answer": 4342
+    },
+    {
+      "a": 5432,
+      "b": 1500,
+      "student_answer": 3932
+    },
+    {
+      "a": 6523,
+      "b": 1194,
+      "student_answer": 4429
+    }
+  ],
+  "graded": true
+}

@@ -1,0 +1,4 @@
+probe_budget,runs,unique_cases,mean_probes_used,mean_wrong_answer_accuracy,mean_brier
+0,20,20,0.0,0.9,0.124
+3,20,20,2.95,0.9975,0.0222
+10,20,20,6.95,1.0,0.0091

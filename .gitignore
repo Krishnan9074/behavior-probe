@@ -1,0 +1,25 @@
+# secrets: never commit
+.env
+.env.*
+*.env
+modal.json
+
+# tooling and caches
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
+valkyrie/.bin/
+
+# third-party checkout (clone it from github.com/vals-ai/Valkyrie) and its local state
+valkyrie/Valkyrie/
+
+# bulky generated / local-run state (regenerable)
+harbor/datasets-local/
+valkyrie/bp_data/
+valkyrie/report/data.js
+site/public/.vercel/
+
+# local editor/app settings
+.claude/

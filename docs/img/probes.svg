@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Helvetica,Arial,sans-serif"><rect width="760" height="300" fill="#fff"/>
+<text x="20" y="26" font-size="16" font-weight="700" fill="#17241F">Who chooses to probe, and what it buys (≤10 optional probes)</text>
+<text x="20" y="76" font-size="13" fill="#17241F">Fable 5.2</text>
+<rect x="140" y="60" width="299.0" height="22" rx="3" fill="#3E8E8F"/><text x="445.0" y="76" font-size="12" fill="#17241F">10.0 probes/task</text>
+<text x="560" y="76" font-size="13" fill="#E4572E">+50 pts vs no probes</text>
+<text x="20" y="120" font-size="13" fill="#17241F">GPT-6.1 Sol</text>
+<rect x="140" y="104" width="289.0" height="22" rx="3" fill="#3E8E8F"/><text x="435.0" y="120" font-size="12" fill="#17241F">9.6 probes/task</text>
+<text x="560" y="120" font-size="13" fill="#E4572E">+38 pts vs no probes</text>
+<text x="20" y="164" font-size="13" fill="#17241F">GPT-6 Astra</text>
+<rect x="140" y="148" width="288.0" height="22" rx="3" fill="#3E8E8F"/><text x="434.0" y="164" font-size="12" fill="#17241F">9.6 probes/task</text>
+<text x="560" y="164" font-size="13" fill="#E4572E">+35 pts vs no probes</text>
+<text x="20" y="208" font-size="13" fill="#17241F">Opus 5.5</text>
+<rect x="140" y="192" width="264.0" height="22" rx="3" fill="#3E8E8F"/><text x="410.0" y="208" font-size="12" fill="#17241F">8.8 probes/task</text>
+<text x="560" y="208" font-size="13" fill="#E4572E">+33 pts vs no probes</text>
+<text x="20" y="252" font-size="13" fill="#17241F">Sonnet 5.5</text>
+<rect x="140" y="236" width="79.0" height="22" rx="3" fill="#3E8E8F"/><text x="225.0" y="252" font-size="12" fill="#17241F">2.6 probes/task</text>
+<text x="560" y="252" font-size="13" fill="#6b6b66">+9 pts vs no probes</text>
+</svg>

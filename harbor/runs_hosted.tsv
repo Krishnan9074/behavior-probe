@@ -1,0 +1,10 @@
+anthropic/claude-opus-5-5	behavior-probe/hard-noprobe@v2	d4a79287-b2af-4e85-9191-47ccd7ec060b
+anthropic/claude-fable-5-2	behavior-probe/hard-noprobe@v2	f339c122-2495-4e9b-aaed-049af0e90e67
+anthropic/claude-sonnet-5-5	behavior-probe/hard-noprobe@v2	b7c97645-1687-4a26-b309-5d2e3a9a1a7a
+gpt-6-astra	behavior-probe/hard-noprobe@v2	253aef9e-a15d-4e04-ab0e-b7309095756e
+gpt-6.1-sol	behavior-probe/hard-noprobe@v2	94b29947-ad98-4f9e-b42d-0e60f39b7ac2
+anthropic/claude-opus-5-5	behavior-probe/hard-probe10@v2	47125056-5346-4655-93e2-148c5a1f0e2c
+anthropic/claude-fable-5-2	behavior-probe/hard-probe10@v2	cb54e816-7a88-447f-8309-d92ac1ccf868
+anthropic/claude-sonnet-5-5	behavior-probe/hard-probe10@v2	48fb76b1-4b90-47f2-bcba-085ced130050
+gpt-6-astra	behavior-probe/hard-probe10@v2	56c5b35c-77f0-4790-b50e-ddebc4692cbb
+gpt-6.1-sol	behavior-probe/hard-probe10@v2	8b3f74a1-8d2d-40af-86d1-a529390c96d0

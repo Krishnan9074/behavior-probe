@@ -1,0 +1,1855 @@
+{
+    "benchmark_id": "253aef9e-a15d-4e04-ab0e-b7309095756e",
+    "benchmark_name": "behavior-probe",
+    "started_at": "2026-11-15T16:24:06.336309",
+    "finished_at": "2026-11-15T16:37:17.059865",
+    "status": "FINISHED",
+    "benchmark_arguments": {
+        "contract": {
+            "name": "codex-v1.0.0",
+            "model": "gpt-6-astra",
+            "install_cmd": "bash setup.sh",
+            "run_cmd": "bash -lc 'set -o pipefail && mkdir -p /logs && AGENT_OUTPUT_ROOT=/logs /bundle/codex-v1.0.0/.venv/bin/python3 /bundle/codex-v1.0.0/collect_outputs.py {problem_statement_path} --task-id {task_id} --model {model}'",
+            "final_output": "/logs",
+            "output_artifacts": [],
+            "egress_allowlist": [],
+            "allow_provider_tools": false,
+            "isolate_agent_uid": false,
+            "inference_settings_attested": true
+        },
+        "agent_attempts": [],
+        "concurrency": 5,
+        "dataset": "hard-noprobe",
+        "dataset_version": {
+            "id": "behavior-probe/hard-noprobe@2"
+        },
+        "sandbox_provider": "modal",
+        "sandbox_provider_secret_name": "valkyrie/tenants/7d054320-6df0-430f-85d5-ca59c0b6daca/modal-credentials",
+        "environment": "aws",
+        "properties": {
+            "region": "us-east-1",
+            "s3_bucket": "valkyrie-629807611108-prod-e7a24b06f152a4ea",
+            "log_group": "/valkyrie/benchmarks-prod/tenants/7d054320-6df0-430f-85d5-ca59c0b6daca",
+            "log_retention_days": 365
+        }
+    },
+    "final_evaluation": {
+        "id": "85850196-1c50-4385-a4bd-eed2eaf34be3",
+        "org_id": "7d054320-6df0-430f-85d5-ca59c0b6daca",
+        "benchmark": "253aef9e-a15d-4e04-ab0e-b7309095756e",
+        "final_score": 41.333333333333336,
+        "properties": {
+            "total": 30,
+            "n_trials": 30,
+            "n_errors": 0,
+            "metrics": [
+                {
+                    "brier": 0.34752299999999997,
+                    "correct_answer_accuracy": 0.7683333333333333,
+                    "familiar_error_accuracy": 0.5533333333333333,
+                    "overall_accuracy": 0.5908333333333334,
+                    "probes_used": 0.0,
+                    "reward": 0.41333333333333333,
+                    "transfer_error_accuracy": 0.2733333333333333,
+                    "valid": 1.0
+                }
+            ],
+            "reward_stats": {
+                "reward": {
+                    "0.15": [
+                        "h021-p0",
+                        "h030-p0"
+                    ],
+                    "0.55": [
+                        "h025-p0",
+                        "h024-p0",
+                        "h004-p0",
+                        "h011-p0",
+                        "h005-p0",
+                        "h008-p0",
+                        "h028-p0",
+                        "h002-p0",
+                        "h017-p0",
+                        "h022-p0"
+                    ],
+                    "0.45": [
+                        "h027-p0",
+                        "h007-p0",
+                        "h029-p0"
+                    ],
+                    "1.0": [
+                        "h015-p0"
+                    ],
+                    "0.75": [
+                        "h003-p0"
+                    ],
+                    "0.25": [
+                        "h016-p0",
+                        "h012-p0"
+                    ],
+                    "0.0": [
+                        "h014-p0",
+                        "h010-p0",
+                        "h020-p0"
+                    ],
+                    "0.4": [
+                        "h018-p0"
+                    ],
+                    "0.3": [
+                        "h001-p0",
+                        "h023-p0"
+                    ],
+                    "0.5": [
+                        "h013-p0"
+                    ],
+                    "0.05": [
+                        "h006-p0",
+                        "h009-p0"
+                    ],
+                    "0.6": [
+                        "h019-p0"
+                    ],
+                    "0.8": [
+                        "h026-p0"
+                    ]
+                },
+                "valid": {
+                    "1.0": [
+                        "h021-p0",
+                        "h025-p0",
+                        "h024-p0",
+                        "h027-p0",
+                        "h015-p0",
+                        "h004-p0",
+                        "h011-p0",
+                        "h003-p0",
+                        "h005-p0",
+                        "h016-p0",
+                        "h014-p0",
+                        "h030-p0",
+                        "h018-p0",
+                        "h008-p0",
+                        "h001-p0",
+                        "h012-p0",
+                        "h007-p0",
+                        "h013-p0",
+                        "h028-p0",
+                        "h010-p0",
+                        "h006-p0",
+                        "h002-p0",
+                        "h023-p0",
+                        "h029-p0",
+                        "h019-p0",
+                        "h017-p0",
+                        "h020-p0",
+                        "h026-p0",
+                        "h009-p0",
+                        "h022-p0"
+                    ]
+                },
+                "probes_used": {
+                    "0.0": [
+                        "h021-p0",
+                        "h025-p0",
+                        "h024-p0",
+                        "h027-p0",
+                        "h015-p0",
+                        "h004-p0",
+                        "h011-p0",
+                        "h003-p0",
+                        "h005-p0",
+                        "h016-p0",
+                        "h014-p0",
+                        "h030-p0",
+                        "h018-p0",
+                        "h008-p0",
+                        "h001-p0",
+                        "h012-p0",
+                        "h007-p0",
+                        "h013-p0",
+                        "h028-p0",
+                        "h010-p0",
+                        "h006-p0",
+                        "h002-p0",
+                        "h023-p0",
+                        "h029-p0",
+                        "h019-p0",
+                        "h017-p0",
+                        "h020-p0",
+                        "h026-p0",
+                        "h009-p0",
+                        "h022-p0"
+                    ]
+                },
+                "overall_accuracy": {
+                    "0.575": [
+                        "h021-p0"
+                    ],
+                    "0.775": [
+                        "h025-p0",
+                        "h004-p0",
+                        "h008-p0",
+                        "h028-p0",
+                        "h002-p0",
+                        "h017-p0",
+                        "h022-p0"
+                    ],
+                    "0.275": [
+                        "h024-p0",
+                        "h011-p0",
+                        "h012-p0",
+                        "h009-p0"
+                    ],
+                    "0.725": [
+                        "h027-p0",
+                        "h029-p0"
+                    ],
+                    "1.0": [
+                        "h015-p0"
+                    ],
+                    "0.875": [
+                        "h003-p0"
+                    ],
+                    "0.475": [
+                        "h005-p0"
+                    ],
+                    "0.625": [
+                        "h016-p0",
+                        "h007-p0"
+                    ],
+                    "0.5": [
+                        "h014-p0",
+                        "h010-p0",
+                        "h020-p0"
+                    ],
+                    "0.075": [
+                        "h030-p0"
+                    ],
+                    "0.7": [
+                        "h018-p0"
+                    ],
+                    "0.4": [
+                        "h001-p0"
+                    ],
+                    "0.525": [
+                        "h013-p0",
+                        "h006-p0"
+                    ],
+                    "0.15": [
+                        "h023-p0"
+                    ],
+                    "0.8": [
+                        "h019-p0"
+                    ],
+                    "0.9": [
+                        "h026-p0"
+                    ]
+                },
+                "correct_answer_accuracy": {
+                    "1.0": [
+                        "h021-p0",
+                        "h025-p0",
+                        "h027-p0",
+                        "h015-p0",
+                        "h004-p0",
+                        "h003-p0",
+                        "h016-p0",
+                        "h014-p0",
+                        "h018-p0",
+                        "h008-p0",
+                        "h028-p0",
+                        "h010-p0",
+                        "h006-p0",
+                        "h002-p0",
+                        "h029-p0",
+                        "h019-p0",
+                        "h017-p0",
+                        "h020-p0",
+                        "h026-p0",
+                        "h022-p0"
+                    ],
+                    "0.0": [
+                        "h024-p0",
+                        "h011-p0",
+                        "h030-p0",
+                        "h023-p0"
+                    ],
+                    "0.4": [
+                        "h005-p0"
+                    ],
+                    "0.5": [
+                        "h001-p0",
+                        "h009-p0"
+                    ],
+                    "0.3": [
+                        "h012-p0"
+                    ],
+                    "0.8": [
+                        "h007-p0"
+                    ],
+                    "0.55": [
+                        "h013-p0"
+                    ]
+                },
+                "familiar_error_accuracy": {
+                    "0.2": [
+                        "h021-p0",
+                        "h023-p0"
+                    ],
+                    "0.8": [
+                        "h025-p0"
+                    ],
+                    "1.0": [
+                        "h024-p0",
+                        "h015-p0",
+                        "h004-p0",
+                        "h003-p0",
+                        "h005-p0",
+                        "h008-p0",
+                        "h013-p0",
+                        "h002-p0",
+                        "h026-p0"
+                    ],
+                    "0.9": [
+                        "h027-p0"
+                    ],
+                    "0.6": [
+                        "h011-p0",
+                        "h001-p0",
+                        "h019-p0"
+                    ],
+                    "0.3": [
+                        "h016-p0",
+                        "h022-p0"
+                    ],
+                    "0.0": [
+                        "h014-p0",
+                        "h010-p0",
+                        "h006-p0",
+                        "h020-p0",
+                        "h009-p0"
+                    ],
+                    "0.1": [
+                        "h030-p0"
+                    ],
+                    "0.5": [
+                        "h018-p0",
+                        "h007-p0",
+                        "h029-p0"
+                    ],
+                    "0.4": [
+                        "h012-p0",
+                        "h028-p0"
+                    ],
+                    "0.7": [
+                        "h017-p0"
+                    ]
+                },
+                "transfer_error_accuracy": {
+                    "0.1": [
+                        "h021-p0",
+                        "h024-p0",
+                        "h004-p0",
+                        "h005-p0",
+                        "h008-p0",
+                        "h012-p0",
+                        "h006-p0",
+                        "h002-p0",
+                        "h009-p0"
+                    ],
+                    "0.3": [
+                        "h025-p0",
+                        "h018-p0"
+                    ],
+                    "0.0": [
+                        "h027-p0",
+                        "h014-p0",
+                        "h001-p0",
+                        "h013-p0",
+                        "h010-p0",
+                        "h020-p0"
+                    ],
+                    "1.0": [
+                        "h015-p0"
+                    ],
+                    "0.5": [
+                        "h011-p0",
+                        "h003-p0"
+                    ],
+                    "0.2": [
+                        "h016-p0",
+                        "h030-p0"
+                    ],
+                    "0.4": [
+                        "h007-p0",
+                        "h023-p0",
+                        "h029-p0",
+                        "h017-p0"
+                    ],
+                    "0.7": [
+                        "h028-p0"
+                    ],
+                    "0.6": [
+                        "h019-p0",
+                        "h026-p0"
+                    ],
+                    "0.8": [
+                        "h022-p0"
+                    ]
+                },
+                "brier": {
+                    "0.250275": [
+                        "h021-p0"
+                    ],
+                    "0.21788": [
+                        "h025-p0"
+                    ],
+                    "0.23658": [
+                        "h024-p0"
+                    ],
+                    "0.16360000000000002": [
+                        "h027-p0"
+                    ],
+                    "0.292445": [
+                        "h015-p0"
+                    ],
+                    "0.19442499999999996": [
+                        "h004-p0"
+                    ],
+                    "0.4324": [
+                        "h011-p0"
+                    ],
+                    "0.21532": [
+                        "h003-p0"
+                    ],
+                    "0.357": [
+                        "h005-p0"
+                    ],
+                    "0.4801": [
+                        "h016-p0"
+                    ],
+                    "0.22863000000000003": [
+                        "h014-p0"
+                    ],
+                    "0.20745999999999998": [
+                        "h030-p0"
+                    ],
+                    "0.28250000000000003": [
+                        "h018-p0"
+                    ],
+                    "0.38628": [
+                        "h008-p0"
+                    ],
+                    "0.30991": [
+                        "h001-p0"
+                    ],
+                    "0.26725": [
+                        "h012-p0"
+                    ],
+                    "0.375845": [
+                        "h007-p0"
+                    ],
+                    "0.27086": [
+                        "h013-p0"
+                    ],
+                    "0.351745": [
+                        "h028-p0"
+                    ],
+                    "0.7050099999999999": [
+                        "h010-p0"
+                    ],
+                    "0.36305": [
+                        "h006-p0"
+                    ],
+                    "0.31736000000000003": [
+                        "h002-p0"
+                    ],
+                    "0.5806": [
+                        "h023-p0"
+                    ],
+                    "0.45": [
+                        "h029-p0"
+                    ],
+                    "0.30744000000000005": [
+                        "h019-p0"
+                    ],
+                    "0.36277499999999996": [
+                        "h017-p0"
+                    ],
+                    "0.62425": [
+                        "h020-p0"
+                    ],
+                    "0.148705": [
+                        "h026-p0"
+                    ],
+                    "0.72862": [
+                        "h009-p0"
+                    ],
+                    "0.317375": [
+                        "h022-p0"
+                    ]
+                }
+            },
+            "score_key": "reward",
+            "mean_reward": 0.41333333333333333
+        }
+    },
+    "average_task_breakdown": {
+        "sandbox_build_duration": 0.26865880296665146,
+        "agent_run_duration": 72.87822952096667,
+        "evaluation_run_duration": 0.9923702688666727,
+        "sandbox_run_duration": 78.94398616716668
+    },
+    "evaluation_results": {
+        "h030-p0": {
+            "task_id": "h030-p0",
+            "rewards": {
+                "reward": 0.15,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.075,
+                "correct_answer_accuracy": 0.0,
+                "familiar_error_accuracy": 0.1,
+                "transfer_error_accuracy": 0.2,
+                "brier": 0.20745999999999998
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.15,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.075,
+                    "correct_answer_accuracy": 0.0,
+                    "familiar_error_accuracy": 0.1,
+                    "transfer_error_accuracy": 0.2,
+                    "brier": 0.20745999999999998
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.15, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.075, \"correct_answer_accuracy\": 0.0, \"familiar_error_accuracy\": 0.1, \"transfer_error_accuracy\": 0.2, \"brier\": 0.20745999999999998}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 127.10483218199988,
+                "sandbox_run_duration": 137.1916010870001,
+                "sandbox_build_duration": 0.27916967199996634,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 2.9568018490001577,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 127.10483420499997
+            },
+            "attempts": 1
+        },
+        "h027-p0": {
+            "task_id": "h027-p0",
+            "rewards": {
+                "reward": 0.45,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.725,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.9,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.16360000000000002
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.45,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.725,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.9,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.16360000000000002
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.45, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.725, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.9, \"transfer_error_accuracy\": 0.0, \"brier\": 0.16360000000000002}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 60.19827505000001,
+                "sandbox_run_duration": 70.761665473,
+                "sandbox_build_duration": 0.2637245199999825,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 2.7425683789999766,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 60.19827757300004
+            },
+            "attempts": 1
+        },
+        "h028-p0": {
+            "task_id": "h028-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.4,
+                "transfer_error_accuracy": 0.7,
+                "brier": 0.351745
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.4,
+                    "transfer_error_accuracy": 0.7,
+                    "brier": 0.351745
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.4, \"transfer_error_accuracy\": 0.7, \"brier\": 0.351745}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 41.99016417200005,
+                "sandbox_run_duration": 51.91058423200002,
+                "sandbox_build_duration": 0.25353286200004277,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 2.681306604999918,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 41.99016607500005
+            },
+            "attempts": 1
+        },
+        "h029-p0": {
+            "task_id": "h029-p0",
+            "rewards": {
+                "reward": 0.45,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.725,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.5,
+                "transfer_error_accuracy": 0.4,
+                "brier": 0.45
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.45,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.725,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.5,
+                    "transfer_error_accuracy": 0.4,
+                    "brier": 0.45
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.45, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.725, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.5, \"transfer_error_accuracy\": 0.4, \"brier\": 0.45}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 27.276001177000012,
+                "sandbox_run_duration": 31.695475794999993,
+                "sandbox_build_duration": 0.21047555200004808,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.6415743359999624,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 27.276002807000054
+            },
+            "attempts": 1
+        },
+        "h026-p0": {
+            "task_id": "h026-p0",
+            "rewards": {
+                "reward": 0.8,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.9,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.6,
+                "brier": 0.148705
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.8,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.9,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.6,
+                    "brier": 0.148705
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.8, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.9, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.6, \"brier\": 0.148705}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 51.09177678799995,
+                "sandbox_run_duration": 55.08045964199994,
+                "sandbox_build_duration": 0.21656941100002314,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.35197686900005465,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 51.091778394000016
+            },
+            "attempts": 1
+        },
+        "h025-p0": {
+            "task_id": "h025-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.8,
+                "transfer_error_accuracy": 0.3,
+                "brier": 0.21788
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.8,
+                    "transfer_error_accuracy": 0.3,
+                    "brier": 0.21788
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.8, \"transfer_error_accuracy\": 0.3, \"brier\": 0.21788}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 44.34730528800003,
+                "sandbox_run_duration": 48.47424694799997,
+                "sandbox_build_duration": 0.23777041000005283,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3363741980000441,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 44.34730652799999
+            },
+            "attempts": 1
+        },
+        "h023-p0": {
+            "task_id": "h023-p0",
+            "rewards": {
+                "reward": 0.3,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.15,
+                "correct_answer_accuracy": 0.0,
+                "familiar_error_accuracy": 0.2,
+                "transfer_error_accuracy": 0.4,
+                "brier": 0.5806
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.3,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.15,
+                    "correct_answer_accuracy": 0.0,
+                    "familiar_error_accuracy": 0.2,
+                    "transfer_error_accuracy": 0.4,
+                    "brier": 0.5806
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.3, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.15, \"correct_answer_accuracy\": 0.0, \"familiar_error_accuracy\": 0.2, \"transfer_error_accuracy\": 0.4, \"brier\": 0.5806}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 77.602243671,
+                "sandbox_run_duration": 81.84175197599995,
+                "sandbox_build_duration": 0.2068475019999596,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.39845428099999936,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 77.60224525299998
+            },
+            "attempts": 1
+        },
+        "h024-p0": {
+            "task_id": "h024-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.275,
+                "correct_answer_accuracy": 0.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.23658
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.275,
+                    "correct_answer_accuracy": 0.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.23658
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.275, \"correct_answer_accuracy\": 0.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.23658}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 52.11151117500003,
+                "sandbox_run_duration": 56.95707522400005,
+                "sandbox_build_duration": 0.22856050400002914,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.6888260309999623,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 52.11151264800003
+            },
+            "attempts": 1
+        },
+        "h021-p0": {
+            "task_id": "h021-p0",
+            "rewards": {
+                "reward": 0.15,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.575,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.2,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.250275
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.15,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.575,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.2,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.250275
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.15, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.575, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.2, \"transfer_error_accuracy\": 0.1, \"brier\": 0.250275}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 84.60971037999991,
+                "sandbox_run_duration": 97.54688670400003,
+                "sandbox_build_duration": 0.29487323999990167,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 3.966432399999917,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 84.60971257699998
+            },
+            "attempts": 1
+        },
+        "h020-p0": {
+            "task_id": "h020-p0",
+            "rewards": {
+                "reward": 0.0,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.5,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.0,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.62425
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.0,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.5,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.0,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.62425
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.0, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.5, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.0, \"transfer_error_accuracy\": 0.0, \"brier\": 0.62425}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 101.76143244600007,
+                "sandbox_run_duration": 106.49217548000001,
+                "sandbox_build_duration": 0.3275476349999735,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.6661469690000104,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 101.76143472400008
+            },
+            "attempts": 1
+        },
+        "h022-p0": {
+            "task_id": "h022-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.3,
+                "transfer_error_accuracy": 0.8,
+                "brier": 0.317375
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.3,
+                    "transfer_error_accuracy": 0.8,
+                    "brier": 0.317375
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.3, \"transfer_error_accuracy\": 0.8, \"brier\": 0.317375}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 47.148896820999994,
+                "sandbox_run_duration": 51.311186443,
+                "sandbox_build_duration": 0.19653605399992102,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3635776910000459,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 47.148898789999976
+            },
+            "attempts": 1
+        },
+        "h014-p0": {
+            "task_id": "h014-p0",
+            "rewards": {
+                "reward": 0.0,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.5,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.0,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.22863000000000003
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.0,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.5,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.0,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.22863000000000003
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.0, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.5, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.0, \"transfer_error_accuracy\": 0.0, \"brier\": 0.22863000000000003}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 190.01182832200004,
+                "sandbox_run_duration": 194.30989335599998,
+                "sandbox_build_duration": 0.24932547499997781,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.4395634129999735,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 190.01183009
+            },
+            "attempts": 1
+        },
+        "h018-p0": {
+            "task_id": "h018-p0",
+            "rewards": {
+                "reward": 0.4,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.7,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.5,
+                "transfer_error_accuracy": 0.3,
+                "brier": 0.28250000000000003
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.4,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.7,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.5,
+                    "transfer_error_accuracy": 0.3,
+                    "brier": 0.28250000000000003
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.4, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.7, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.5, \"transfer_error_accuracy\": 0.3, \"brier\": 0.28250000000000003}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 63.25959900099997,
+                "sandbox_run_duration": 68.02462417699996,
+                "sandbox_build_duration": 0.2084608449999905,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.591255259000036,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 63.25960079599997
+            },
+            "attempts": 1
+        },
+        "h016-p0": {
+            "task_id": "h016-p0",
+            "rewards": {
+                "reward": 0.25,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.625,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.3,
+                "transfer_error_accuracy": 0.2,
+                "brier": 0.4801
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.25,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.625,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.3,
+                    "transfer_error_accuracy": 0.2,
+                    "brier": 0.4801
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.25, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.625, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.3, \"transfer_error_accuracy\": 0.2, \"brier\": 0.4801}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 136.80432774899998,
+                "sandbox_run_duration": 140.78196524499992,
+                "sandbox_build_duration": 0.2059262550000085,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3583908310000652,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 136.80432897999992
+            },
+            "attempts": 1
+        },
+        "h019-p0": {
+            "task_id": "h019-p0",
+            "rewards": {
+                "reward": 0.6,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.8,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.6,
+                "transfer_error_accuracy": 0.6,
+                "brier": 0.30744000000000005
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.6,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.8,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.6,
+                    "transfer_error_accuracy": 0.6,
+                    "brier": 0.30744000000000005
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.6, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.8, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.6, \"transfer_error_accuracy\": 0.6, \"brier\": 0.30744000000000005}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 21.6476987609999,
+                "sandbox_run_duration": 26.429765655999972,
+                "sandbox_build_duration": 0.2236658429999352,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5846249329999864,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 21.647700520999933
+            },
+            "attempts": 1
+        },
+        "h015-p0": {
+            "task_id": "h015-p0",
+            "rewards": {
+                "reward": 1.0,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 1.0,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 1.0,
+                "brier": 0.292445
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 1.0,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 1.0,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 1.0,
+                    "brier": 0.292445
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 1.0, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 1.0, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 1.0, \"brier\": 0.292445}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 103.07887440299999,
+                "sandbox_run_duration": 109.35795813000004,
+                "sandbox_build_duration": 0.22913489499990192,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 1.2587320760000011,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 103.07887611299998
+            },
+            "attempts": 1
+        },
+        "h017-p0": {
+            "task_id": "h017-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.7,
+                "transfer_error_accuracy": 0.4,
+                "brier": 0.36277499999999996
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.7,
+                    "transfer_error_accuracy": 0.4,
+                    "brier": 0.36277499999999996
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.7, \"transfer_error_accuracy\": 0.4, \"brier\": 0.36277499999999996}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 39.74232588299992,
+                "sandbox_run_duration": 44.82529282300004,
+                "sandbox_build_duration": 0.1935794830000077,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5845639079999501,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 39.74232753399997
+            },
+            "attempts": 1
+        },
+        "h012-p0": {
+            "task_id": "h012-p0",
+            "rewards": {
+                "reward": 0.25,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.275,
+                "correct_answer_accuracy": 0.3,
+                "familiar_error_accuracy": 0.4,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.26725
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.25,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.275,
+                    "correct_answer_accuracy": 0.3,
+                    "familiar_error_accuracy": 0.4,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.26725
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.25, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.275, \"correct_answer_accuracy\": 0.3, \"familiar_error_accuracy\": 0.4, \"transfer_error_accuracy\": 0.1, \"brier\": 0.26725}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 96.52416459400001,
+                "sandbox_run_duration": 101.268884748,
+                "sandbox_build_duration": 0.2185889559999623,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5865280470000016,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 96.52416670600007
+            },
+            "attempts": 1
+        },
+        "h013-p0": {
+            "task_id": "h013-p0",
+            "rewards": {
+                "reward": 0.5,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.525,
+                "correct_answer_accuracy": 0.55,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.27086
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.5,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.525,
+                    "correct_answer_accuracy": 0.55,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.27086
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.5, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.525, \"correct_answer_accuracy\": 0.55, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.0, \"brier\": 0.27086}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 37.60181921800006,
+                "sandbox_run_duration": 42.51400897000008,
+                "sandbox_build_duration": 0.22432549300003757,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.556339276000017,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 37.60182072400005
+            },
+            "attempts": 1
+        },
+        "h008-p0": {
+            "task_id": "h008-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.38628
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.38628
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.38628}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 124.11044329000003,
+                "sandbox_run_duration": 128.774153608,
+                "sandbox_build_duration": 0.2301034910000226,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5646411129999933,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 124.11044524800002
+            },
+            "attempts": 1
+        },
+        "h007-p0": {
+            "task_id": "h007-p0",
+            "rewards": {
+                "reward": 0.45,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.625,
+                "correct_answer_accuracy": 0.8,
+                "familiar_error_accuracy": 0.5,
+                "transfer_error_accuracy": 0.4,
+                "brier": 0.375845
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.45,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.625,
+                    "correct_answer_accuracy": 0.8,
+                    "familiar_error_accuracy": 0.5,
+                    "transfer_error_accuracy": 0.4,
+                    "brier": 0.375845
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.45, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.625, \"correct_answer_accuracy\": 0.8, \"familiar_error_accuracy\": 0.5, \"transfer_error_accuracy\": 0.4, \"brier\": 0.375845}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 108.92990992299997,
+                "sandbox_run_duration": 113.65385038900001,
+                "sandbox_build_duration": 0.23174175199994806,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.600887886999999,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 108.92991156799997
+            },
+            "attempts": 1
+        },
+        "h011-p0": {
+            "task_id": "h011-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.275,
+                "correct_answer_accuracy": 0.0,
+                "familiar_error_accuracy": 0.6,
+                "transfer_error_accuracy": 0.5,
+                "brier": 0.4324
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.275,
+                    "correct_answer_accuracy": 0.0,
+                    "familiar_error_accuracy": 0.6,
+                    "transfer_error_accuracy": 0.5,
+                    "brier": 0.4324
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.275, \"correct_answer_accuracy\": 0.0, \"familiar_error_accuracy\": 0.6, \"transfer_error_accuracy\": 0.5, \"brier\": 0.4324}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 16.755149394,
+                "sandbox_run_duration": 21.439028474999986,
+                "sandbox_build_duration": 0.1957711879999806,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5760157920000211,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 16.755151432999924
+            },
+            "attempts": 1
+        },
+        "h006-p0": {
+            "task_id": "h006-p0",
+            "rewards": {
+                "reward": 0.05,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.525,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.36305
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.05,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.525,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.36305
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.05, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.525, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.36305}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 105.85674635500004,
+                "sandbox_run_duration": 110.43353782599996,
+                "sandbox_build_duration": 0.20702119499998162,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5837185550000186,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 105.85674783300004
+            },
+            "attempts": 1
+        },
+        "h010-p0": {
+            "task_id": "h010-p0",
+            "rewards": {
+                "reward": 0.0,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.5,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 0.0,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.7050099999999999
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.0,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.5,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 0.0,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.7050099999999999
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.0, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.5, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 0.0, \"transfer_error_accuracy\": 0.0, \"brier\": 0.7050099999999999}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 68.70654548699997,
+                "sandbox_run_duration": 72.72184350700002,
+                "sandbox_build_duration": 0.19861311099998602,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.3736714330000268,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 68.70654711400005
+            },
+            "attempts": 1
+        },
+        "h009-p0": {
+            "task_id": "h009-p0",
+            "rewards": {
+                "reward": 0.05,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.275,
+                "correct_answer_accuracy": 0.5,
+                "familiar_error_accuracy": 0.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.72862
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.05,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.275,
+                    "correct_answer_accuracy": 0.5,
+                    "familiar_error_accuracy": 0.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.72862
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.05, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.275, \"correct_answer_accuracy\": 0.5, \"familiar_error_accuracy\": 0.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.72862}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 49.52471591300002,
+                "sandbox_run_duration": 54.07326327099997,
+                "sandbox_build_duration": 0.18761860299991895,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.6016415540000253,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 49.524717845000055
+            },
+            "attempts": 1
+        },
+        "h005-p0": {
+            "task_id": "h005-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.475,
+                "correct_answer_accuracy": 0.4,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.357
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.475,
+                    "correct_answer_accuracy": 0.4,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.357
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.475, \"correct_answer_accuracy\": 0.4, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.357}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 76.701671654,
+                "sandbox_run_duration": 81.527281888,
+                "sandbox_build_duration": 0.4499861510000187,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5825626829999919,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 76.701673105
+            },
+            "attempts": 1
+        },
+        "h002-p0": {
+            "task_id": "h002-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.31736000000000003
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.31736000000000003
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.31736000000000003}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 70.16988255899997,
+                "sandbox_run_duration": 76.12738235300003,
+                "sandbox_build_duration": 0.46590612099998907,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 1.0376183070000025,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 70.169884373
+            },
+            "attempts": 1
+        },
+        "h001-p0": {
+            "task_id": "h001-p0",
+            "rewards": {
+                "reward": 0.3,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.4,
+                "correct_answer_accuracy": 0.5,
+                "familiar_error_accuracy": 0.6,
+                "transfer_error_accuracy": 0.0,
+                "brier": 0.30991
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.3,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.4,
+                    "correct_answer_accuracy": 0.5,
+                    "familiar_error_accuracy": 0.6,
+                    "transfer_error_accuracy": 0.0,
+                    "brier": 0.30991
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.3, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.4, \"correct_answer_accuracy\": 0.5, \"familiar_error_accuracy\": 0.6, \"transfer_error_accuracy\": 0.0, \"brier\": 0.30991}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 68.91129652699999,
+                "sandbox_run_duration": 73.67867860499996,
+                "sandbox_build_duration": 0.4657336739999778,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.5488282380000555,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 68.91129847900004
+            },
+            "attempts": 1
+        },
+        "h004-p0": {
+            "task_id": "h004-p0",
+            "rewards": {
+                "reward": 0.55,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.775,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.1,
+                "brier": 0.19442499999999996
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.55,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.775,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.1,
+                    "brier": 0.19442499999999996
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.55, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.775, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.1, \"brier\": 0.19442499999999996}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 62.67603774500003,
+                "sandbox_run_duration": 73.54813496600002,
+                "sandbox_build_duration": 0.5394933169999945,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 2.885153086999992,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 62.676039858000024
+            },
+            "attempts": 1
+        },
+        "h003-p0": {
+            "task_id": "h003-p0",
+            "rewards": {
+                "reward": 0.75,
+                "valid": 1.0,
+                "probes_used": 0.0,
+                "overall_accuracy": 0.875,
+                "correct_answer_accuracy": 1.0,
+                "familiar_error_accuracy": 1.0,
+                "transfer_error_accuracy": 0.5,
+                "brier": 0.21532
+            },
+            "verifier_result": {
+                "rewards": {
+                    "reward": 0.75,
+                    "valid": 1.0,
+                    "probes_used": 0.0,
+                    "overall_accuracy": 0.875,
+                    "correct_answer_accuracy": 1.0,
+                    "familiar_error_accuracy": 1.0,
+                    "transfer_error_accuracy": 0.5,
+                    "brier": 0.21532
+                }
+            },
+            "metadata": {
+                "reward_source": "/logs/verifier/reward.json",
+                "verifier_exit_code": 0,
+                "verifier_output": "{\"reward\": 0.75, \"valid\": 1, \"probes_used\": 0, \"overall_accuracy\": 0.875, \"correct_answer_accuracy\": 1.0, \"familiar_error_accuracy\": 1.0, \"transfer_error_accuracy\": 0.5, \"brier\": 0.21532}\n"
+            },
+            "agent_caused_exit_reason": null,
+            "task_breakdown": {
+                "agent_run_duration": 30.09169970100004,
+                "sandbox_run_duration": 45.566928018,
+                "sandbox_build_duration": 0.4191608790000032,
+                "base_generation_allowance_seconds": 1800.0,
+                "external_service_overhead_seconds": null,
+                "external_service_credit_revision": null,
+                "evaluation_run_duration": 0.6623320659999763,
+                "accounting_id": null,
+                "cumulative_time_credit_cap_seconds": null,
+                "external_service_credit_applied_seconds": null,
+                "generation_elapsed_seconds": 30.09170149700003
+            },
+            "attempts": 1
+        }
+    }
+}

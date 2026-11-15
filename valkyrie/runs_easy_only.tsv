@@ -1,0 +1,10 @@
+anthropic/claude-sonnet-5-5	noprobe	1c54229a-f2ba-474b-8232-676a4473169c
+anthropic/claude-sonnet-5-5	probe10	25bec80a-f42c-4640-87fb-6944c0e99db2
+anthropic/claude-opus-5-5	noprobe	ea67f21c-925c-4f3c-b2fe-96cee69b1724
+anthropic/claude-opus-5-5	probe10	0fb18918-42ae-4991-afa5-97b6ce0be2f9
+anthropic/claude-fable-5-2	noprobe	e4804147-5680-4328-982a-01032f5f452a
+anthropic/claude-fable-5-2	probe10	594cf09a-ad54-491e-9b1e-9f67fe1a0b78
+gpt-6-astra	noprobe	beb18cac-14e7-48c6-95d2-a6763b4cb8b4
+gpt-6-astra	probe10	c983ce55-52f8-47f2-b64c-968c7d0bb1e1
+gpt-6.1-sol	noprobe	191a720a-f523-41ee-86f7-ee59bfd4a580
+gpt-6.1-sol	probe10	b5a5ee93-395d-406c-b410-9f0fe1b16c16

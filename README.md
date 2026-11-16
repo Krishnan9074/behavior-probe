@@ -6,7 +6,7 @@ Most benchmarks hand an agent everything it needs and grade the final answer. Re
 
 ## How it works
 
-Each task is one **simulated student** who subtracts with a hidden, systematic bug. The agent gets:
+Each task is one simulated student who subtracts with a hidden, systematic bug (Note: This virtual student is implemented entirely via hardcoded logic in a **Python script**, with **no LLM** involvement in the simulation). The agent gets:
 
 - **4 of the student's past answers**, chosen so that many different bugs fit them;
 - **40 new problems** (3 to 5 digits), chosen where those candidate bugs disagree;
